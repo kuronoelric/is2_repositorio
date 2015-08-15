@@ -4,9 +4,9 @@ from django.core.urlresolvers import reverse
 
 def principal(request):
     if request.user.is_staff:
-       return HttpResponseRedirect(reverse('admin:index'))
+        return HttpResponseRedirect(reverse('admin:index'))
     else:
-       return render(request,'principal.html',{'usuario':request.user}) 
+        return render(request,'principal.html',{'usuario':request.user}) 
 
 
 # Create your views here.
