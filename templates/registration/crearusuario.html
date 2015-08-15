@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Add my user | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-myuser change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/login/"></a>Registro de Usuario Nuevo</h1>
+
+<form enctype="multipart/form-data" action="/save/" method="post" id="myuser_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='I2gvMo5vSN0jrTyA6qIeHcNcN5UtgvFS' />
+  {% csrf_token %}
+    <p>First, enter a username and password. Then, you'll be able to edit more user options.</p>
+  
+
+<div>
+
+
+  <fieldset class="module aligned wide">
+
+        <div class="form-row field-username">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_username">Username:</label>
+                        
+                            <input class="vTextField" id="id_username" maxlength="40" name="username" type="text" />
+               
+                </div>
+            
+        </div>
+    
+        <div class="form-row field-email">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="email">Email address:</label>
+                        
+                            <input class="email" id="email" maxlength="255" name="email" type="email" />
+                        
+                    
+                    
+                </div>
+            
+        </div>
+    
+        <div class="form-row field-password1">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_password1">Password:</label>
+                        
+                            <input id="id_password1" name="password1" type="password" />
+                        
+                    
+                    
+                </div>
+            
+        </div>
+    
+        <div class="form-row field-password2">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_password2">Password confirmation:</label>
+                        
+                            <input id="id_password2" name="password2" type="password" />
+                        
+                    
+                    
+                </div>
+            
+        </div>
+    <!-- 
+        <div class="form-row field-direccion">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_direccion">Direccion:</label>
+                        
+                            <input class="vTextField" id="id_direccion" maxlength="255" name="direccion" type="text" />
+                        
+                    
+                    
+                </div>
+            
+        </div>
+     -->
+</fieldset>
+
+
+
+ 
+
+<script type="text/javascript">document.getElementById("id_username").focus();</script>
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+<input type="submit" value="Save" class="guardarUsuarioView" name="_save" />
+
+<!-- 
+<input type="submit" value="Save and add another" name="_addanother" />
+<input type="submit" value="Save and continue editing" name="_continue" />
+</div>
+
+-->
+
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                $('form#myuser_form :input:visible:enabled:first').focus()
+            });
+        })(django.jQuery);
+    </script>
+
+
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
