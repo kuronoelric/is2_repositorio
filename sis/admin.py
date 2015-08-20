@@ -1,3 +1,4 @@
+#coding: utf-8
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
@@ -82,4 +83,4 @@ class MyUserAdmin(UserAdmin):
     ordering = ('username',)
     filter_horizontal = ()
 
-admin.site.register(MyUserAdmin, MyUserAdmin)
+admin.site.register(MyUser, MyUserAdmin)
