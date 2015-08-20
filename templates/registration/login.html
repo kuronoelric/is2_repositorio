@@ -3,31 +3,37 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>Su nombre de usuario y contrasenha no coinciden. Intenta de nuevo.</p>
 {% endif %}
 
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+<form  style="display:inline;" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
-<table>
+
+<table >
 <tr>
     <td>{{ form.username.label_tag }}</td>
     <td>{{ form.username }}</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
 </tr>
 <tr>
     <td>{{ form.password.label_tag }}</td>
     <td>{{ form.password }}</td>
 </tr>
 </table>
-
-<input type="submit" value="login" />
+<br/>
+<br/>
+<input type="submit" value="Iniciar sesion" />
 <input type="hidden" name="next" value="/principal" />
 
 </form>
 
-<form method="get" action="/registrar">
+<form style="display:inline;" method="get" action="/contactomail">
 
-<input type="submit" value="Registrar" />
+<input type="submit" value="Recuperar contrasena" />
 
 </form>
 
 {% endblock %}
+
