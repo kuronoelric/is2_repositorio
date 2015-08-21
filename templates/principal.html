@@ -1,14 +1,39 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Logged out | Sistema de Gestion de Proyectos</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 
-{% block content %}
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
 
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
 
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+<body class="">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/logout/">Sistema de Gestion de Proyectos</a></h1>
+
+        </div>
+    </div>
+</div>
+    <!-- END Header -->
+    <!-- <div class="breadcrumbs"><a href="/logout/">CERRAR</a></div>  -->
+            
 <form style="text-align: right;" method="get" action="/loggedout">
-{% csrf_token %}
 
 
 <input type="submit" value="Cerrar sesion" />
 <input type="hidden" name="next" value="/loggedout" />
 
 </form>
-{% endblock %}
