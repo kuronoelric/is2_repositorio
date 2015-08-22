@@ -16,7 +16,7 @@ class UserCreationForm(forms.ModelForm):
     class Meta:
         """Clase meta de un ModelForm donde se indica el Modelo relacionado y los campos a mostrar"""
         model = MyUser
-        fields = ('username', 'email', 'user_name', 'last_name')
+        fields = ('username', 'cedula', 'email', 'user_name', 'last_name')
 
     def clean_password2(self):
         """metodo que resetea los campos de contraseñas en caso de que no coincidan
@@ -46,7 +46,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         """Clase meta de un ModelForm donde se indica el Modelo relacionado y los campos a mostrar"""
         model = MyUser
-        fields = ('username','email', 'password',  'is_active', 'is_admin',)
+        fields = ('username', 'cedula', 'email', 'password', 'is_active', 'is_admin',)
 
     def clean_password(self):
         """metodo que resetea los campos de contraseñas en caso de que no coincidan
@@ -68,7 +68,7 @@ class MyUserAdmin(UserAdmin):
     list_filter = ('is_admin','is_active',)
     fieldsets = (
        (None, {'fields': ('username', 'password')}),
-       ('Personal info', {'fields': ('email','user_name', 'last_name')}),
+       ('Personal info', {'fields': ('cedula', 'email','user_name', 'last_name')}),
        ('Permissions', {'fields': ('is_admin','is_active',)}),
    )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -76,7 +76,7 @@ class MyUserAdmin(UserAdmin):
     add_fieldsets = (
        (None, {
            'classes': ('wide',),
-           'fields': ('username', 'email', 'user_name', 'last_name', 'password1', 'password2')}
+           'fields': ('username', 'cedula', 'email', 'user_name', 'last_name', 'password1', 'password2')}
        ),
     )
     search_fields = ('username',)
