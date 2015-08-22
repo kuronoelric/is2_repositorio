@@ -2,41 +2,36 @@
 
 {% block content %}
 
-{% if form.errors %}
-        
-<p>Su nombre de usuario y contrasenha no coinciden. Intente de nuevo.</p>
-{% endif %}
-<!DOCTYPE html>
-<html lang="en-us" >
-<head>
-<title>Logged out | Sistema de Gestion de Proyectos</title>
+
+
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 
-<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]
 
 <script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
-<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>  
 
-<meta name="robots" content="NONE,NOARCHIVE" />
-</head>
+<meta name="robots" content="NONE,NOARCHIVE" />  -->
 
-<body class="">
+
 
 <!-- Container -->
 <div id="container">
 
-    
     <!-- Header -->
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/logout/">Sistema de Gestion de Proyectos</a></h1>
+<h1 id="site-name">Sistema de Gestion de Proyectos</h1>
 
         </div>
     </div>
 </div>    
     <!-- END Header -->
     <!-- <div class="breadcrumbs"><a href="/logout/">CERRAR</a></div>  -->
+    
+    
+    
 <form  style="display:inline;" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 {% csrf_token %}
 
@@ -65,6 +60,11 @@
 <input type="submit" value="Recuperar contrasena" />
 
 </form>
+
+{% if form.errors %}
+<p><br>Su nombre de usuario y contrasenha no coinciden. Intente de nuevo.</p>
+{% endif %}
+
 
 {% endblock %}
 
