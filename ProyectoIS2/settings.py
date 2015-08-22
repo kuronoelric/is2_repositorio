@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'sis',
     
 )
+"""Definicion de aplicaciones. Se agrego en la INSTALLED_APPS sis."""
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +56,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'ProyectoIS2.urls'
+"""Ubicacion de la urls.py dentro de ProyectoIS2"""
+
+
 
 TEMPLATES = [
     {
@@ -109,3 +114,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'sis.MyUser'  #Indica que el concepto de usuario esta en el modelo MyUser
+"""Ubicacion del modelo usuario para el modulo de autenticacion"""
+

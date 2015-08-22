@@ -1,3 +1,4 @@
+#coding: utf-8
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -6,9 +7,14 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 class MyUserManager(BaseUserManager):
     
+    """Clase utilizada para la creacion de managers personalizados 
+    de clase de usuarios tambien personalizados, herada metodos y atributos
+    de la clase abstracta BaseUserManager que exige redefinir los metodos
+    create_user y create_superuser"""
     def create_user(self, username, email, password=None):
         """
-        Para crear un usuario no admin
+        Crea y guarda un usuario con el nombre de usuario , email y contraseña
+        dados
         """
         if not username:
             raise ValueError('Los usuarios deben tener un nombre de usuario')
@@ -38,6 +44,11 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
+    """Clase que representa usuario del modulo de autenticacion personalizada con mas atributos, hereda
+    metodos y atributos de la clase abstracta AbstractBaseUser, especifica la confguracion 
+    de sus instancias en USERNAME_FIELDS y los atributos requeridos en create_user y create_superuser
+    en REQUIRED_FIELDS, ademas redefine metodos: get_full_name(),get_short_name(),has_perm(),
+    has_module_perms(),is_staff()"""
     username = models.CharField(unique = True, max_length = 50)
     user_name = models.CharField(max_length = 50)
     last_name = models.CharField(max_length = 50)
