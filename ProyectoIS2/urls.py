@@ -24,6 +24,7 @@ depende de la variable urlpatterns que puede incluir otros URLConfs o el nombre 
 y la ruta para poder acceder a la misma"""
 
 urlpatterns = [
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url('^', include('django.contrib.auth.urls')),
     url(r'^principal/', views.principal, name='principal'),
