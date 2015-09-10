@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Sistema para Consultora de Desarrollo</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" dashboard">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+  {% csrf_token %}      
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Rol de Proyecto</a></h1>
+
+        </div>      
+        
+    </div>
+    <!-- END Header -->
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <form id="formulario" action="/scrum/{{usuarioid}}/{{proyectoid}}/">
+        	<b>Nombre del rol: </b> {{rol.nombre_rol}}<br/><br/>
+        	<b>Descripcion: </b> {{rol.descripcion}}<br/><br/>
+        	<b>Permisos contenidos: </b> <br/><br/>{% for permiso in rol.permisos.all %}{{ permiso.name }}<br/><br/>{% endfor %}
+        	<input type="submit" value="Volver" />
+        </form>
+     </div>
+     <div class="footer">
+     <!-- end.footer --></div>
+
+</body>
+</html>

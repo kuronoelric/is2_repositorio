@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title> Pagina Principal | Sistema para Consultora de Desarrollo</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" dashboard">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/hola/">Pagina Principal</a></h1>
+
+        </div>
+        
+        <div id="user-tools">
+            
+                Bienvenido,
+                <strong>{{usuario}}</strong>.
+            
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+    <!-- Content -->
+  		
+  		<div id="content" class="colMS">
+    
+        <div class="app-gestor module">
+        <table>
+
+            <caption>Sis</caption>
+			<th>Proyectos</th>
+        
+            <tr class="model-proyecto">
+            	{% csrf_token %}
+				{% for proyecto,rol in proyectos.items %}
+  				
+	  				{%ifequal rol.nombre_rol 'ScrumMaster' %}
+	  					 <th scope="row"><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/" >Perteneces a {{proyecto}} {{proyecto.descripcion}} con el rol {{rol}}</a></td>
+	  					<td><a href="/modificarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="changelink">Modificar</a></td>
+	  					<td><a href="/equipoProyecto/{{proyecto.id}}/{{usuario.id}}" class="addlink">Equipo</a></td>
+	  				{% else %}
+	  					<td>Perteneces a {{proyecto}} {{proyecto.descripcion}} con el rol {{rol}}</td>
+	  				{% endifequal %}
+	            
+	                <td><a href="/visualizarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="addlink">Visualizar</a></td>
+	            
+	              </tr>
+            	{% endfor %}
+           
+        
+        </table>
+        </div>
+    
+
+</div>
+  		
+<!--     
+
+        
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>Recent Actions</h2>
+        <h3>My Actions</h3>
+            
+            
+            
+            <p>None available</p>
+            
+    </div>
+</div>
+
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+<!-- 
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

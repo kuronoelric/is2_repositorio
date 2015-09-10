@@ -183,7 +183,28 @@ class Flujo(models.Model):
 
 
 
+class Rol(models.Model):
+    """Modelo que representa los roles, esta relacionado a la tabla de permisos"""
 
+    permisos= models.ManyToManyField(Permission)
+    nombre_rol = models.CharField(max_length = 200)
+    descripcion = models.CharField(max_length = 200)
+    
+    class Meta: 
+        verbose_name_plural = "Roles" 
+    
+    
+    def tiene_permiso(self,perm):
+        """Verifica si un rol esta compuesto por un determinado permiso"""
+        permiso= Permission.objects.get(name=perm)
+        if permiso in self.permisos.all():
+            return True
+        else:
+            return False
+
+    def __unicode__(self):
+        """Representacion unicode del objeto rol"""
+        return self.nombre_rol
 
 
 

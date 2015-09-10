@@ -32,7 +32,70 @@ def contactomail(request):
 
 
 
+@login_required
+def holaView(request):
+    """Vista que redirige a la pagina principal de administracion tanto a usuarios como a
+    superusuarios, los superusuarios son redirigidos a la aplicacion admin mientras que los 
+    usuarios obtienen una respuesta con el template hola.html"""
+    if request.user.is_staff:
+        return HttpResponseRedirect(reverse('admin:index'))
+    else:
+        nombres_de_proyecto = {}
+        for a in AsignarRolProyecto.objects.all():
+            if a.usuario.id == request.user.id:
+                rol_lista = Rol.objects.get(id = a.rol.id)
+                for p in Proyecto.objects.all():
+                    if p.id == a.proyecto.id:
+                        nombres_de_proyecto[p] = rol_lista
+        return render(request,'hola.html',{'usuario':request.user, 'proyectos':nombres_de_proyecto})
+    
+    
 
+def holaScrumView(request,usuario_id,proyectoid):
+    """
+    Vista especial para el usuario scrum en la que le listan los proyectos y los enlaces para la creacion de roles y flujos
+    Vista para los usuario comunes, en la que solo se listan los proyectos sin enlaces, ya que no tiene permiso para ello.
+    """
+    proyectox=Proyecto.objects.get(id=proyectoid)
+    usuario=MyUser.objects.get(id=usuario_id)
+    return render(request,'rol-flujo-para-scrum.html',{'roles':Rol.objects.all(), 'flujos':Flujo.objects.all(),'proyecto':proyectox,'usuario':usuario})
+
+
+
+class FormularioRolProyecto(forms.ModelForm):
+    """
+    Clase que obtiene el formulario para la creacion, visualizacion y modificacion
+    de roles de proyecto desde la vista del Scrum.
+    """
+    class Meta:
+        model= Rol
+        fields=['permisos','nombre_rol','descripcion']
+
+def visualizarRolProyectoView(request,usuario_id,proyectoid, rol_id_rec):
+    """
+    Vista que utiliza el formulario RolProyecto para desplegar los datos almacenados
+    en el Rol que se quiere visualizar.
+    """
+    rolproyecto= Rol.objects.get(id=rol_id_rec)
+    if request.method == 'POST':
+        formulario = FormularioRolProyecto(request.POST)
+        if formulario.is_valid():
+            nombre_rol=formulario.cleanned_data['c']
+            descripcion=formulario.cleanned_data['descripcion']
+            permisos=formulario.cleanned_data['permisos']
+            rolproyecto.nombre_rol=nombre_rol
+            rolproyecto.descripcion=descripcion
+            rolproyecto.permisos=permisos
+            rolproyecto.save() 
+            return HttpResponse('El rol ha sido guardado exitosamente')
+    else:       
+        formulario =  FormularioRolProyecto(initial={
+                                                     'nombre_rol': rolproyecto.nombre_rol,
+                                                     'permisos': rolproyecto.permisos,
+                                                     'descripcion': rolproyecto.descripcion,
+                                                     }) 
+        return render_to_response('visualizarRol.html',{'formulario':formulario, 'rol':rolproyecto, 'proyectoid':proyectoid,'usuarioid':usuario_id},
+                                  context_instance=RequestContext(request))
 
 
 

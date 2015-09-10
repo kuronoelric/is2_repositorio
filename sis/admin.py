@@ -108,13 +108,30 @@ class MyUserAdmin(UserAdmin):
 
 
 
+#-----------------------------------------------------------------------------------------------------------
 
 
+class FormularioRol(forms.ModelForm):
+    """
+    Formulario del modelo Rol con sus campos seleccionados.
+    """
+    class Meta:
+        model=Rol
+        fields=('permisos','nombre_rol','descripcion')
 
 
+class RolAdmin(admin.ModelAdmin):
+    """Configura la vista de administracion, modificacion y creacion de roles para un administrador,
+    lsta nombre y desprpcion y al crear, automaticamente establece al usuario actual como creador del rol"""
+    form=FormularioRol
+    list_display = ('nombre_rol', 'descripcion')
+    list_filter = ('id',)
+    ordering = ('id',)
+    filter_horizontal = ('permisos',)
+    save_as = True
 
 
-
+#-----------------------------------------------------------------------------------------------------------
 
 
 
