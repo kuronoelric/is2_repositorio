@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Sistema para Consultora de Desarrollo</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" dashboard">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/hola/">Visualizar Proyecto {{proyecto.nombre}}</a></h1>
+
+        </div>      
+        
+    </div>
+    <!-- END Header -->
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <form id="formulario" action="/hola/">{% csrf_token %}
+        	<b>Nombre del proyecto: </b> {{proyecto.nombre}}<br/><br/>
+        	<b>Descripcion: </b> {{proyecto.descripcion}}<br/><br/>
+        	<b>Fecha de inicio: </b> {{proyecto.fecha_inicio}}<br/><br/>
+        	<b>Fecha estimada de finalizacion: </b> {{proyecto.fecha_fin}}<br/><br/>
+        	<b>Estado del proyecto: </b> {{proyecto.estado}}<br/><br/>
+        	<input type="submit" value="Volver" />
+        </form>
+     </div>
+     <div class="footer">
+     <!-- end.footer --></div>
+
+</body>
+</html>

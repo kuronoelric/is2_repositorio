@@ -98,69 +98,6 @@ def visualizarRolProyectoView(request,usuario_id,proyectoid, rol_id_rec):
                                   context_instance=RequestContext(request))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
 def guardarFlujoView(request):
     """Vista de guardado de nuevo usuario relacionado con un correo autorizado en la tabla Permitidos
     que se utiliza en la interfaz devuelta por /registrar """
@@ -257,60 +194,60 @@ def crearFlujo(request,usuario_id,proyectoid):
 
 
 
+class proyectoFrom(forms.ModelForm):
+    """
+    Clase que obtiene el formulario para la visualizacion y modificacion de proyectos desde la vista del Scrum.
+    """
+    class Meta:
+        model = Proyecto
+        fields = ['nombre', 'descripcion','estado','fecha_inicio','fecha_fin']
 
 
 
+def modificarProyecto(request, usuario_id, proyecto_id_rec):
+    """
+    Vista que utiliza el formulario proyectoFrom para desplegar los datos editables
+    del Proyecto que se quiere modificar.
+    """
+    p=Proyecto.objects.get(id=proyecto_id_rec)
+    if request.method == 'POST':
+        form = proyectoFrom(request.POST)
+        if form.is_valid():
+            nombre=form.cleaned_data['nombre']
+            descripcion=form.cleaned_data['descripcion']
+            estado=form.cleaned_data['estado']
+            fecha_inicio=form.cleaned_data['fecha_inicio']
+            fecha_fin=form.cleaned_data['fecha_fin']
+            p.nombre=nombre
+            p.descripcion=descripcion
+            p.estado=estado
+            p.fecha_inicio=fecha_inicio
+            p.fecha_fin=fecha_fin
+            p.save() #Guardamos el modelo de manera Editada
+            return HttpResponse('Tu proyecto a sido guardado exitosamente')
+    else:
+        
+        form = proyectoFrom(initial={
+                                         'nombre': p.nombre,
+                                         'descripcion': p.descripcion,
+                                         'estado':p.estado,
+                                         'fecha_inicio': p.fecha_inicio,
+                                         'fecha_fin': p.fecha_fin,
+                                     
+                                         })
+        ctx = {'form':form, 'proyecto':p,'usuarioid':usuario_id}
+        return render_to_response('modificarProyecto.html', ctx ,context_instance=RequestContext(request))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+def visualizarProyectoView(request,usuario_id, proyecto_id_rec):
+    """
+    Vista que utiliza el formulario proyectoFrom para desplegar los datos almacenados
+    en el Flujo que se quiere visualizar.
+    """
+    proyecto_enc= Proyecto.objects.get(id=proyecto_id_rec)
+    return render_to_response('visualizarProyecto.html',{'proyecto':proyecto_enc,'usuarioid':usuario_id},
+                                  context_instance=RequestContext(request))
 
 
 
@@ -334,7 +271,32 @@ def crearActividadView(request,usuario_id,proyectoid):
             form.save()
             return HttpResponse('Ha sido guardado exitosamente') 
     
+    
+    
+    
+    
+    
+    
+    
+    """
+    Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario
+    de creacion o modificacion de Flujos, devolviendo un formulario html para crear una nueva actividad
+     
+    if request.method == 'GET':
+        form = formularioActividad()
+        return render_to_response("crearActividad.html",{"form":form,'usuarioid':usuario_id,'proyectoid':proyectoid}, context_instance = RequestContext(request))
+    
+    else:#request.method == 'POST'
+        form = formularioActividad(request.POST)
+        if form.is_valid():
+            nombre=form.cleaned_data['nombre']
+            descripcion=form.cleaned_data['descripcion']
+            form.nombre=nombre
+            form.descripcion=descripcion
+            form.save()
+            return HttpResponse('Ha sido guardado exitosamente')       
 
+"""
 
 def crearActividadAdminView(request):
     """
