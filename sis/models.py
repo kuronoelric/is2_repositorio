@@ -1,7 +1,10 @@
 #coding: utf-8
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permission
+from django.conf import settings
+import math
+from datetime import timedelta
+from django.forms.fields import CharField
 # Create your models here.
 
 
@@ -50,19 +53,23 @@ class MyUser(AbstractBaseUser):
     en REQUIRED_FIELDS, ademas redefine metodos: get_full_name(),get_short_name(),has_perm(),
     has_module_perms(),is_staff()"""
     username = models.CharField(unique = True, max_length = 50)
-    user_name = models.CharField(max_length = 50)
-    last_name = models.CharField(max_length = 50)
+    user_name = models.CharField(max_length = 50, verbose_name='Nombre')
+    last_name = models.CharField(max_length = 50, verbose_name='Apellido')
     email = models.EmailField(max_length = 50)
     cedula = models.IntegerField(null = True)
-    
-    is_active = models.BooleanField(default = True)
-    is_admin = models.BooleanField(default = False)
+       
+    is_active = models.BooleanField(default = True, verbose_name='Activo')
+    is_admin = models.BooleanField(default = False, verbose_name='Administrador')
     
     USERNAME_FIELD = 'username'  #indica que username es la clave primaria
     REQUIRED_FIELDS = ['email']
     
     objects = MyUserManager()
     
+    class Meta: 
+        verbose_name_plural = "Usuarios"
+        verbose_name='usuario'
+        
     
     def create(self,username,email,password,user_name, last_name, cedula):
         """Metodo para la creacion de usuarios desde interfaz web completando todos los 
@@ -106,11 +113,136 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
 
-        
+
+
+class Actividades(models.Model):
+    """Modelo de las actividades de un flujo relacionada a su proyecto"""
+    nombre = models.CharField(max_length = 200)
+    descripcion = models.CharField(max_length = 200)
     
+    class Meta: 
+        verbose_name_plural = "Actividades" 
+        verbose_name = 'actividad'
+    
+    
+    def __unicode__(self):
+        """Representacion unicode del objeto actividad"""
+        return str(self.id)  + " - " + self.nombre
+
+
+
+    
+class Flujo(models.Model):
+    """Modelo de flujos de proyecto relacionados a su respectivo proyecto"""
+    
+    #ESTADO_CHOICES = (
+    #    ('CAN', 'Cancelado'),
+    #    ('ACT', 'Activo'),
+    #)
      
+    nombre = models.CharField(max_length = 200)
+    #estado = models.CharField(max_length = 3, choices = ESTADO_CHOICES)
+    actividades = models.ManyToManyField(Actividades)
+    orden_actividades = models.TextField(null=True)
+    def __unicode__(self):
+        """Representacion unicode del objeto flujo"""
+        return self.nombre
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AsignarRolProyecto(models.Model):
+    """Modelo que especifica una asignacion de un rol a un usuario en un proyecto"""
+    usuario=models.ForeignKey(MyUser)
+    rol=models.ForeignKey(Rol)    
+    proyecto=models.ForeignKey(Proyecto)
+    
+    class Meta: 
+        verbose_name_plural = "Asignar rol x proyecto" 
+        verbose_name = 'rol x proyecto'
+        
+    def __unicode__(self):
+        """Representacion unicode del objeto asignacion"""
+        return str(self.id)+" - "+str(self.usuario)+" - "+str(self.rol)+" - "+str(self.proyecto) 
+    
+    
+ 
+    
+    
+
+    
+'''    
+#Modelo para asignacion de roles de proyecto
+class AsignarRolAdministrador(models.Model):
+    """Modelo que representa la asignaciones de roles de sistema a usuarios con clave foranea a 
+    modelo rol sistema"""
+    usuario=models.ForeignKey(MyUser)
+    rol=models.ForeignKey(Rol)
+    
+    class Meta: 
+        verbose_name_plural = "Asignar rol de administrador"
+        verbose_name = 'rol de administrador'
+        
+        
+    def __unicode__(self):
+        """Representacion unicode del objeto asigna sistema"""
+        return str(self.id)+" - "+str(self.usuario)+" - "+str(self.rol)
+'''
