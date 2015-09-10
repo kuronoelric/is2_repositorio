@@ -151,34 +151,34 @@ class Flujo(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class Proyecto(models.Model):
+    """Modelo que representa los proyectos creados"""
+    
+    ESTADOS = (
+        ('PEN', 'Pendiente'),
+        ('ACT', 'Activo'),
+        ('CAN', 'Cancelado'),
+        ('FIN', 'Finalizado'),
+    )
+    
+    nombre = models.CharField(max_length = 200)
+    descripcion = models.CharField(max_length = 200)
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+    duracion = models.IntegerField()
+    cantidad_dias_transcurridos=models.IntegerField()
+    estado = models.CharField(max_length = 3, choices = ESTADOS)
+    flujos = models.ManyToManyField(Flujo)
+    
+    def __unicode__(self):
+        """Representacion unicode del objeto proyecto"""
+        return self.nombre
+    
+    def get_fecha_inicio(self):
+        return str(self.fecha_inicio)[:10]
+    
+    def get_fecha_fin(self):
+        return str(self.fecha_fin)[:10]
 
 
 

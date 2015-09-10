@@ -96,7 +96,7 @@ def visualizarRolProyectoView(request,usuario_id,proyectoid, rol_id_rec):
                                                      }) 
         return render_to_response('visualizarRol.html',{'formulario':formulario, 'rol':rolproyecto, 'proyectoid':proyectoid,'usuarioid':usuario_id},
                                   context_instance=RequestContext(request))
-
+   
 
 def guardarFlujoView(request):
     """Vista de guardado de nuevo usuario relacionado con un correo autorizado en la tabla Permitidos
@@ -397,3 +397,41 @@ def modificarActividad(request,usuario_id,proyectoid,actividad_id_rec):
         ctx = {'form':form, 'Actividad':p,'usuarioid':usuario_id,'proyectoid':proyectoid}
         return render_to_response('modificarActividad.html', ctx ,context_instance=RequestContext(request)) 
  
+
+
+def asignarRol(request,rolid,proyectoid,usuario_id):
+    """
+    Vista que permite asignar un rol a un usuario dentro de la vista del Scrum, valiendose de la URL para obtener
+    los id's del rol , proyecto ye l usuario creador.
+    """
+    proyectox=Proyecto.objects.get(id=proyectoid)
+    rolx = Rol.objects.get(id=rolid)
+    if request.method=='POST':
+        try:
+            for p in request.POST.getlist('usuarios'):
+                asignacion_a_crear = AsignarRolProyecto.objects.create(usuario=MyUser.objects.get(id=p),rol=rolx, proyecto=proyectox)
+                asignacion_a_crear.save()
+                usuario=MyUser.objects.get(id=usuario_id)
+                return render(request,'rol-flujo-para-scrum.html',{'roles':Rol.objects.all(), 'flujos':Flujo.objects.all(),'proyecto':proyectox,'usuario':usuario})
+        except ObjectDoesNotExist:
+            print "Either the entry or blog doesn't exist." 
+            return HttpResponseRedirect('/crearFlujo/')
+    else:
+        return render(request,'asignaRolProyecto.html',{'proyecto':proyectox,'usuarios':MyUser.objects.all().exclude(id=usuario_id),'proyectoid':proyectoid,'usuarioid':usuario_id})
+    
+    
+    
+def listarEquipo(request,proyecto_id_rec,usuario_id):
+    """Esta vista debe obtener los datos de los usuarios que han sido asignados a un rol en el proyecto,el parametro
+    usuario_id se necesita simplemente para el render para poder retornar a rol-flujo-para-scrum"""
+    lista={}
+    proyectox=Proyecto.objects.get(id=proyecto_id_rec)
+    for a in AsignarRolProyecto.objects.all():
+        if a.proyecto.id == proyectox.id:#si el proyecto relacionado a una asignacion es el que se esta viendo ahora
+            rol_a=Rol.objects.get(id=a.rol.id)
+            usuario_a=MyUser.objects.get(id=a.usuario.id)
+            lista[usuario_a]=rol_a#agregar el usuario de esa asignacion a la vista, y mandarlo al template
+    return render(request,'formarEquipo.html',{'roles':Rol.objects.all(),'lista_asigna':lista, 'flujos':Flujo.objects.all(),'proyecto':proyectox,'usuario_id':usuario_id})
+
+    
+    

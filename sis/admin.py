@@ -83,29 +83,29 @@ class MyUserAdmin(UserAdmin):
 #-----------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class FormularioProyecto(forms.ModelForm):
+    """
+    Formulario del modelo Proyecto con sus campos seleccionados.
+    """
+    class Meta:
+        model=Proyecto
+        fields=('nombre','descripcion','fecha_inicio','fecha_fin') #el estado en el momento de creacion tendra valor por defecto el usuario no decide  
+    
+class ProyectoAdmin(admin.ModelAdmin):
+    """Configura la vista de administracion de Proyecto para un usuario administrador,
+    para establecer los proyectos en estado ACTIVO en la creacion"""
+    form=FormularioProyecto
+    list_display = ('nombre', 'id', 'fecha_inicio','fecha_fin','duracion')
+    list_filter = ('estado',)
+    ordering = ('nombre',)
+    save_as = True 
+    def save_model(self,request,obj,form,change):
+        """Permite establecer el Estado por defecto en el momento de la creacion que es PENDIENTE"""
+        obj.estado='PEN'
+        obj.duracion=int(str((obj.fecha_fin.date()-obj.fecha_inicio.date()).days))
+        obj.cantidad_dias_transcurridos=0
+        obj.save()
+        pass
 
 
 #-----------------------------------------------------------------------------------------------------------
