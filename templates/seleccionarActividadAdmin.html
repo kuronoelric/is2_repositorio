@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name">Seleccionar actividad</h1>
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+
+
+
+<form enctype="multipart/form-data" method="post">
+<head>
+<style type="text/css">
+.hidden{
+	display:none;
+}
+</style>
+<script>
+function ver(id){//muestra el select de flujo
+	document.getElementById(id).style.display='block';
+
+}
+function f(){//obtiene el valor del select
+var posicion=document.getElementById('contenedorForm').options.selectedIndex; //posicion
+//alert(document.getElementById('contenedorForm').options[posicion].text); //valor
+alert(posicion);
+}
+</script>
+</head>
+{% csrf_token %}
+Seleccione la actividad a modificar: <br><br>
+<body>
+<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+{% csrf_token %}
+
+<div>
+
+{%for actividad in actividades%}
+<p><b><a href="/modificarActividad/{{actividad.id}}/">{{ actividad.id }} {{ actividad.nombre }} </a></b></td></p>
+{%endfor%}
+            
+</div>
+
+
+<br><br>
+
