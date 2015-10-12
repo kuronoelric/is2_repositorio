@@ -19,6 +19,21 @@
 <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
 
 <meta name="robots" content="NONE,NOARCHIVE" />
+<script type="text/javascript">
+function validarForm(formulario) {
+  if(formulario.nombre.value.length==0) { //comprueba que no esté vacío
+    formulario.nombre.focus();   
+    alert('No has completado todos los campos'); 
+    return false; //devolvemos el foco
+  }
+  if(formulario.descripcion.value.length==0) { //comprueba que no esté vacío
+	    formulario.descripcion.focus();   
+	    alert('No has completado todos los campos'); 
+	    return false; //devolvemos el foco
+	  }
+  return true;
+}
+</script>
 </head>
 
 
