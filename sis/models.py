@@ -210,21 +210,99 @@ class Rol(models.Model):
 
 
 
+class Horas_Trabajadas(models.Model):
+    """
+    Modelo representa la descripcion de cada hora de trabajo agregada mostrando de la fecha de la misma
+    """
+    horas_trabajadas=models.FloatField()  
+    descripcion_horas_trabajadas=models.CharField(max_length = 500)
+    fecha=models.DateTimeField()
+    actividad=models.CharField(max_length = 200)
+    estado=models.CharField(max_length = 200)
+
+    
+    def __unicode__(self):
+        """Representacion unicode del objeto HU_descripcion"""
+        return str(self.id)  
 
 
+  
+  
+    
+class HU(models.Model):
+    """Modelo que reprenseta las historias de usuario"""
+    VALORES100_CHOICES = zip(range(1,101), range(1,101))
+    VALORES10_CHOICES = zip(range(1,11), range(1,11))
 
+    ESTADO_CHOICES = (
+        ('CAN', 'Cancelado'),
+        ('ACT', 'Activo'),
+    )
+    
+    ESTADO_ACTIVIDAD_CHOICES = (
+        ('PEN', 'Pendiente'),
+        ('PRO', 'En Progreso'),
+        ('FIN', 'Finalizado'),
+        ('APR', 'Aprobado'),
+    ) 
+    
+    descripcion = models.CharField(max_length = 200)
+    valor_negocio = models.IntegerField(choices = VALORES10_CHOICES)
+    valor_tecnico = models.IntegerField(choices = VALORES10_CHOICES)
+    prioridad = models.IntegerField(choices = VALORES100_CHOICES)
+    duracion = models.FloatField()
+    acumulador_horas = models.FloatField()
+    estado = models.CharField(max_length = 3, choices = ESTADO_CHOICES)
+    actividad=models.ForeignKey(Actividades, null=True, blank=True)
+    estado_en_actividad = models.CharField(max_length = 3, choices = ESTADO_ACTIVIDAD_CHOICES)
+    proyecto=models.ForeignKey(Proyecto) #este campo va indicar a que proyecto pertenece asi en la vista ya no tenemos que hacer hu.objects.all()
+    valido=models.BooleanField(default=False) # rl productOwner debe validar
+    hu_descripcion=models.ManyToManyField(Horas_Trabajadas)
 
+    
+    
+    def __unicode__(self):
+        """Representacion unicode del objeto HU"""
+        return self.descripcion
+    
 
-
-
-
-
-
-
-
-
-
-
+    
+    def sprint(self):
+        """ Funcion que retorna el sprint de una hu """
+        id=0
+        sprint=None
+        for a in Sprint.objects.filter(proyecto=self.proyecto):
+            for h in a.hu.all():
+                if self.id == h.id:
+                    if a.id > id:
+                        sprint=a
+                        id=a.id
+        return sprint
+    
+    def flujo(self):
+        """ Funcion que retorna el flujo de una hu """
+        for a in AsignaHU_flujo.objects.all():
+            for h in a.lista_de_HU.all():
+                if self.id == h.id:
+                    return a.flujo_al_que_pertenece
+        return None
+    
+    def saber_usuario(self): 
+        """ Funcion que retorna el usuario de una hu """
+        for d in AsignaHU_Usuario.objects.all():
+            if self.id == d.hu.id:
+                return d.usuario
+        return None
+    
+    
+    def dias_hu(self, duracion):
+        
+        round_up = lambda num: int(num + 1) if int(num) != num else int(num)
+        dias=round_up(duracion/8)
+        return dias
+    
+    def saber_duracion_dias(self):
+        return math.ceil(self.duracion/8)
 
 
 
@@ -244,26 +322,69 @@ class AsignarRolProyecto(models.Model):
         """Representacion unicode del objeto asignacion"""
         return str(self.id)+" - "+str(self.usuario)+" - "+str(self.rol)+" - "+str(self.proyecto) 
     
-    
- 
-    
-    
 
+
+
+
+class Sprint(models.Model):
+    """Modelo que reprenseta los Spring de un proyecto relacionados a
+    sus respectivos proyectos mediante un foreign key"""
     
-'''    
-#Modelo para asignacion de roles de proyecto
-class AsignarRolAdministrador(models.Model):
-    """Modelo que representa la asignaciones de roles de sistema a usuarios con clave foranea a 
-    modelo rol sistema"""
-    usuario=models.ForeignKey(MyUser)
-    rol=models.ForeignKey(Rol)
+    ESTADO_CHOICES = (
+        ('CAN', 'Cancelado'),
+        ('ACT', 'Activo'),
+        ('CON', 'Consulta'),
+        ('FIN', 'Finalizado')
+    )
+     
+    descripcion = models.CharField(max_length = 200)
+    hu=models.ManyToManyField(HU)
+    fecha_inicio = models.DateTimeField()
+    duracion = models.FloatField()
+    estado = models.CharField(max_length = 3, choices = ESTADO_CHOICES)
+    proyecto=models.ForeignKey(Proyecto)
+    flujo=models.ManyToManyField(Flujo)
+    equipo=models.ManyToManyField(MyUser)
     
-    class Meta: 
-        verbose_name_plural = "Asignar rol de administrador"
-        verbose_name = 'rol de administrador'
-        
-        
     def __unicode__(self):
-        """Representacion unicode del objeto asigna sistema"""
-        return str(self.id)+" - "+str(self.usuario)+" - "+str(self.rol)
-'''
+        """Representacion unicode del objeto Sprint"""
+        return self.descripcion
+    
+    def get_fecha_inicio(self):
+        return str(self.fecha_inicio)[:10]
+    
+    def termino_Sprint(self):
+        """Funcion que representa el termino de un sprint retornando True o False"""
+        suma=0
+        terminaron=True
+        for h in self.hu.all():
+            suma=suma+h.acumulador_horas
+            if h.estado_en_actividad != 'FIN':
+                terminaron=False
+        if float(suma/8) >= self.duracion or terminaron:
+            return True
+        else:
+            return False
+
+
+
+class AsignaHU_Usuario(models.Model):
+    """Modelo que especifica una delegacion de una HU a un usuario en un proyecto"""
+    usuario=models.ForeignKey(settings.AUTH_USER_MODEL)
+    hu=models.ForeignKey(HU)
+    def __unicode__(self):
+        """Representacion unicode del objeto delegacion"""
+        return str(self.id)+" - "+str(self.usuario)+" - "+str(self.hu.descripcion)+" - "+str(self.hu.proyecto)
+
+
+
+class AsignaHU_flujo(models.Model):
+    """Modelo intermedio para la relacion varios a varios del modelo flujo con actividades"""
+    lista_de_HU = models.ManyToManyField(HU)
+    flujo_al_que_pertenece = models.ForeignKey(Flujo)
+    def __unicode__(self):
+        """Representacion unicode del objeto asignaHU_actividad_flujo"""
+        return str(self.id)+" - "+str(self.flujo_al_que_pertenece)
+
+
+

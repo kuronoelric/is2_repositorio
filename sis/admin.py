@@ -2,8 +2,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from sis.models import MyUser, Proyecto, Rol, AsignarRolProyecto, Flujo,\
-    Actividades
+from sis.models import MyUser, Proyecto, Rol, AsignarRolProyecto, Flujo, Sprint
 from django.contrib.auth.models import Group
 
 
@@ -175,7 +174,33 @@ class FlujoAdmin(admin.ModelAdmin):
         #obj.estado='ACT'
         obj.save()
 
+
+
+class SprintCreationForm(forms.ModelForm):
+    """
+    Formulario del modelo Sprint con sus campos seleccionados.
+    """
+    class Meta:
+        model=Sprint
+        fields=('descripcion','duracion','fecha_inicio', 'proyecto') #el estado en el momento de creacion tendra valor por defecto el usuario no decide  
     
+         
+
+class SprintAdmin(admin.ModelAdmin):
+    """Configura la vista de administracion de Sprint para un usuario administrador,
+    lista nombre y estado y al modificar permite guardar como"""
+    form=SprintCreationForm
+    list_display = ('id', 'descripcion','duracion','fecha_inicio')
+    list_filter = ('estado',)
+    ordering = ('id',)
+    save_as = True 
+    def save_model(self,request,obj,form,change):
+        """Permite establecer el Estado por defecto en el momento de la creacion que es de CONSULTA"""
+        obj.estado='CON'
+        obj.save()
+        pass
+ 
+
 
 admin.site.register(MyUser, MyUserAdmin)
 admin.site.register(Proyecto, ProyectoAdmin)
@@ -183,6 +208,7 @@ admin.site.register(Rol, RolAdmin)
 admin.site.register(AsignarRolProyecto)
 #admin.site.register(Flujo,FlujoAdmin)
 #admin.site.register(Actividades)
+admin.site.register(Sprint,SprintAdmin)
 
 
 
