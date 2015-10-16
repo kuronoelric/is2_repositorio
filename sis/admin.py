@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from sis.models import MyUser, Proyecto, Rol, AsignarRolProyecto, Flujo, Sprint
+from sis.models import MyUser, Proyecto, Rol, AsignarRolProyecto, Flujo, Sprint, HU
 from django.contrib.auth.models import Group
 
 
@@ -209,6 +209,7 @@ admin.site.register(AsignarRolProyecto)
 #admin.site.register(Flujo,FlujoAdmin)
 #admin.site.register(Actividades)
 admin.site.register(Sprint,SprintAdmin)
+admin.site.register(HU)
 
 
 

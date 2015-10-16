@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+<script type="text/javascript">
+//Validar que el campo de formulario contenga sólo números menores a 8
+function validacion(f)  {
+if (f.horas_agregar.value>8) {
+alert("Error:\nA superado las horas laborales. Puede ingresar hasta 8 horas por dia");
+return (false);
+ }
+}
+</script>
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Modificación de HU</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Version de Product Owner: {{version}}</h1>
+        <div id="content-main">
+
+
+  <ul class="object-tools">
+    <!-- 
+    <li>
+        
+        <a href="/admin/gestor/proyecto/2/history/" class="historylink">Historial</a>
+    </li>
+     -->
+    
+  </ul>
+
+{%if is_Scrum == "1"%}    
+<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+{% csrf_token %}
+	<div>
+		<b>Descripcion de Scrum: </b> {{HU.descripcion}}<br/><br/>
+		<b>Valor de negocio: </b> {{HU.valor_negocio}}<br/><br/>
+		{{form.as_p}}
+            
+	</div>
+<div class="submit-row">
+<input type="submit" value="Guardar" class="modificarProyecto" name="_save" />
+{%elif is_Scrum == "0"%}
+<form action="/guardarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/{{is_Scrum}}/" method="post">
+	{% csrf_token %}
+	<div>
+     	<label class="required" for="id_nombre">Descripcion:</label>
+     	<textarea name="descripcion" rows="2" cols="90">{{HU.descripcion}}</textarea>
+     	<!--  <input class="vTextField" id="id_nombre" maxlength="500" name="descripcion" value={{HU.descripcion}} type="text" required="required" autofocus="autofocus"/>-->
+    </div>
+    
+    <div>
+        <label class="required" for="id_permisos">Valor de Negocio:</label>
+        <select id="id_actividades" name="valor_negocio" required>
+           {%for valor in valores %}
+          		{%ifequal valor HU.valor_negocio%}
+          			<option value="{{valor}}" selected="selected">{{valor}}</option>
+          		{%else%}
+					<option value="{{valor}}">{{valor}}</option>
+				{%endifequal%}
+			{%endfor%}
+		</select>
+    </div>
+    <div>
+        <label class="required" for="id_permisos">Estado:</label>
+        <select id="id_actividades" name="estado">
+           {%for e in estados %}
+          		{%if e == HU.estado%}
+          			<option value="{{e}}" selected="selected">{{e}}</option>
+          		{%else%}
+					<option value="{{e}}">{{e}}</option>
+				{%endif%}
+			{%endfor%}
+		</select>
+    </div>
+<input type="submit" name="_save" value="Guardar" tabindex="2" />
+</form>
+
+{%else%}
+<form action="/guardarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/{{is_Scrum}}/" method="post" onsubmit="return validacion(this)">
+	{% csrf_token %}
+	<div>
+		<b>Descripcion de Scrum: </b> {{HU.descripcion}}<br/><br/>
+		<b>Duracion: </b> {{HU.duracion}}<br/><br/>
+		<b>Horas ya trabajadas: </b> {{HU.acumulador_horas}}<br/><br/>  
+		<b>Fecha del dia: </b>
+		<script>
+		var f = new Date();
+		document.write(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
+		</script> 
+	</div>
+    
+    <div>
+        <br/><label class="required" for="id_horas_trabajadas">Agregar horas trabajadas:</label>
+        <input class="vTextField" id="id_nombre" maxlength="500" name="horas_agregar" type="text" required="required" autofocus="autofocus"/><br><br>
+        <label class="required" for="id_descripcion">Descripcion:</label>
+        <textarea name="descripcion_horas" rows="10" cols="40" required="required" autofocus="autofocus"></textarea>
+         
+    </div>
+    
+    <div>
+    	<b>Actividad en la que se encuentra: </b> {{HU.actividad}}<br/><br/>
+		<b>Estado de la actividad: </b> {{HU.estado_en_actividad}}<br/><br/>
+    </div>
+    
+	<button id="assign" name="boton" onclick="agregar()" value="Finalizar">Finalizar y avanzar de actividad</button>
+<!-- Cada vez que cambia una HU se guarda una version automaticamente....ver eso en guardarHU
+se guardara con la misma descripcion, mismos datos pero con un id diferente asi sigo apuntando a una hu diferente
+pero con los mismo datos, las hu utilizadas anteriormente seran canceladas y no deben mostrarse en la lista de hus del owner
+todavia nose como restringir eso -->>							
+<input type="submit" name="_save" value="Guardar" tabindex="2"/>
+<p><a href="/adminAdjunto/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/">Administrar archivos adjuntos</a></p>
+</form> 
+{%endif%}
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Agregar HU | Sitio de administracion</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+<script type="text/javascript">
+function validarForm(formulario) {
+  if(formulario.descripcion.value.length==0) { //comprueba que no esté vacío
+    formulario.descripcion.focus();   
+    alert('No has completado todos los campos'); 
+    return false; //devolvemos el foco
+  }
+  if(formulario.valor_negocio.value.length==0) { //comprueba que no esté vacío
+	    formulario.valor_negocio.focus();   
+	    alert('No has completado todos los campos'); 
+	    return false; //devolvemos el foco
+	}
+  
+  return true;
+}
+</script>
+
+</head>
+
+
+<body class=" app-gestor model-rol change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a></h1>
+
+        </div>
+        
+        <div id="user-tools">
+            
+                Welcome,
+                <strong>{{usuario}}</strong>.
+                
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+            
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Agregar HU</h1>
+        <div id="content-main">
+
+<form enctype="multipart/form-data" action="/guardarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="post" id="rol_form" novalidate onsubmit="return validarForm(this);">
+<input type='hidden' name='csrfmiddlewaretoken' value='JyS6xzJ9lDG2WgfiSPv0L0PvCmALwE52' />
+{% csrf_token %}
+<div>
+
+  <fieldset class="module aligned ">
+
+        <div class="form-row field-nombre_rol_id">
+
+                <div>
+
+                        <label class="required" for="id_nombre">Descripcion:</label>
+                        
+                            <input class="vTextField" id="id_nombre" maxlength="500" name="descripcion" type="text" required="required" autofocus="autofocus"/>
+
+                </div>
+            
+        </div>
+        
+            <div class="form-row field-permisos">
+
+                <div>
+
+                        <label class="required" for="id_permisos">Valor de Negocio:</label>
+                        
+                            <select id="id_actividades" name="valor_negocio" required>
+                            	{%for valor in valores %}
+									<option value="{{valor}}">{{valor}}</option>
+								{%endfor%}
+							</select>
+
+                </div>
+            
+        </div>
+
+</fieldset>
+
+<div class="submit-row">
+<input type="submit" value="Guardar" />
+
+</div>
+
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                $('form#rol_form :input:visible:enabled:first').focus()
+            });
+        })(django.jQuery);
+    </script>
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

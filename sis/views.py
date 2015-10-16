@@ -7,8 +7,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from sis.models import Proyecto, Rol, AsignarRolProyecto, MyUser, Flujo, Actividades
+from sis.models import Proyecto, Rol, AsignarRolProyecto, MyUser, Flujo, Actividades, HU
 from django.template.context import RequestContext
+from django.utils import timezone
+from django.core.mail.message import EmailMessage
 #asignacion, proyecto, rol, Flujo, Actividades, HU, Sprint, delegacion, HU_descripcion, archivoadjunto, asignaHU_actividad_flujo, historial_notificacion, HU_version,\adjuntoVersion
 
 
@@ -59,7 +61,7 @@ def holaScrumView(request,usuario_id,proyectoid):
     proyectox=Proyecto.objects.get(id=proyectoid)
     usuario=MyUser.objects.get(id=usuario_id)
     return render(request,'rol-flujo-para-scrum.html',{'roles':Rol.objects.all(), 'flujos':Flujo.objects.all(),'proyecto':proyectox,'usuario':usuario})
-
+    
 
 
 class FormularioRolProyecto(forms.ModelForm):
@@ -433,5 +435,94 @@ def listarEquipo(request,proyecto_id_rec,usuario_id):
             lista[usuario_a]=rol_a#agregar el usuario de esa asignacion a la vista, y mandarlo al template
     return render(request,'formarEquipo.html',{'roles':Rol.objects.all(),'lista_asigna':lista, 'flujos':Flujo.objects.all(),'proyecto':proyectox,'usuario_id':usuario_id})
 
+## ----------------------------------------------------------------------------------------------------------------
+
+class FormularioHU(forms.ModelForm):
+    """
+    Clase que obtiene el formulario para la creacion, visualizacion y modificacion
+    de HU's del proyecto desde la vista del Scrum y del Product Owner.
+    """
+    class Meta:
+        model= HU
+        fields=['valor_tecnico','prioridad','duracion']
+        
+def visualizarHUView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum, kanban):
+    """
+    Vista que utiliza el formulario HU para desplegar los datos almacenados
+    en la HU que se quiere visualizar.
+        :param func: request
+        :param args: usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum, kanban
+        :returns: 'visualizarHU.html'
+    """
+    HU_disponible= HU.objects.get(id=HU_id_rec)
+    usuario_asignado = HU_disponible.saber_usuario() 
+    flujo_al_que_pertenece=HU_disponible.flujo()
+    sprint_al_que_pertenece=HU_disponible.sprint()
+    #adjuntos=archivoadjunto.objects.filter(hU=HU_disponible)
+    formulario =  FormularioHU(initial={
+                                                     'descripcion': HU_disponible.descripcion,
+                                                     'valor_negocio': HU_disponible.valor_negocio,
+                                                     })      
+    return render_to_response('visualizarHU.html',{'formulario':formulario,'version':HU_disponible.version,'usuario_asignado':usuario_asignado,'HU':HU_disponible, 'proyectoid':proyectoid,'usuarioid':usuario_id, 'rolid':rolid,'''adjuntos':adjuntos,''' 'is_Scrum':is_Scrum, 'sprint':sprint_al_que_pertenece, 'flujo':flujo_al_que_pertenece, 'kanban':kanban},
+                                  context_instance=RequestContext(request))
+
+def modificarHU(request, usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum):
+    """
+    Vista que utiliza el formulario HU para desplegar los datos editables
+    de la HU en tres niveles de modificacion.
+    Esta vista corresponde a la modificacion del nivel 1, es decir, a nivell Scrum Master
+        :param func: request
+        :param args: usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum
+        :returns: modificarHU.html
+        :rtype: valor_tecnico, prioridad, duracion
+    """
+    estados=['ACT','CAN']
+    VALORES10_CHOICES = range(1,10)
+    h=HU.objects.get(id=HU_id_rec)
+    if (is_Scrum == '1'):
+        if request.method == 'POST':
+            form = FormularioHU(request.POST)
+            if form.is_valid():
+                valor_tecnico=form.cleaned_data['valor_tecnico']
+                prioridad=form.cleaned_data['prioridad']
+                duracion=form.cleaned_data['duracion']
+                #estado=form.cleaned_data['estado']
+                h.valor_tecnico=valor_tecnico
+                h.prioridad=prioridad
+                h.duracion=duracion
+                #h.estado=estado
+                h.save() #Guardamos el modelo de manera Editada   
+                evento_e=usuario_id+"+"+proyectoid+"+"+rolid+"+"+"HU+"+"M+"+"La HU '"+str(h.descripcion)+"' valor de negocio  '"+str(form.cleaned_data['valor_tecnico'])+"'  prioridad '"+str(form.cleaned_data['prioridad'])+"' y duracion  '"+str(form.cleaned_data['duracion'])+"' ha sido modificado exitosamente en la fecha y hora: "+str(timezone.now())
+                usuario_e=MyUser.objects.get(id=usuario_id)
+                '''historial_notificacion.objects.create(usuario=usuario_e, fecha_hora=timezone.now(), objeto=h.descripcion,evento=evento_e)
+                if usuario_e.frecuencia_notificaciones == 'instante':
+                    send_email(str(usuario_e.email), 'Notificacion', evento_e)
+'''
+                return HttpResponse('La HU ha sido modificado exitosamente')
+            else:
+                return HttpResponse('error'+str(form.errors))
+        else:
+        
+            form = FormularioHU(initial={
+                                        'valor_tecnico': h.valor_tecnico,
+                                        'prioridad': h.prioridad,
+                                        'duracion':h.duracion,
+                                        #'estado':h.estado
+                                         })
+            ctx = {'version':h.version,'valores':VALORES10_CHOICES,'form':form, 'HU':h, 'proyectoid':proyectoid,'usuarioid':usuario_id, 'rolid':rolid,'is_Scrum':is_Scrum}
+            return render_to_response('modificarHU.html', ctx ,context_instance=RequestContext(request))
+    else:
+        return render(request,'modificarHU.html', {'version':h.version,'estados':estados, 'valores':VALORES10_CHOICES,'HU':h, 'proyectoid':proyectoid,'usuarioid':usuario_id, 'rolid':rolid,'is_Scrum':is_Scrum})
+
+
+def crearHU(request,usuario_id,proyectoid,rolid):
+    """
+    Vista que realiza la creacion de flujos de proyecto desde la vista del Scrum.
+        :param func: request
+        :param args: usuario_id,proyectoid,rolid
+        :returns: crearHU.html
     
-    
+    """
+    VALORES10_CHOICES = range(1,10)
+    if request.method == 'GET':
+        return render(request, 'crearHU.html',{'usuarioid':usuario_id,'proyectoid':proyectoid,'rolid':rolid,'valores':VALORES10_CHOICES})
