@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sis.models &mdash; documentación de is2_repositorio - 1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de is2_repositorio - 1" href="../../index.html"/>
+        <link rel="up" title="Código de módulo" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> is2_repositorio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/models.html">Modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/views.html">Vistas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">is2_repositorio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Código de módulo</a> &raquo;</li>
+      
+    <li>sis.models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para sis.models</h1><div class="highlight"><pre>
+<span class="c">#coding: utf-8</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">AbstractBaseUser</span><span class="p">,</span> <span class="n">BaseUserManager</span><span class="p">,</span> <span class="n">Permission</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">django.forms.fields</span> <span class="kn">import</span> <span class="n">CharField</span>
+<span class="c"># Create your models here.</span>
+
+
+<div class="viewcode-block" id="MyUserManager"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUserManager">[documentos]</a><span class="k">class</span> <span class="nc">MyUserManager</span><span class="p">(</span><span class="n">BaseUserManager</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;Clase utilizada para la creacion de managers personalizados </span>
+<span class="sd">    de clase de usuarios tambien personalizados, herada metodos y atributos</span>
+<span class="sd">    de la clase abstracta BaseUserManager que exige redefinir los metodos</span>
+<span class="sd">    create_user y create_superuser&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="MyUserManager.create_user"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUserManager.create_user">[documentos]</a>    <span class="k">def</span> <span class="nf">create_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crea y guarda un usuario con el nombre de usuario , email y contraseña</span>
+<span class="sd">        dados</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">username</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Los usuarios deben tener un nombre de usuario&#39;</span><span class="p">)</span>
+
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span> <span class="n">email</span><span class="p">,</span>            
+        <span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">using</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">user</span>
+</div>
+<div class="viewcode-block" id="MyUserManager.create_superuser"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUserManager.create_superuser">[documentos]</a>    <span class="k">def</span> <span class="nf">create_superuser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Crea y guarda un superuser con el nombre de usuario, email y password</span>
+<span class="sd">        dados</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span> <span class="n">email</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">is_admin</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">using</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_db</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">user</span>
+
+
+
+</div></div>
+<div class="viewcode-block" id="MyUser"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser">[documentos]</a><span class="k">class</span> <span class="nc">MyUser</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Clase que representa usuario del modulo de autenticacion personalizada con mas atributos, hereda</span>
+<span class="sd">    metodos y atributos de la clase abstracta AbstractBaseUser, especifica la confguracion </span>
+<span class="sd">    de sus instancias en USERNAME_FIELDS y los atributos requeridos en create_user y create_superuser</span>
+<span class="sd">    en REQUIRED_FIELDS, ademas redefine metodos: get_full_name(),get_short_name(),has_perm(),</span>
+<span class="sd">    has_module_perms(),is_staff()&quot;&quot;&quot;</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">unique</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">user_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;Nombre&#39;</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;Apellido&#39;</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">cedula</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">null</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+       
+    <span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;Activo&#39;</span><span class="p">)</span>
+    <span class="n">is_admin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;Administrador&#39;</span><span class="p">)</span>
+    
+    <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s">&#39;username&#39;</span>  <span class="c">#indica que username es la clave primaria</span>
+    <span class="n">REQUIRED_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
+    
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">MyUserManager</span><span class="p">()</span>
+    
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span> 
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Usuarios&quot;</span>
+        <span class="n">verbose_name</span><span class="o">=</span><span class="s">&#39;usuario&#39;</span>
+        
+    
+<div class="viewcode-block" id="MyUser.create"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser.create">[documentos]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">username</span><span class="p">,</span><span class="n">email</span><span class="p">,</span><span class="n">password</span><span class="p">,</span><span class="n">user_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">cedula</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Metodo para la creacion de usuarios desde interfaz web completando todos los </span>
+<span class="sd">        atributos&quot;&quot;&quot;</span>
+        <span class="n">usuario</span><span class="o">=</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">usuario</span><span class="o">.</span><span class="n">last_name</span><span class="o">=</span><span class="n">last_name</span>
+        <span class="n">usuario</span><span class="o">.</span><span class="n">user_name</span><span class="o">=</span><span class="n">user_name</span>
+        <span class="n">usuario</span><span class="o">.</span><span class="n">cedula</span> <span class="o">=</span> <span class="n">cedula</span>
+        <span class="k">return</span> <span class="n">usuario</span>
+        
+</div>
+<div class="viewcode-block" id="MyUser.get_full_name"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser.get_full_name">[documentos]</a>    <span class="k">def</span> <span class="nf">get_full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retorna el nombre y apellido del usuario&quot;&quot;&quot;</span>
+        <span class="c"># The user is identified by their email address</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_name</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">last_name</span>
+</div>
+<div class="viewcode-block" id="MyUser.get_short_name"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser.get_short_name">[documentos]</a>    <span class="k">def</span> <span class="nf">get_short_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retorna el username identificador del usuario&quot;&quot;&quot;</span>
+        <span class="c"># The user is identified by their email address</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span>
+</div>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto usuario&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span>
+
+<div class="viewcode-block" id="MyUser.has_perm"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser.has_perm">[documentos]</a>    <span class="k">def</span> <span class="nf">has_perm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">perm</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">&quot;Por implementar: Retornara true si un usuario tiene el permiso indicado como argumento&quot;</span>
+        <span class="c"># Simplest possible answer: Yes, always</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="MyUser.has_module_perms"><a class="viewcode-back" href="../../modules/models.html#sis.models.MyUser.has_module_perms">[documentos]</a>    <span class="k">def</span> <span class="nf">has_module_perms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Por implementar: Retornarea true si el usuario tiene permiso de acceder a una </span>
+<span class="sd">        applicacion particular&quot;&quot;&quot;</span>
+        <span class="c"># Simplest possible answer: Yes, always</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_staff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s">&quot;Retorna true si el usuario es administrador&quot;</span>
+        <span class="c"># Simplest possible answer: All admins are staff</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span>
+
+
+
+</div>
+<div class="viewcode-block" id="Actividades"><a class="viewcode-back" href="../../modules/models.html#sis.models.Actividades">[documentos]</a><span class="k">class</span> <span class="nc">Actividades</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo de las actividades de un flujo relacionada a su proyecto&quot;&quot;&quot;</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span> 
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Actividades&quot;</span> 
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s">&#39;actividad&#39;</span>
+    
+    
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto actividad&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>  <span class="o">+</span> <span class="s">&quot; - &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span>
+
+
+
+    </div>
+<div class="viewcode-block" id="Flujo"><a class="viewcode-back" href="../../modules/models.html#sis.models.Flujo">[documentos]</a><span class="k">class</span> <span class="nc">Flujo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo de flujos de proyecto relacionados a su respectivo proyecto&quot;&quot;&quot;</span>
+    
+    <span class="c">#ESTADO_CHOICES = (</span>
+    <span class="c">#    (&#39;CAN&#39;, &#39;Cancelado&#39;),</span>
+    <span class="c">#    (&#39;ACT&#39;, &#39;Activo&#39;),</span>
+    <span class="c">#)</span>
+     
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="c">#estado = models.CharField(max_length = 3, choices = ESTADO_CHOICES)</span>
+    <span class="n">actividades</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Actividades</span><span class="p">)</span>
+    <span class="n">orden_actividades</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto flujo&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span>
+
+
+
+</div>
+<div class="viewcode-block" id="Proyecto"><a class="viewcode-back" href="../../modules/models.html#sis.models.Proyecto">[documentos]</a><span class="k">class</span> <span class="nc">Proyecto</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que representa los proyectos creados&quot;&quot;&quot;</span>
+    
+    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;PEN&#39;</span><span class="p">,</span> <span class="s">&#39;Pendiente&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ACT&#39;</span><span class="p">,</span> <span class="s">&#39;Activo&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;CAN&#39;</span><span class="p">,</span> <span class="s">&#39;Cancelado&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;FIN&#39;</span><span class="p">,</span> <span class="s">&#39;Finalizado&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">fecha_inicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">fecha_fin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">duracion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">cantidad_dias_transcurridos</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ESTADOS</span><span class="p">)</span>
+    <span class="n">flujos</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Flujo</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto proyecto&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span>
+    
+<div class="viewcode-block" id="Proyecto.get_fecha_inicio"><a class="viewcode-back" href="../../modules/models.html#sis.models.Proyecto.get_fecha_inicio">[documentos]</a>    <span class="k">def</span> <span class="nf">get_fecha_inicio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fecha_inicio</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="Proyecto.get_fecha_fin"><a class="viewcode-back" href="../../modules/models.html#sis.models.Proyecto.get_fecha_fin">[documentos]</a>    <span class="k">def</span> <span class="nf">get_fecha_fin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fecha_fin</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+
+
+
+</div></div>
+<div class="viewcode-block" id="Rol"><a class="viewcode-back" href="../../modules/models.html#sis.models.Rol">[documentos]</a><span class="k">class</span> <span class="nc">Rol</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que representa los roles, esta relacionado a la tabla de permisos&quot;&quot;&quot;</span>
+
+    <span class="n">permisos</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Permission</span><span class="p">)</span>
+    <span class="n">nombre_rol</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span> 
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Roles&quot;</span> 
+    
+    
+<div class="viewcode-block" id="Rol.tiene_permiso"><a class="viewcode-back" href="../../modules/models.html#sis.models.Rol.tiene_permiso">[documentos]</a>    <span class="k">def</span> <span class="nf">tiene_permiso</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">perm</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verifica si un rol esta compuesto por un determinado permiso&quot;&quot;&quot;</span>
+        <span class="n">permiso</span><span class="o">=</span> <span class="n">Permission</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">perm</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">permiso</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">permisos</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+</div>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto rol&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre_rol</span>
+
+
+
+
+</div>
+<div class="viewcode-block" id="Horas_Trabajadas"><a class="viewcode-back" href="../../modules/models.html#sis.models.Horas_Trabajadas">[documentos]</a><span class="k">class</span> <span class="nc">Horas_Trabajadas</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modelo representa la descripcion de cada hora de trabajo agregada mostrando de la fecha de la misma</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">horas_trabajadas</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>  
+    <span class="n">descripcion_horas_trabajadas</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">fecha</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">actividad</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">estado</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+
+    
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto HU_descripcion&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>  
+
+
+  
+  
+    </div>
+<div class="viewcode-block" id="HU"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU">[documentos]</a><span class="k">class</span> <span class="nc">HU</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que reprenseta las historias de usuario&quot;&quot;&quot;</span>
+    <span class="n">VALORES100_CHOICES</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">))</span>
+    <span class="n">VALORES10_CHOICES</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">))</span>
+
+    <span class="n">ESTADO_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;CAN&#39;</span><span class="p">,</span> <span class="s">&#39;Cancelado&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ACT&#39;</span><span class="p">,</span> <span class="s">&#39;Activo&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    
+    <span class="n">ESTADO_ACTIVIDAD_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;PEN&#39;</span><span class="p">,</span> <span class="s">&#39;Pendiente&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;PRO&#39;</span><span class="p">,</span> <span class="s">&#39;En Progreso&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;FIN&#39;</span><span class="p">,</span> <span class="s">&#39;Finalizado&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;APR&#39;</span><span class="p">,</span> <span class="s">&#39;Aprobado&#39;</span><span class="p">),</span>
+    <span class="p">)</span> 
+    
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">valor_negocio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">choices</span> <span class="o">=</span> <span class="n">VALORES10_CHOICES</span><span class="p">)</span>
+    <span class="n">valor_tecnico</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">choices</span> <span class="o">=</span> <span class="n">VALORES10_CHOICES</span><span class="p">)</span>
+    <span class="n">prioridad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">choices</span> <span class="o">=</span> <span class="n">VALORES100_CHOICES</span><span class="p">)</span>
+    <span class="n">duracion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">acumulador_horas</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ESTADO_CHOICES</span><span class="p">)</span>
+    <span class="n">actividad</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Actividades</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">estado_en_actividad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ESTADO_ACTIVIDAD_CHOICES</span><span class="p">)</span>
+    <span class="n">proyecto</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span> <span class="c">#este campo va indicar a que proyecto pertenece asi en la vista ya no tenemos que hacer hu.objects.all()</span>
+    <span class="n">valido</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c"># rl productOwner debe validar</span>
+    <span class="n">hu_descripcion</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Horas_Trabajadas</span><span class="p">)</span>
+
+    
+    
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto HU&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">descripcion</span>
+    
+
+    
+<div class="viewcode-block" id="HU.sprint"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU.sprint">[documentos]</a>    <span class="k">def</span> <span class="nf">sprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Funcion que retorna el sprint de una hu &quot;&quot;&quot;</span>
+        <span class="nb">id</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">sprint</span><span class="o">=</span><span class="bp">None</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">proyecto</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">hu</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">id</span> <span class="o">&gt;</span> <span class="nb">id</span><span class="p">:</span>
+                        <span class="n">sprint</span><span class="o">=</span><span class="n">a</span>
+                        <span class="nb">id</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">return</span> <span class="n">sprint</span>
+    </div>
+<div class="viewcode-block" id="HU.flujo"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU.flujo">[documentos]</a>    <span class="k">def</span> <span class="nf">flujo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Funcion que retorna el flujo de una hu &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">AsignaHU_flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">lista_de_HU</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">h</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">flujo_al_que_pertenece</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="HU.saber_usuario"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU.saber_usuario">[documentos]</a>    <span class="k">def</span> <span class="nf">saber_usuario</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> 
+        <span class="sd">&quot;&quot;&quot; Funcion que retorna el usuario de una hu &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">AsignaHU_Usuario</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">d</span><span class="o">.</span><span class="n">hu</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">usuario</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    
+    </div>
+<div class="viewcode-block" id="HU.dias_hu"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU.dias_hu">[documentos]</a>    <span class="k">def</span> <span class="nf">dias_hu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duracion</span><span class="p">):</span>
+        
+        <span class="n">round_up</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">num</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">!=</span> <span class="n">num</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        <span class="n">dias</span><span class="o">=</span><span class="n">round_up</span><span class="p">(</span><span class="n">duracion</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dias</span>
+    </div>
+<div class="viewcode-block" id="HU.saber_duracion_dias"><a class="viewcode-back" href="../../modules/models.html#sis.models.HU.saber_duracion_dias">[documentos]</a>    <span class="k">def</span> <span class="nf">saber_duracion_dias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">duracion</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+
+
+
+
+</div></div>
+<div class="viewcode-block" id="AsignarRolProyecto"><a class="viewcode-back" href="../../modules/models.html#sis.models.AsignarRolProyecto">[documentos]</a><span class="k">class</span> <span class="nc">AsignarRolProyecto</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que especifica una asignacion de un rol a un usuario en un proyecto&quot;&quot;&quot;</span>
+    <span class="n">usuario</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">MyUser</span><span class="p">)</span>
+    <span class="n">rol</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Rol</span><span class="p">)</span>    
+    <span class="n">proyecto</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
+    
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span> 
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">&quot;Asignar rol x proyecto&quot;</span> 
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s">&#39;rol x proyecto&#39;</span>
+        
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto asignacion&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usuario</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rol</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">proyecto</span><span class="p">)</span> 
+    
+
+
+
+</div>
+<div class="viewcode-block" id="Sprint"><a class="viewcode-back" href="../../modules/models.html#sis.models.Sprint">[documentos]</a><span class="k">class</span> <span class="nc">Sprint</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que reprenseta los Spring de un proyecto relacionados a</span>
+<span class="sd">    sus respectivos proyectos mediante un foreign key&quot;&quot;&quot;</span>
+    
+    <span class="n">ESTADO_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;CAN&#39;</span><span class="p">,</span> <span class="s">&#39;Cancelado&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;ACT&#39;</span><span class="p">,</span> <span class="s">&#39;Activo&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;CON&#39;</span><span class="p">,</span> <span class="s">&#39;Consulta&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;FIN&#39;</span><span class="p">,</span> <span class="s">&#39;Finalizado&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+     
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">200</span><span class="p">)</span>
+    <span class="n">hu</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">HU</span><span class="p">)</span>
+    <span class="n">fecha_inicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">duracion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">choices</span> <span class="o">=</span> <span class="n">ESTADO_CHOICES</span><span class="p">)</span>
+    <span class="n">proyecto</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
+    <span class="n">flujo</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Flujo</span><span class="p">)</span>
+    <span class="n">equipo</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">MyUser</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto Sprint&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">descripcion</span>
+    
+<div class="viewcode-block" id="Sprint.get_fecha_inicio"><a class="viewcode-back" href="../../modules/models.html#sis.models.Sprint.get_fecha_inicio">[documentos]</a>    <span class="k">def</span> <span class="nf">get_fecha_inicio</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fecha_inicio</span><span class="p">)[:</span><span class="mi">10</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="Sprint.termino_Sprint"><a class="viewcode-back" href="../../modules/models.html#sis.models.Sprint.termino_Sprint">[documentos]</a>    <span class="k">def</span> <span class="nf">termino_Sprint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Funcion que representa el termino de un sprint retornando True o False&quot;&quot;&quot;</span>
+        <span class="n">suma</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">terminaron</span><span class="o">=</span><span class="bp">True</span>
+        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">hu</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">suma</span><span class="o">=</span><span class="n">suma</span><span class="o">+</span><span class="n">h</span><span class="o">.</span><span class="n">acumulador_horas</span>
+            <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">estado_en_actividad</span> <span class="o">!=</span> <span class="s">&#39;FIN&#39;</span><span class="p">:</span>
+                <span class="n">terminaron</span><span class="o">=</span><span class="bp">False</span>
+        <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">suma</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duracion</span> <span class="ow">or</span> <span class="n">terminaron</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+
+</div></div>
+<div class="viewcode-block" id="AsignaHU_Usuario"><a class="viewcode-back" href="../../modules/models.html#sis.models.AsignaHU_Usuario">[documentos]</a><span class="k">class</span> <span class="nc">AsignaHU_Usuario</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo que especifica una delegacion de una HU a un usuario en un proyecto&quot;&quot;&quot;</span>
+    <span class="n">usuario</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">)</span>
+    <span class="n">hu</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">HU</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto delegacion&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usuario</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hu</span><span class="o">.</span><span class="n">descripcion</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hu</span><span class="o">.</span><span class="n">proyecto</span><span class="p">)</span>
+
+
+</div>
+<div class="viewcode-block" id="AsignaHU_flujo"><a class="viewcode-back" href="../../modules/models.html#sis.models.AsignaHU_flujo">[documentos]</a><span class="k">class</span> <span class="nc">AsignaHU_flujo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modelo intermedio para la relacion varios a varios del modelo flujo con actividades&quot;&quot;&quot;</span>
+    <span class="n">lista_de_HU</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">HU</span><span class="p">)</span>
+    <span class="n">flujo_al_que_pertenece</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Flujo</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Representacion unicode del objeto asignaHU_actividad_flujo&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">+</span><span class="s">&quot; - &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flujo_al_que_pertenece</span><span class="p">)</span>
+</pre></div></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, grupo_9.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

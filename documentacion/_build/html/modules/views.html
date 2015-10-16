@@ -1,0 +1,1020 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Vistas &mdash; documentación de is2_repositorio - 1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de is2_repositorio - 1" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> is2_repositorio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">is2_repositorio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Vistas</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/views.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-sis.views">
+<span id="vistas"></span><h1>Vistas<a class="headerlink" href="#module-sis.views" title="Enlazar permanentemente con este título">¶</a></h1>
+<dl class="class">
+<dt id="sis.views.FormularioFlujoProyecto">
+<em class="property">class </em><code class="descclassname">sis.views.</code><code class="descname">FormularioFlujoProyecto</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#FormularioFlujoProyecto"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.FormularioFlujoProyecto" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clase que obtiene el formulario para la creacion, visualizacion y modificacion
+de flujos de proyecto desde la vista del Scrum.</p>
+<dl class="class">
+<dt id="sis.views.FormularioFlujoProyecto.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/sis/views.html#FormularioFlujoProyecto.Meta"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.Meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['nombre', 'actividades']</em><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.Meta.fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.Meta.model" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal"><span class="pre">Flujo</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.Meta.widgets">
+<code class="descname">widgets</code><em class="property"> = {'actividades': &lt;django.forms.widgets.CheckboxSelectMultiple object at 0x2ba53fae2610&gt;}</em><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.Meta.widgets" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.add_error">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">add_error</code><span class="sig-paren">(</span><em>field</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.add_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Update the content of <cite>self._errors</cite>.</p>
+<p>The <cite>field</cite> argument is the name of the field to which the errors
+should be added. If its value is None the errors will be treated as
+NON_FIELD_ERRORS.</p>
+<p>The <cite>error</cite> argument can be a single error, a list of errors, or a
+dictionary that maps field names to lists of errors. What we define as
+an &#8220;error&#8221; can be either a simple string or an instance of
+ValidationError with its message attribute set and what we define as
+list or dictionary can be an actual <cite>list</cite> or <cite>dict</cite> or an instance
+of ValidationError with its <cite>error_list</cite> or <cite>error_dict</cite> attribute set.</p>
+<p>If <cite>error</cite> is a dictionary, the <cite>field</cite> argument <em>must</em> be None and
+errors will be added to the fields that correspond to the keys of the
+dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.add_initial_prefix">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">add_initial_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.add_initial_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Add a &#8216;initial&#8217; prefix for checking dynamic initial values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.add_prefix">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">add_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.add_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns the field name with a prefix appended, if this Form has a
+prefix set.</p>
+<p>Subclasses may wish to override.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.as_p">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">as_p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.as_p" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;p&gt;s.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.as_table">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">as_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.as_table" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;tr&gt;s &#8211; excluding the &lt;table&gt;&lt;/table&gt;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.as_ul">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">as_ul</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.as_ul" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;li&gt;s &#8211; excluding the &lt;ul&gt;&lt;/ul&gt;.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.base_fields">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">base_fields</code><em class="property"> = OrderedDict([('nombre', &lt;django.forms.fields.CharField object at 0x2ba53fae2750&gt;), ('actividades', &lt;django.forms.models.ModelMultipleChoiceField object at 0x2ba53fae2890&gt;)])</em><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.base_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.changed_data">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">changed_data</code><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.changed_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.clean">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.declared_fields">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.declared_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.errors">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">errors</code><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorDict for the data provided for the form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.full_clean">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">full_clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.full_clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cleans all of self.data and populates self._errors and
+self.cleaned_data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.has_changed">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">has_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.has_changed" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if data differs from initial.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.has_error">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">has_error</code><span class="sig-paren">(</span><em>field</em>, <em>code=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.has_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.hidden_fields">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">hidden_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.hidden_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of all the BoundField objects that are hidden fields.
+Useful for manual form layout in templates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.is_multipart">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">is_multipart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.is_multipart" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form needs to be multipart-encoded, i.e. it has
+FileInput. Otherwise, False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.is_valid">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.is_valid" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form has no errors. Otherwise, False. If errors are
+being ignored, returns False.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioFlujoProyecto.media">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">media</code><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.media" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.non_field_errors">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">non_field_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.non_field_errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorList of errors that aren&#8217;t associated with a particular
+field &#8211; i.e., from Form.clean(). Returns an empty ErrorList if there
+are none.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.save">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.save" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Saves this <code class="docutils literal"><span class="pre">form</span></code>&#8216;s cleaned_data into model instance
+<code class="docutils literal"><span class="pre">self.instance</span></code>.</p>
+<p>If commit=True, then the changes to <code class="docutils literal"><span class="pre">instance</span></code> will be saved to the
+database. Returns <code class="docutils literal"><span class="pre">instance</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.validate_unique">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">validate_unique</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.validate_unique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calls the instance&#8217;s validate_unique() method and updates the form&#8217;s
+validation errors if any were raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioFlujoProyecto.visible_fields">
+<code class="descclassname">FormularioFlujoProyecto.</code><code class="descname">visible_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioFlujoProyecto.visible_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of BoundField objects that aren&#8217;t hidden fields.
+The opposite of the hidden_fields() method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sis.views.FormularioRolProyecto">
+<em class="property">class </em><code class="descclassname">sis.views.</code><code class="descname">FormularioRolProyecto</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#FormularioRolProyecto"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.FormularioRolProyecto" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clase que obtiene el formulario para la creacion, visualizacion y modificacion
+de roles de proyecto desde la vista del Scrum.</p>
+<dl class="class">
+<dt id="sis.views.FormularioRolProyecto.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/sis/views.html#FormularioRolProyecto.Meta"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.FormularioRolProyecto.Meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['permisos', 'nombre_rol', 'descripcion']</em><a class="headerlink" href="#sis.views.FormularioRolProyecto.Meta.fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#sis.views.FormularioRolProyecto.Meta.model" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal"><span class="pre">Rol</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.add_error">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">add_error</code><span class="sig-paren">(</span><em>field</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.add_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Update the content of <cite>self._errors</cite>.</p>
+<p>The <cite>field</cite> argument is the name of the field to which the errors
+should be added. If its value is None the errors will be treated as
+NON_FIELD_ERRORS.</p>
+<p>The <cite>error</cite> argument can be a single error, a list of errors, or a
+dictionary that maps field names to lists of errors. What we define as
+an &#8220;error&#8221; can be either a simple string or an instance of
+ValidationError with its message attribute set and what we define as
+list or dictionary can be an actual <cite>list</cite> or <cite>dict</cite> or an instance
+of ValidationError with its <cite>error_list</cite> or <cite>error_dict</cite> attribute set.</p>
+<p>If <cite>error</cite> is a dictionary, the <cite>field</cite> argument <em>must</em> be None and
+errors will be added to the fields that correspond to the keys of the
+dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.add_initial_prefix">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">add_initial_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.add_initial_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Add a &#8216;initial&#8217; prefix for checking dynamic initial values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.add_prefix">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">add_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.add_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns the field name with a prefix appended, if this Form has a
+prefix set.</p>
+<p>Subclasses may wish to override.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.as_p">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">as_p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.as_p" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;p&gt;s.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.as_table">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">as_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.as_table" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;tr&gt;s &#8211; excluding the &lt;table&gt;&lt;/table&gt;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.as_ul">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">as_ul</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.as_ul" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;li&gt;s &#8211; excluding the &lt;ul&gt;&lt;/ul&gt;.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.base_fields">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">base_fields</code><em class="property"> = OrderedDict([('permisos', &lt;django.forms.models.ModelMultipleChoiceField object at 0x2ba53fae2290&gt;), ('nombre_rol', &lt;django.forms.fields.CharField object at 0x2ba53fae2390&gt;), ('descripcion', &lt;django.forms.fields.CharField object at 0x2ba53fae2550&gt;)])</em><a class="headerlink" href="#sis.views.FormularioRolProyecto.base_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.changed_data">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">changed_data</code><a class="headerlink" href="#sis.views.FormularioRolProyecto.changed_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.clean">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.declared_fields">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#sis.views.FormularioRolProyecto.declared_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.errors">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">errors</code><a class="headerlink" href="#sis.views.FormularioRolProyecto.errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorDict for the data provided for the form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.full_clean">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">full_clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.full_clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cleans all of self.data and populates self._errors and
+self.cleaned_data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.has_changed">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">has_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.has_changed" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if data differs from initial.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.has_error">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">has_error</code><span class="sig-paren">(</span><em>field</em>, <em>code=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.has_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.hidden_fields">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">hidden_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.hidden_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of all the BoundField objects that are hidden fields.
+Useful for manual form layout in templates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.is_multipart">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">is_multipart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.is_multipart" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form needs to be multipart-encoded, i.e. it has
+FileInput. Otherwise, False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.is_valid">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.is_valid" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form has no errors. Otherwise, False. If errors are
+being ignored, returns False.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.FormularioRolProyecto.media">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">media</code><a class="headerlink" href="#sis.views.FormularioRolProyecto.media" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.non_field_errors">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">non_field_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.non_field_errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorList of errors that aren&#8217;t associated with a particular
+field &#8211; i.e., from Form.clean(). Returns an empty ErrorList if there
+are none.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.save">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.save" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Saves this <code class="docutils literal"><span class="pre">form</span></code>&#8216;s cleaned_data into model instance
+<code class="docutils literal"><span class="pre">self.instance</span></code>.</p>
+<p>If commit=True, then the changes to <code class="docutils literal"><span class="pre">instance</span></code> will be saved to the
+database. Returns <code class="docutils literal"><span class="pre">instance</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.validate_unique">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">validate_unique</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.validate_unique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calls the instance&#8217;s validate_unique() method and updates the form&#8217;s
+validation errors if any were raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.FormularioRolProyecto.visible_fields">
+<code class="descclassname">FormularioRolProyecto.</code><code class="descname">visible_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.FormularioRolProyecto.visible_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of BoundField objects that aren&#8217;t hidden fields.
+The opposite of the hidden_fields() method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.asignarRol">
+<code class="descclassname">sis.views.</code><code class="descname">asignarRol</code><span class="sig-paren">(</span><em>request</em>, <em>rolid</em>, <em>proyectoid</em>, <em>usuario_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#asignarRol"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.asignarRol" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que permite asignar un rol a un usuario dentro de la vista del Scrum, valiendose de la URL para obtener
+los id&#8217;s del rol , proyecto ye l usuario creador.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.contactomail">
+<code class="descclassname">sis.views.</code><code class="descname">contactomail</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#contactomail"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.contactomail" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sis.views.crearActividadAdminView">
+<code class="descclassname">sis.views.</code><code class="descname">crearActividadAdminView</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#crearActividadAdminView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.crearActividadAdminView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario
+de creacion o modificacion de Flujos del admin, devolviendo un formulario html para crear una nueva actividad</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.crearActividadView">
+<code class="descclassname">sis.views.</code><code class="descname">crearActividadView</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#crearActividadView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.crearActividadView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario
+de creacion o modificacion de Flujos del admin, devolviendo un formulario html para crear una nueva actividad</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.crearFlujo">
+<code class="descclassname">sis.views.</code><code class="descname">crearFlujo</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#crearFlujo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.crearFlujo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que realiza la creacion de flujos de proyecto desde la vista del Scrum.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sis.views.formularioActividad">
+<em class="property">class </em><code class="descclassname">sis.views.</code><code class="descname">formularioActividad</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#formularioActividad"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.formularioActividad" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clase que obtiene el formulario para la creacion y modificacion de actividades desde la vista del Scrum y el admin.</p>
+<dl class="class">
+<dt id="sis.views.formularioActividad.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/sis/views.html#formularioActividad.Meta"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.formularioActividad.Meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="sis.views.formularioActividad.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ('nombre', 'descripcion')</em><a class="headerlink" href="#sis.views.formularioActividad.Meta.fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#sis.views.formularioActividad.Meta.model" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal"><span class="pre">Actividades</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.add_error">
+<code class="descclassname">formularioActividad.</code><code class="descname">add_error</code><span class="sig-paren">(</span><em>field</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.add_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Update the content of <cite>self._errors</cite>.</p>
+<p>The <cite>field</cite> argument is the name of the field to which the errors
+should be added. If its value is None the errors will be treated as
+NON_FIELD_ERRORS.</p>
+<p>The <cite>error</cite> argument can be a single error, a list of errors, or a
+dictionary that maps field names to lists of errors. What we define as
+an &#8220;error&#8221; can be either a simple string or an instance of
+ValidationError with its message attribute set and what we define as
+list or dictionary can be an actual <cite>list</cite> or <cite>dict</cite> or an instance
+of ValidationError with its <cite>error_list</cite> or <cite>error_dict</cite> attribute set.</p>
+<p>If <cite>error</cite> is a dictionary, the <cite>field</cite> argument <em>must</em> be None and
+errors will be added to the fields that correspond to the keys of the
+dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.add_initial_prefix">
+<code class="descclassname">formularioActividad.</code><code class="descname">add_initial_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.add_initial_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Add a &#8216;initial&#8217; prefix for checking dynamic initial values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.add_prefix">
+<code class="descclassname">formularioActividad.</code><code class="descname">add_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.add_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns the field name with a prefix appended, if this Form has a
+prefix set.</p>
+<p>Subclasses may wish to override.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.as_p">
+<code class="descclassname">formularioActividad.</code><code class="descname">as_p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.as_p" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;p&gt;s.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.as_table">
+<code class="descclassname">formularioActividad.</code><code class="descname">as_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.as_table" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;tr&gt;s &#8211; excluding the &lt;table&gt;&lt;/table&gt;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.as_ul">
+<code class="descclassname">formularioActividad.</code><code class="descname">as_ul</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.as_ul" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;li&gt;s &#8211; excluding the &lt;ul&gt;&lt;/ul&gt;.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.base_fields">
+<code class="descclassname">formularioActividad.</code><code class="descname">base_fields</code><em class="property"> = OrderedDict([('nombre', &lt;django.forms.fields.CharField object at 0x2ba53fae2f10&gt;), ('descripcion', &lt;django.forms.fields.CharField object at 0x2ba53fae2fd0&gt;)])</em><a class="headerlink" href="#sis.views.formularioActividad.base_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.changed_data">
+<code class="descclassname">formularioActividad.</code><code class="descname">changed_data</code><a class="headerlink" href="#sis.views.formularioActividad.changed_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.clean">
+<code class="descclassname">formularioActividad.</code><code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.declared_fields">
+<code class="descclassname">formularioActividad.</code><code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#sis.views.formularioActividad.declared_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.errors">
+<code class="descclassname">formularioActividad.</code><code class="descname">errors</code><a class="headerlink" href="#sis.views.formularioActividad.errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorDict for the data provided for the form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.full_clean">
+<code class="descclassname">formularioActividad.</code><code class="descname">full_clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.full_clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cleans all of self.data and populates self._errors and
+self.cleaned_data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.has_changed">
+<code class="descclassname">formularioActividad.</code><code class="descname">has_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.has_changed" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if data differs from initial.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.has_error">
+<code class="descclassname">formularioActividad.</code><code class="descname">has_error</code><span class="sig-paren">(</span><em>field</em>, <em>code=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.has_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.hidden_fields">
+<code class="descclassname">formularioActividad.</code><code class="descname">hidden_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.hidden_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of all the BoundField objects that are hidden fields.
+Useful for manual form layout in templates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.is_multipart">
+<code class="descclassname">formularioActividad.</code><code class="descname">is_multipart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.is_multipart" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form needs to be multipart-encoded, i.e. it has
+FileInput. Otherwise, False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.is_valid">
+<code class="descclassname">formularioActividad.</code><code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.is_valid" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form has no errors. Otherwise, False. If errors are
+being ignored, returns False.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.formularioActividad.media">
+<code class="descclassname">formularioActividad.</code><code class="descname">media</code><a class="headerlink" href="#sis.views.formularioActividad.media" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.non_field_errors">
+<code class="descclassname">formularioActividad.</code><code class="descname">non_field_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.non_field_errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorList of errors that aren&#8217;t associated with a particular
+field &#8211; i.e., from Form.clean(). Returns an empty ErrorList if there
+are none.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.save">
+<code class="descclassname">formularioActividad.</code><code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.save" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Saves this <code class="docutils literal"><span class="pre">form</span></code>&#8216;s cleaned_data into model instance
+<code class="docutils literal"><span class="pre">self.instance</span></code>.</p>
+<p>If commit=True, then the changes to <code class="docutils literal"><span class="pre">instance</span></code> will be saved to the
+database. Returns <code class="docutils literal"><span class="pre">instance</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.validate_unique">
+<code class="descclassname">formularioActividad.</code><code class="descname">validate_unique</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.validate_unique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calls the instance&#8217;s validate_unique() method and updates the form&#8217;s
+validation errors if any were raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.formularioActividad.visible_fields">
+<code class="descclassname">formularioActividad.</code><code class="descname">visible_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.formularioActividad.visible_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of BoundField objects that aren&#8217;t hidden fields.
+The opposite of the hidden_fields() method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.guardarFlujoView">
+<code class="descclassname">sis.views.</code><code class="descname">guardarFlujoView</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#guardarFlujoView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.guardarFlujoView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista de guardado de nuevo usuario relacionado con un correo autorizado en la tabla Permitidos
+que se utiliza en la interfaz devuelta por /registrar</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.holaScrumView">
+<code class="descclassname">sis.views.</code><code class="descname">holaScrumView</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#holaScrumView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.holaScrumView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista especial para el usuario scrum en la que le listan los proyectos y los enlaces para la creacion de roles y flujos
+Vista para los usuario comunes, en la que solo se listan los proyectos sin enlaces, ya que no tiene permiso para ello.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.holaView">
+<code class="descclassname">sis.views.</code><code class="descname">holaView</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#holaView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.holaView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que redirige a la pagina principal de administracion tanto a usuarios como a
+superusuarios, los superusuarios son redirigidos a la aplicacion admin mientras que los 
+usuarios obtienen una respuesta con el template hola.html</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.listarEquipo">
+<code class="descclassname">sis.views.</code><code class="descname">listarEquipo</code><span class="sig-paren">(</span><em>request</em>, <em>proyecto_id_rec</em>, <em>usuario_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#listarEquipo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.listarEquipo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Esta vista debe obtener los datos de los usuarios que han sido asignados a un rol en el proyecto,el parametro
+usuario_id se necesita simplemente para el render para poder retornar a rol-flujo-para-scrum</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.loggedout">
+<code class="descclassname">sis.views.</code><code class="descname">loggedout</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#loggedout"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.loggedout" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="sis.views.modificarActividad">
+<code class="descclassname">sis.views.</code><code class="descname">modificarActividad</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em>, <em>actividad_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#modificarActividad"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.modificarActividad" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario formularioActividad para desplegar los datos editables
+de la Actividad que se quiere modificar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.modificarActividadAdmin">
+<code class="descclassname">sis.views.</code><code class="descname">modificarActividadAdmin</code><span class="sig-paren">(</span><em>request</em>, <em>actividad_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#modificarActividadAdmin"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.modificarActividadAdmin" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario formularioActividad para desplegar los datos editables en el admin
+de la Actividad que se quiere modificar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.modificarFlujo">
+<code class="descclassname">sis.views.</code><code class="descname">modificarFlujo</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em>, <em>flujo_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#modificarFlujo"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.modificarFlujo" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario FlujoProyecto para desplegar los datos editables
+del Flujo que se quiere modificar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.modificarProyecto">
+<code class="descclassname">sis.views.</code><code class="descname">modificarProyecto</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyecto_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#modificarProyecto"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.modificarProyecto" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario proyectoFrom para desplegar los datos editables
+del Proyecto que se quiere modificar.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sis.views.proyectoFrom">
+<em class="property">class </em><code class="descclassname">sis.views.</code><code class="descname">proyectoFrom</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>instance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#proyectoFrom"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.proyectoFrom" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Clase que obtiene el formulario para la visualizacion y modificacion de proyectos desde la vista del Scrum.</p>
+<dl class="class">
+<dt id="sis.views.proyectoFrom.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/sis/views.html#proyectoFrom.Meta"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.proyectoFrom.Meta" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="sis.views.proyectoFrom.Meta.fields">
+<code class="descname">fields</code><em class="property"> = ['nombre', 'descripcion', 'estado', 'fecha_inicio', 'fecha_fin']</em><a class="headerlink" href="#sis.views.proyectoFrom.Meta.fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.Meta.model">
+<code class="descname">model</code><a class="headerlink" href="#sis.views.proyectoFrom.Meta.model" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal"><span class="pre">Proyecto</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.add_error">
+<code class="descclassname">proyectoFrom.</code><code class="descname">add_error</code><span class="sig-paren">(</span><em>field</em>, <em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.add_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Update the content of <cite>self._errors</cite>.</p>
+<p>The <cite>field</cite> argument is the name of the field to which the errors
+should be added. If its value is None the errors will be treated as
+NON_FIELD_ERRORS.</p>
+<p>The <cite>error</cite> argument can be a single error, a list of errors, or a
+dictionary that maps field names to lists of errors. What we define as
+an &#8220;error&#8221; can be either a simple string or an instance of
+ValidationError with its message attribute set and what we define as
+list or dictionary can be an actual <cite>list</cite> or <cite>dict</cite> or an instance
+of ValidationError with its <cite>error_list</cite> or <cite>error_dict</cite> attribute set.</p>
+<p>If <cite>error</cite> is a dictionary, the <cite>field</cite> argument <em>must</em> be None and
+errors will be added to the fields that correspond to the keys of the
+dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.add_initial_prefix">
+<code class="descclassname">proyectoFrom.</code><code class="descname">add_initial_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.add_initial_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Add a &#8216;initial&#8217; prefix for checking dynamic initial values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.add_prefix">
+<code class="descclassname">proyectoFrom.</code><code class="descname">add_prefix</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.add_prefix" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns the field name with a prefix appended, if this Form has a
+prefix set.</p>
+<p>Subclasses may wish to override.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.as_p">
+<code class="descclassname">proyectoFrom.</code><code class="descname">as_p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.as_p" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;p&gt;s.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.as_table">
+<code class="descclassname">proyectoFrom.</code><code class="descname">as_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.as_table" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;tr&gt;s &#8211; excluding the &lt;table&gt;&lt;/table&gt;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.as_ul">
+<code class="descclassname">proyectoFrom.</code><code class="descname">as_ul</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.as_ul" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns this form rendered as HTML &lt;li&gt;s &#8211; excluding the &lt;ul&gt;&lt;/ul&gt;.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.base_fields">
+<code class="descclassname">proyectoFrom.</code><code class="descname">base_fields</code><em class="property"> = OrderedDict([('nombre', &lt;django.forms.fields.CharField object at 0x2ba53fae2a90&gt;), ('descripcion', &lt;django.forms.fields.CharField object at 0x2ba53fae2b90&gt;), ('estado', &lt;django.forms.fields.TypedChoiceField object at 0x2ba53fae2dd0&gt;), ('fecha_inicio', &lt;django.forms.fields.DateTimeField object at 0x2ba53fae2cd0&gt;), ('fecha_fin', &lt;django.forms.fields.DateTimeField object at 0x2ba53fae2d50&gt;)])</em><a class="headerlink" href="#sis.views.proyectoFrom.base_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.changed_data">
+<code class="descclassname">proyectoFrom.</code><code class="descname">changed_data</code><a class="headerlink" href="#sis.views.proyectoFrom.changed_data" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.clean">
+<code class="descclassname">proyectoFrom.</code><code class="descname">clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.declared_fields">
+<code class="descclassname">proyectoFrom.</code><code class="descname">declared_fields</code><em class="property"> = OrderedDict()</em><a class="headerlink" href="#sis.views.proyectoFrom.declared_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.errors">
+<code class="descclassname">proyectoFrom.</code><code class="descname">errors</code><a class="headerlink" href="#sis.views.proyectoFrom.errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorDict for the data provided for the form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.full_clean">
+<code class="descclassname">proyectoFrom.</code><code class="descname">full_clean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.full_clean" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Cleans all of self.data and populates self._errors and
+self.cleaned_data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.has_changed">
+<code class="descclassname">proyectoFrom.</code><code class="descname">has_changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.has_changed" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if data differs from initial.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.has_error">
+<code class="descclassname">proyectoFrom.</code><code class="descname">has_error</code><span class="sig-paren">(</span><em>field</em>, <em>code=None</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.has_error" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.hidden_fields">
+<code class="descclassname">proyectoFrom.</code><code class="descname">hidden_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.hidden_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of all the BoundField objects that are hidden fields.
+Useful for manual form layout in templates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.is_multipart">
+<code class="descclassname">proyectoFrom.</code><code class="descname">is_multipart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.is_multipart" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form needs to be multipart-encoded, i.e. it has
+FileInput. Otherwise, False.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.is_valid">
+<code class="descclassname">proyectoFrom.</code><code class="descname">is_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.is_valid" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns True if the form has no errors. Otherwise, False. If errors are
+being ignored, returns False.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sis.views.proyectoFrom.media">
+<code class="descclassname">proyectoFrom.</code><code class="descname">media</code><a class="headerlink" href="#sis.views.proyectoFrom.media" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.non_field_errors">
+<code class="descclassname">proyectoFrom.</code><code class="descname">non_field_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.non_field_errors" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns an ErrorList of errors that aren&#8217;t associated with a particular
+field &#8211; i.e., from Form.clean(). Returns an empty ErrorList if there
+are none.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.save">
+<code class="descclassname">proyectoFrom.</code><code class="descname">save</code><span class="sig-paren">(</span><em>commit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.save" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Saves this <code class="docutils literal"><span class="pre">form</span></code>&#8216;s cleaned_data into model instance
+<code class="docutils literal"><span class="pre">self.instance</span></code>.</p>
+<p>If commit=True, then the changes to <code class="docutils literal"><span class="pre">instance</span></code> will be saved to the
+database. Returns <code class="docutils literal"><span class="pre">instance</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.validate_unique">
+<code class="descclassname">proyectoFrom.</code><code class="descname">validate_unique</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.validate_unique" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Calls the instance&#8217;s validate_unique() method and updates the form&#8217;s
+validation errors if any were raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sis.views.proyectoFrom.visible_fields">
+<code class="descclassname">proyectoFrom.</code><code class="descname">visible_fields</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sis.views.proyectoFrom.visible_fields" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Returns a list of BoundField objects that aren&#8217;t hidden fields.
+The opposite of the hidden_fields() method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.seleccionarFlujoModificar">
+<code class="descclassname">sis.views.</code><code class="descname">seleccionarFlujoModificar</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#seleccionarFlujoModificar"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.seleccionarFlujoModificar" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Al presionar el boton Modificar Actividad, esta vista despliega una lista de todas las actividades seleccionables por el usuario
+para su modificacion.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.seleccionarFlujoModificarAdmin">
+<code class="descclassname">sis.views.</code><code class="descname">seleccionarFlujoModificarAdmin</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#seleccionarFlujoModificarAdmin"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.seleccionarFlujoModificarAdmin" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Al presionar el boton Modificar Actividad en el admin, esta vista despliega una lista de todas las actividades 
+seleccionables por el usuario para su modificacion.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.visualizarFlujoProyectoView">
+<code class="descclassname">sis.views.</code><code class="descname">visualizarFlujoProyectoView</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em>, <em>flujo_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#visualizarFlujoProyectoView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.visualizarFlujoProyectoView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario FlujoProyecto para desplegar los datos almacenados
+en el Flujo que se quiere visualizar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.visualizarProyectoView">
+<code class="descclassname">sis.views.</code><code class="descname">visualizarProyectoView</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyecto_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#visualizarProyectoView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.visualizarProyectoView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario proyectoFrom para desplegar los datos almacenados
+en el Flujo que se quiere visualizar.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sis.views.visualizarRolProyectoView">
+<code class="descclassname">sis.views.</code><code class="descname">visualizarRolProyectoView</code><span class="sig-paren">(</span><em>request</em>, <em>usuario_id</em>, <em>proyectoid</em>, <em>rol_id_rec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sis/views.html#visualizarRolProyectoView"><span class="viewcode-link">[fuente]</span></a><a class="headerlink" href="#sis.views.visualizarRolProyectoView" title="Enlazar permanentemente con esta definición">¶</a></dt>
+<dd><p>Vista que utiliza el formulario RolProyecto para desplegar los datos almacenados
+en el Rol que se quiere visualizar.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, grupo_9.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

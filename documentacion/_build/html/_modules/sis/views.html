@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sis.views &mdash; documentación de is2_repositorio - 1</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="documentación de is2_repositorio - 1" href="../../index.html"/>
+        <link rel="up" title="Código de módulo" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> is2_repositorio
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/models.html">Modelos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/views.html">Vistas</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">is2_repositorio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Código de módulo</a> &raquo;</li>
+      
+    <li>sis.views</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Código fuente para sis.views</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">render_to_response</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">django.forms.widgets</span> <span class="kn">import</span> <span class="n">CheckboxSelectMultiple</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ObjectDoesNotExist</span>
+<span class="kn">from</span> <span class="nn">django.http.response</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">sis.models</span> <span class="kn">import</span> <span class="n">Proyecto</span><span class="p">,</span> <span class="n">Rol</span><span class="p">,</span> <span class="n">AsignarRolProyecto</span><span class="p">,</span> <span class="n">MyUser</span><span class="p">,</span> <span class="n">Flujo</span><span class="p">,</span> <span class="n">Actividades</span>
+<span class="kn">from</span> <span class="nn">django.template.context</span> <span class="kn">import</span> <span class="n">RequestContext</span>
+<span class="c">#asignacion, proyecto, rol, Flujo, Actividades, HU, Sprint, delegacion, HU_descripcion, archivoadjunto, asignaHU_actividad_flujo, historial_notificacion, HU_version,\adjuntoVersion</span>
+
+
+
+<span class="sd">&#39;&#39;&#39;def principal(request):</span>
+<span class="sd">    if request.user.is_staff:</span>
+<span class="sd">        return HttpResponseRedirect(reverse(&#39;admin:index&#39;))</span>
+<span class="sd">        </span>
+<span class="sd">    else:</span>
+<span class="sd">        return render(request,&#39;principal.html&#39;,{&#39;usuario&#39;:request.user}) </span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="loggedout"><a class="viewcode-back" href="../../modules/views.html#sis.views.loggedout">[documentos]</a><span class="k">def</span> <span class="nf">loggedout</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;registration/logged_out.html&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="contactomail"><a class="viewcode-back" href="../../modules/views.html#sis.views.contactomail">[documentos]</a><span class="k">def</span> <span class="nf">contactomail</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;registration/contactoMail.html&#39;</span><span class="p">)</span>
+
+<span class="c">#---------------------------------------------------------------------------------------------</span>
+
+
+</div>
+<span class="nd">@login_required</span>
+<div class="viewcode-block" id="holaView"><a class="viewcode-back" href="../../modules/views.html#sis.views.holaView">[documentos]</a><span class="k">def</span> <span class="nf">holaView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Vista que redirige a la pagina principal de administracion tanto a usuarios como a</span>
+<span class="sd">    superusuarios, los superusuarios son redirigidos a la aplicacion admin mientras que los </span>
+<span class="sd">    usuarios obtienen una respuesta con el template hola.html&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_staff</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;admin:index&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nombres_de_proyecto</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">AsignarRolProyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">usuario</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                <span class="n">rol_lista</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">rol</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">proyecto</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+                        <span class="n">nombres_de_proyecto</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">rol_lista</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;hola.html&#39;</span><span class="p">,{</span><span class="s">&#39;usuario&#39;</span><span class="p">:</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;proyectos&#39;</span><span class="p">:</span><span class="n">nombres_de_proyecto</span><span class="p">})</span>
+    
+    
+</div>
+<div class="viewcode-block" id="holaScrumView"><a class="viewcode-back" href="../../modules/views.html#sis.views.holaScrumView">[documentos]</a><span class="k">def</span> <span class="nf">holaScrumView</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista especial para el usuario scrum en la que le listan los proyectos y los enlaces para la creacion de roles y flujos</span>
+<span class="sd">    Vista para los usuario comunes, en la que solo se listan los proyectos sin enlaces, ya que no tiene permiso para ello.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proyectox</span><span class="o">=</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">proyectoid</span><span class="p">)</span>
+    <span class="n">usuario</span><span class="o">=</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">usuario_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;rol-flujo-para-scrum.html&#39;</span><span class="p">,{</span><span class="s">&#39;roles&#39;</span><span class="p">:</span><span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="s">&#39;flujos&#39;</span><span class="p">:</span><span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyectox</span><span class="p">,</span><span class="s">&#39;usuario&#39;</span><span class="p">:</span><span class="n">usuario</span><span class="p">})</span>
+
+
+</div>
+<div class="viewcode-block" id="FormularioRolProyecto"><a class="viewcode-back" href="../../modules/views.html#sis.views.FormularioRolProyecto">[documentos]</a><span class="k">class</span> <span class="nc">FormularioRolProyecto</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase que obtiene el formulario para la creacion, visualizacion y modificacion</span>
+<span class="sd">    de roles de proyecto desde la vista del Scrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FormularioRolProyecto.Meta"><a class="viewcode-back" href="../../modules/views.html#sis.views.FormularioRolProyecto.Meta">[documentos]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">=</span> <span class="n">Rol</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;permisos&#39;</span><span class="p">,</span><span class="s">&#39;nombre_rol&#39;</span><span class="p">,</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+</div></div>
+<div class="viewcode-block" id="visualizarRolProyectoView"><a class="viewcode-back" href="../../modules/views.html#sis.views.visualizarRolProyectoView">[documentos]</a><span class="k">def</span> <span class="nf">visualizarRolProyectoView</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">,</span> <span class="n">rol_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario RolProyecto para desplegar los datos almacenados</span>
+<span class="sd">    en el Rol que se quiere visualizar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rolproyecto</span><span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">rol_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">formulario</span> <span class="o">=</span> <span class="n">FormularioRolProyecto</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formulario</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre_rol</span><span class="o">=</span><span class="n">formulario</span><span class="o">.</span><span class="n">cleanned_data</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">formulario</span><span class="o">.</span><span class="n">cleanned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">permisos</span><span class="o">=</span><span class="n">formulario</span><span class="o">.</span><span class="n">cleanned_data</span><span class="p">[</span><span class="s">&#39;permisos&#39;</span><span class="p">]</span>
+            <span class="n">rolproyecto</span><span class="o">.</span><span class="n">nombre_rol</span><span class="o">=</span><span class="n">nombre_rol</span>
+            <span class="n">rolproyecto</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">rolproyecto</span><span class="o">.</span><span class="n">permisos</span><span class="o">=</span><span class="n">permisos</span>
+            <span class="n">rolproyecto</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> 
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;El rol ha sido guardado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>       
+        <span class="n">formulario</span> <span class="o">=</span>  <span class="n">FormularioRolProyecto</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                                     <span class="s">&#39;nombre_rol&#39;</span><span class="p">:</span> <span class="n">rolproyecto</span><span class="o">.</span><span class="n">nombre_rol</span><span class="p">,</span>
+                                                     <span class="s">&#39;permisos&#39;</span><span class="p">:</span> <span class="n">rolproyecto</span><span class="o">.</span><span class="n">permisos</span><span class="p">,</span>
+                                                     <span class="s">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">rolproyecto</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span>
+                                                     <span class="p">})</span> 
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;visualizarRol.html&#39;</span><span class="p">,{</span><span class="s">&#39;formulario&#39;</span><span class="p">:</span><span class="n">formulario</span><span class="p">,</span> <span class="s">&#39;rol&#39;</span><span class="p">:</span><span class="n">rolproyecto</span><span class="p">,</span> <span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">},</span>
+                                  <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+   
+</div>
+<div class="viewcode-block" id="guardarFlujoView"><a class="viewcode-back" href="../../modules/views.html#sis.views.guardarFlujoView">[documentos]</a><span class="k">def</span> <span class="nf">guardarFlujoView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Vista de guardado de nuevo usuario relacionado con un correo autorizado en la tabla Permitidos</span>
+<span class="sd">    que se utiliza en la interfaz devuelta por /registrar &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+    
+        <span class="n">flujo_a_crear</span> <span class="o">=</span> <span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;actividades&#39;</span><span class="p">):</span>
+            <span class="n">flujo_a_crear</span><span class="o">.</span><span class="n">actividades</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">p</span><span class="p">))</span>
+        <span class="n">flujo_a_crear</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;El flujo se ha creado&#39;</span><span class="p">)</span>  
+    <span class="k">except</span> <span class="n">ObjectDoesNotExist</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Either the entry or blog doesn&#39;t exist.&quot;</span> 
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">&#39;/crearFlujo/&#39;</span><span class="p">)</span>
+    
+
+</div>
+<div class="viewcode-block" id="FormularioFlujoProyecto"><a class="viewcode-back" href="../../modules/views.html#sis.views.FormularioFlujoProyecto">[documentos]</a><span class="k">class</span> <span class="nc">FormularioFlujoProyecto</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase que obtiene el formulario para la creacion, visualizacion y modificacion</span>
+<span class="sd">    de flujos de proyecto desde la vista del Scrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FormularioFlujoProyecto.Meta"><a class="viewcode-back" href="../../modules/views.html#sis.views.FormularioFlujoProyecto.Meta">[documentos]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">=</span> <span class="n">Flujo</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">,</span><span class="s">&#39;actividades&#39;</span><span class="p">]</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;actividades&#39;</span><span class="p">:</span> <span class="n">CheckboxSelectMultiple</span><span class="p">(),</span>
+        <span class="p">}</span>
+        
+        
+</div></div>
+<div class="viewcode-block" id="visualizarFlujoProyectoView"><a class="viewcode-back" href="../../modules/views.html#sis.views.visualizarFlujoProyectoView">[documentos]</a><span class="k">def</span> <span class="nf">visualizarFlujoProyectoView</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span> <span class="n">proyectoid</span><span class="p">,</span> <span class="n">flujo_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario FlujoProyecto para desplegar los datos almacenados</span>
+<span class="sd">    en el Flujo que se quiere visualizar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flujo_disponible</span><span class="o">=</span> <span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">flujo_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">formulario</span> <span class="o">=</span> <span class="n">FormularioFlujoProyecto</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formulario</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">formulario</span><span class="o">.</span><span class="n">cleanned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="c">#estado=formulario.cleanned_data[&#39;estado&#39;]</span>
+            <span class="n">actividades</span><span class="o">=</span><span class="n">formulario</span><span class="o">.</span><span class="n">cleanned_data</span><span class="p">[</span><span class="s">&#39;actividades&#39;</span><span class="p">]</span>
+            <span class="n">flujo_disponible</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="c">#flujo_disponible.estado=estado</span>
+            <span class="n">flujo_disponible</span><span class="o">.</span><span class="n">actividades</span><span class="o">=</span><span class="n">actividades</span>
+            <span class="n">flujo_disponible</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c">#Guardamos el modelo de manera Editada</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;El rol ha sido guardado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>   
+        <span class="n">formulario</span> <span class="o">=</span>  <span class="n">FormularioRolProyecto</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                                     <span class="s">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">flujo_disponible</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span>
+                                                     <span class="s">&#39;actividades&#39;</span><span class="p">:</span> <span class="n">flujo_disponible</span><span class="o">.</span><span class="n">actividades</span><span class="p">,</span>
+                                                     <span class="p">})</span>      
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;visualizarFlujo.html&#39;</span><span class="p">,{</span><span class="s">&#39;formulario&#39;</span><span class="p">:</span><span class="n">formulario</span><span class="p">,</span> <span class="s">&#39;flujo&#39;</span><span class="p">:</span><span class="n">flujo_disponible</span><span class="p">,</span> <span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">},</span>
+                                  <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+
+</div>
+<div class="viewcode-block" id="modificarFlujo"><a class="viewcode-back" href="../../modules/views.html#sis.views.modificarFlujo">[documentos]</a><span class="k">def</span> <span class="nf">modificarFlujo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">,</span> <span class="n">proyectoid</span><span class="p">,</span> <span class="n">flujo_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario FlujoProyecto para desplegar los datos editables</span>
+<span class="sd">    del Flujo que se quiere modificar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span><span class="o">=</span><span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">flujo_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">FormularioFlujoProyecto</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="c">#estado=form.cleaned_data[&#39;estado&#39;]</span>
+            <span class="n">actividades</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;actividades&#39;</span><span class="p">]</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="c">#f.estado=estado</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">actividades</span><span class="o">=</span><span class="n">actividades</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c">#Guardamos el modelo de manera Editada</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;El flujo a sido modificado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="n">form</span> <span class="o">=</span> <span class="n">FormularioFlujoProyecto</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                         <span class="s">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span>
+                                         <span class="c">#&#39;estado&#39;: f.estado,</span>
+                                         <span class="s">&#39;actividades&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">actividades</span><span class="o">.</span><span class="n">all</span><span class="p">()],</span>
+   
+                                         <span class="p">})</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span><span class="n">form</span><span class="p">,</span> <span class="s">&#39;flujo&#39;</span><span class="p">:</span><span class="n">f</span><span class="p">,</span> <span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;modificarFlujo.html&#39;</span><span class="p">,</span> <span class="n">ctx</span> <span class="p">,</span><span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+    
+    
+</div>
+<div class="viewcode-block" id="crearFlujo"><a class="viewcode-back" href="../../modules/views.html#sis.views.crearFlujo">[documentos]</a><span class="k">def</span> <span class="nf">crearFlujo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que realiza la creacion de flujos de proyecto desde la vista del Scrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;crearFlujo.html&#39;</span><span class="p">,{</span><span class="s">&#39;actividades&#39;</span><span class="p">:</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">,</span><span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">})</span>
+
+
+</div>
+<div class="viewcode-block" id="proyectoFrom"><a class="viewcode-back" href="../../modules/views.html#sis.views.proyectoFrom">[documentos]</a><span class="k">class</span> <span class="nc">proyectoFrom</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase que obtiene el formulario para la visualizacion y modificacion de proyectos desde la vista del Scrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="proyectoFrom.Meta"><a class="viewcode-back" href="../../modules/views.html#sis.views.proyectoFrom.Meta">[documentos]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Proyecto</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">,</span> <span class="s">&#39;descripcion&#39;</span><span class="p">,</span><span class="s">&#39;estado&#39;</span><span class="p">,</span><span class="s">&#39;fecha_inicio&#39;</span><span class="p">,</span><span class="s">&#39;fecha_fin&#39;</span><span class="p">]</span>
+
+
+</div></div>
+<div class="viewcode-block" id="modificarProyecto"><a class="viewcode-back" href="../../modules/views.html#sis.views.modificarProyecto">[documentos]</a><span class="k">def</span> <span class="nf">modificarProyecto</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">usuario_id</span><span class="p">,</span> <span class="n">proyecto_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario proyectoFrom para desplegar los datos editables</span>
+<span class="sd">    del Proyecto que se quiere modificar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span><span class="o">=</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">proyecto_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">proyectoFrom</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">estado</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;estado&#39;</span><span class="p">]</span>
+            <span class="n">fecha_inicio</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;fecha_inicio&#39;</span><span class="p">]</span>
+            <span class="n">fecha_fin</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;fecha_fin&#39;</span><span class="p">]</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">estado</span><span class="o">=</span><span class="n">estado</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">fecha_inicio</span><span class="o">=</span><span class="n">fecha_inicio</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">fecha_fin</span><span class="o">=</span><span class="n">fecha_fin</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c">#Guardamos el modelo de manera Editada</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;Tu proyecto a sido guardado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="n">form</span> <span class="o">=</span> <span class="n">proyectoFrom</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                         <span class="s">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span>
+                                         <span class="s">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span>
+                                         <span class="s">&#39;estado&#39;</span><span class="p">:</span><span class="n">p</span><span class="o">.</span><span class="n">estado</span><span class="p">,</span>
+                                         <span class="s">&#39;fecha_inicio&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">fecha_inicio</span><span class="p">,</span>
+                                         <span class="s">&#39;fecha_fin&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">fecha_fin</span><span class="p">,</span>
+                                     
+                                         <span class="p">})</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span><span class="n">form</span><span class="p">,</span> <span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;modificarProyecto.html&#39;</span><span class="p">,</span> <span class="n">ctx</span> <span class="p">,</span><span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+
+  </div>
+<div class="viewcode-block" id="visualizarProyectoView"><a class="viewcode-back" href="../../modules/views.html#sis.views.visualizarProyectoView">[documentos]</a><span class="k">def</span> <span class="nf">visualizarProyectoView</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span> <span class="n">proyecto_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario proyectoFrom para desplegar los datos almacenados</span>
+<span class="sd">    en el Flujo que se quiere visualizar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proyecto_enc</span><span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">proyecto_id_rec</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;visualizarProyecto.html&#39;</span><span class="p">,{</span><span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyecto_enc</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">},</span>
+                                  <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+
+
+</div>
+<div class="viewcode-block" id="crearActividadView"><a class="viewcode-back" href="../../modules/views.html#sis.views.crearActividadView">[documentos]</a><span class="k">def</span> <span class="nf">crearActividadView</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">):</span>
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario</span>
+<span class="sd">    de creacion o modificacion de Flujos del admin, devolviendo un formulario html para crear una nueva actividad</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;crearActividadAdmin.html&quot;</span><span class="p">,{</span><span class="s">&quot;form&quot;</span><span class="p">:</span><span class="n">form</span><span class="p">,},</span> <span class="n">context_instance</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+    
+    <span class="k">else</span><span class="p">:</span><span class="c">#request.method == &#39;POST&#39;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;Ha sido guardado exitosamente&#39;</span><span class="p">)</span> 
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario</span>
+<span class="sd">    de creacion o modificacion de Flujos, devolviendo un formulario html para crear una nueva actividad</span>
+<span class="sd">     </span>
+<span class="sd">    if request.method == &#39;GET&#39;:</span>
+<span class="sd">        form = formularioActividad()</span>
+<span class="sd">        return render_to_response(&quot;crearActividad.html&quot;,{&quot;form&quot;:form,&#39;usuarioid&#39;:usuario_id,&#39;proyectoid&#39;:proyectoid}, context_instance = RequestContext(request))</span>
+<span class="sd">    </span>
+<span class="sd">    else:#request.method == &#39;POST&#39;</span>
+<span class="sd">        form = formularioActividad(request.POST)</span>
+<span class="sd">        if form.is_valid():</span>
+<span class="sd">            nombre=form.cleaned_data[&#39;nombre&#39;]</span>
+<span class="sd">            descripcion=form.cleaned_data[&#39;descripcion&#39;]</span>
+<span class="sd">            form.nombre=nombre</span>
+<span class="sd">            form.descripcion=descripcion</span>
+<span class="sd">            form.save()</span>
+<span class="sd">            return HttpResponse(&#39;Ha sido guardado exitosamente&#39;)       </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+</div>
+<div class="viewcode-block" id="crearActividadAdminView"><a class="viewcode-back" href="../../modules/views.html#sis.views.crearActividadAdminView">[documentos]</a><span class="k">def</span> <span class="nf">crearActividadAdminView</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario</span>
+<span class="sd">    de creacion o modificacion de Flujos del admin, devolviendo un formulario html para crear una nueva actividad</span>
+<span class="sd">    &quot;&quot;&quot;</span>  
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&quot;crearActividadAdmin.html&quot;</span><span class="p">,{</span><span class="s">&quot;form&quot;</span><span class="p">:</span><span class="n">form</span><span class="p">,},</span> <span class="n">context_instance</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+    
+    <span class="k">else</span><span class="p">:</span><span class="c">#request.method == &#39;POST&#39;</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;Ha sido guardado exitosamente&#39;</span><span class="p">)</span>  
+        
+        
+</div>
+<div class="viewcode-block" id="seleccionarFlujoModificarAdmin"><a class="viewcode-back" href="../../modules/views.html#sis.views.seleccionarFlujoModificarAdmin">[documentos]</a><span class="k">def</span> <span class="nf">seleccionarFlujoModificarAdmin</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Al presionar el boton Modificar Actividad en el admin, esta vista despliega una lista de todas las actividades </span>
+<span class="sd">    seleccionables por el usuario para su modificacion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;seleccionarActividadAdmin.html&#39;</span><span class="p">,{</span><span class="s">&#39;actividades&#39;</span><span class="p">:</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),})</span>
+
+
+</div>
+<div class="viewcode-block" id="modificarActividadAdmin"><a class="viewcode-back" href="../../modules/views.html#sis.views.modificarActividadAdmin">[documentos]</a><span class="k">def</span> <span class="nf">modificarActividadAdmin</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">actividad_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario formularioActividad para desplegar los datos editables en el admin</span>
+<span class="sd">    de la Actividad que se quiere modificar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span><span class="o">=</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">actividad_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c">#Guardamos el modelo de manera Editada</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;Se ha guardado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                         <span class="s">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span>
+                                         <span class="s">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span>                                     
+                                         <span class="p">})</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span><span class="n">form</span><span class="p">,</span> <span class="s">&#39;Actividad&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">,}</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;modificarActividadAdmin.html&#39;</span><span class="p">,</span> <span class="n">ctx</span> <span class="p">,</span><span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span> 
+
+
+</div>
+<div class="viewcode-block" id="formularioActividad"><a class="viewcode-back" href="../../modules/views.html#sis.views.formularioActividad">[documentos]</a><span class="k">class</span> <span class="nc">formularioActividad</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clase que obtiene el formulario para la creacion y modificacion de actividades desde la vista del Scrum y el admin.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="formularioActividad.Meta"><a class="viewcode-back" href="../../modules/views.html#sis.views.formularioActividad.Meta">[documentos]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">Actividades</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;nombre&#39;</span><span class="p">,</span> <span class="s">&#39;descripcion&#39;</span><span class="p">)</span>
+
+
+</div></div>
+<div class="viewcode-block" id="seleccionarFlujoModificar"><a class="viewcode-back" href="../../modules/views.html#sis.views.seleccionarFlujoModificar">[documentos]</a><span class="k">def</span> <span class="nf">seleccionarFlujoModificar</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Al presionar el boton Modificar Actividad, esta vista despliega una lista de todas las actividades seleccionables por el usuario</span>
+<span class="sd">    para su modificacion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;seleccionarActividad.html&#39;</span><span class="p">,{</span><span class="s">&#39;actividades&#39;</span><span class="p">:</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">,</span><span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">})</span>
+
+
+</div>
+<div class="viewcode-block" id="modificarActividad"><a class="viewcode-back" href="../../modules/views.html#sis.views.modificarActividad">[documentos]</a><span class="k">def</span> <span class="nf">modificarActividad</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">,</span><span class="n">actividad_id_rec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que utiliza el formulario formularioActividad para desplegar los datos editables</span>
+<span class="sd">    de la Actividad que se quiere modificar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">p</span><span class="o">=</span><span class="n">Actividades</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">actividad_id_rec</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">nombre</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;nombre&#39;</span><span class="p">]</span>
+            <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&#39;descripcion&#39;</span><span class="p">]</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="o">=</span><span class="n">nombre</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="o">=</span><span class="n">descripcion</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c">#Guardamos el modelo de manera Editada</span>
+            <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s">&#39;Se ha guardado exitosamente&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        
+        <span class="n">form</span> <span class="o">=</span> <span class="n">formularioActividad</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="p">{</span>
+                                         <span class="s">&#39;nombre&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span>
+                                         <span class="s">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span>                                     
+                                         <span class="p">})</span>
+        <span class="n">ctx</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;form&#39;</span><span class="p">:</span><span class="n">form</span><span class="p">,</span> <span class="s">&#39;Actividad&#39;</span><span class="p">:</span><span class="n">p</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">,</span><span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="s">&#39;modificarActividad.html&#39;</span><span class="p">,</span> <span class="n">ctx</span> <span class="p">,</span><span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span> 
+ 
+
+</div>
+<div class="viewcode-block" id="asignarRol"><a class="viewcode-back" href="../../modules/views.html#sis.views.asignarRol">[documentos]</a><span class="k">def</span> <span class="nf">asignarRol</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">rolid</span><span class="p">,</span><span class="n">proyectoid</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vista que permite asignar un rol a un usuario dentro de la vista del Scrum, valiendose de la URL para obtener</span>
+<span class="sd">    los id&#39;s del rol , proyecto ye l usuario creador.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">proyectox</span><span class="o">=</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">proyectoid</span><span class="p">)</span>
+    <span class="n">rolx</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">rolid</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="o">==</span><span class="s">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;usuarios&#39;</span><span class="p">):</span>
+                <span class="n">asignacion_a_crear</span> <span class="o">=</span> <span class="n">AsignarRolProyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">p</span><span class="p">),</span><span class="n">rol</span><span class="o">=</span><span class="n">rolx</span><span class="p">,</span> <span class="n">proyecto</span><span class="o">=</span><span class="n">proyectox</span><span class="p">)</span>
+                <span class="n">asignacion_a_crear</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">usuario</span><span class="o">=</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">usuario_id</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;rol-flujo-para-scrum.html&#39;</span><span class="p">,{</span><span class="s">&#39;roles&#39;</span><span class="p">:</span><span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="s">&#39;flujos&#39;</span><span class="p">:</span><span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyectox</span><span class="p">,</span><span class="s">&#39;usuario&#39;</span><span class="p">:</span><span class="n">usuario</span><span class="p">})</span>
+        <span class="k">except</span> <span class="n">ObjectDoesNotExist</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Either the entry or blog doesn&#39;t exist.&quot;</span> 
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="s">&#39;/crearFlujo/&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;asignaRolProyecto.html&#39;</span><span class="p">,{</span><span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyectox</span><span class="p">,</span><span class="s">&#39;usuarios&#39;</span><span class="p">:</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">usuario_id</span><span class="p">),</span><span class="s">&#39;proyectoid&#39;</span><span class="p">:</span><span class="n">proyectoid</span><span class="p">,</span><span class="s">&#39;usuarioid&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">})</span>
+    
+    
+    </div>
+<div class="viewcode-block" id="listarEquipo"><a class="viewcode-back" href="../../modules/views.html#sis.views.listarEquipo">[documentos]</a><span class="k">def</span> <span class="nf">listarEquipo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">proyecto_id_rec</span><span class="p">,</span><span class="n">usuario_id</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Esta vista debe obtener los datos de los usuarios que han sido asignados a un rol en el proyecto,el parametro</span>
+<span class="sd">    usuario_id se necesita simplemente para el render para poder retornar a rol-flujo-para-scrum&quot;&quot;&quot;</span>
+    <span class="n">lista</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">proyectox</span><span class="o">=</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">proyecto_id_rec</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">AsignarRolProyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">proyecto</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">proyectox</span><span class="o">.</span><span class="n">id</span><span class="p">:</span><span class="c">#si el proyecto relacionado a una asignacion es el que se esta viendo ahora</span>
+            <span class="n">rol_a</span><span class="o">=</span><span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">rol</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">usuario_a</span><span class="o">=</span><span class="n">MyUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">usuario</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">lista</span><span class="p">[</span><span class="n">usuario_a</span><span class="p">]</span><span class="o">=</span><span class="n">rol_a</span><span class="c">#agregar el usuario de esa asignacion a la vista, y mandarlo al template</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s">&#39;formarEquipo.html&#39;</span><span class="p">,{</span><span class="s">&#39;roles&#39;</span><span class="p">:</span><span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;lista_asigna&#39;</span><span class="p">:</span><span class="n">lista</span><span class="p">,</span> <span class="s">&#39;flujos&#39;</span><span class="p">:</span><span class="n">Flujo</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span><span class="s">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyectox</span><span class="p">,</span><span class="s">&#39;usuario_id&#39;</span><span class="p">:</span><span class="n">usuario_id</span><span class="p">})</span>
+
+    
+    </div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, grupo_9.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
