@@ -1260,7 +1260,8 @@ def visualizarHUView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum, 
     
     
     
-    
+
+#-------------------------------------------------------------------------------------------------------    
 def modificarHU(request, usuario_id, proyectoid, rolid, HU_id_rec,is_Scrum):
     """
     Vista que utiliza el formulario HU para desplegar los datos editables
