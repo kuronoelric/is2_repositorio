@@ -307,6 +307,28 @@ class HU(models.Model):
 
 
 
+class archivoadjunto(models.Model):
+    """ Representacion de una archivo adjunto """
+    ESTADO_CHOICES = (
+        ('CAN', 'Cancelado'),
+        ('ACT', 'Activo'),
+    )
+    
+    nombre=models.CharField(max_length = 200)
+    content=models.CharField(max_length = 200)
+    archivo=models.BinaryField()
+    tamanho=models.IntegerField()
+    hU=models.ForeignKey(HU)
+    estado = models.CharField(max_length = 3, choices = ESTADO_CHOICES)
+
+    
+    def __unicode__(self):
+        """Representacion unicode del objeto archivoadjunto"""
+        return self.archivo.nombre
+
+
+
+
 
 class AsignarRolProyecto(models.Model):
     """Modelo que especifica una asignacion de un rol a un usuario en un proyecto"""
