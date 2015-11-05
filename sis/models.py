@@ -113,7 +113,7 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
 
-
+#--------------------------------------------------------------------------------------------------------
 
 class Actividades(models.Model):
     """Modelo de las actividades de un flujo relacionada a su proyecto"""
