@@ -209,7 +209,7 @@ class Rol(models.Model):
 
 
 
-
+#####################################
 class Horas_Trabajadas(models.Model):
     """
     Modelo representa la descripcion de cada hora de trabajo agregada mostrando de la fecha de la misma

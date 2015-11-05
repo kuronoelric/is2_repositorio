@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Validar HU</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Validar HU</h1>
+        <div id="content-main">
+<form style="display:inline;" action="/validarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{hu}}/{{is_Scrum}}/" method="post">      
+        {% csrf_token %}
+        {%if HU == False%}
+			<div>
+				<b>Desea validar la HU? </b><br/>
+			</div>
+		{%else%}
+			<div>
+				<b>Desea invalidar la HU? </b><br/>
+			</div>
+		{%endif%}
+<div class="submit-row">
+<input type="submit" value="SI"  class="boton" name="_save" />
+</form> 
+<form style="display:inline;" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="get">
+<input type="submit" value="NO"  class="boton"/> 
+</form>
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

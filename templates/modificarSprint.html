@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Modificación de Sprint</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}/">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Modificar Sprint</h1>
+        <div id="content-main">
+
+  <ul class="object-tools">
+    <!-- 
+    <li>
+        
+        <a href="/admin/gestor/proyecto/2/history/" class="historylink">Historial</a>
+    </li>
+     -->
+    
+  </ul>
+
+<form enctype="multipart/form-data" method="post" id="sprint_form" novalidate>
+{% csrf_token %}
+
+<div>
+
+<FORM ACTION="/modificarSprint/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{Sprint.id}}/" METHOD= GET >
+	
+	<div style="width:1260px; height:510px; overflow:auto">
+		<table border="1" width=1000px style="border:#6E6E6E 1px dotted;">
+		<tr>
+		<td><b><label class="required" for="id_fecha_inicio">Descripcion:</label></b>
+		<input type="text" size="15" maxlength="30" value="{{Sprint.descripcion}}" name="descripcion" required="required" autofocus="autofocus">
+		
+		<p><b><label class="required" for="id_fecha_inicio">Fecha de inicio:</label></b>
+		<input type="text" size="15" maxlength="30" value="{{fecha}}" name="fecha_inicio" required="required" autofocus="autofocus">
+		
+		<p><b><label class="required" for="id_fecha_inicio">Duracion:</label></b>
+		<input type="text" size="15" maxlength="30" value="{{estimacion}}" name="duracion" required="required" autofocus="autofocus">
+		
+		<p><b><label class="required" for="id_fecha_inicio">Estado:</label></b>
+		<select name="estado">
+			{%for e in estados%}
+				{%if Sprint.estado == e%}
+	    			<option selected="selected" value="{{Sprint.estado}}">{{Sprint.estado}}</option>
+	    		{%else%}
+	    			<option value="{{e}}">{{e}}</option>
+	    		{%endif%}
+	    	{%endfor%}
+		</select>
+		<br/><b>HUs que ya forman parte del Sprint</b>
+		<ul>
+		{%for h in Sprint.hu.all%}
+	    	<li>{{h.descripcion}} en <b>{%if h.flujo %}{{h.flujo}} {%else%} ningun flujo{%endif%}
+	    	</b> asignada a <b>{%if h.saber_usuario%} {{h.saber_usuario}}{%else%} nadie {%endif%}</b></li>
+	    {%endfor%}
+	    </ul>
+	    <b><label class="required" for="id_fecha_inicio">Desea agregar mas?</label></b>
+		<label>Multiple Selection </label>&nbsp;
+	    <select name="hu" multiple="multiple" size=10>
+	        {%for h in HUs_pendientes%}
+	                <option value="{{h.id}}">{{h.descripcion}} - PEN</option>
+	        {%endfor%}
+	        {%for u in HUs_sel%}
+	             <option value="{{u.id}}" selected="selected">{{u}}</option>
+	        {%endfor%}
+	        {%for h in lista_HU_sin_asignar%}
+	    			<option value="{{h.id}}">{{h.descripcion}}</option>
+	        {%endfor%}
+	    </select>
+	    </td>
+	    <td align="center">
+	    <div class="form-row field-Flujos">
+	
+	                <div>
+						<label class="required" for="id_usuarios">Usuarios que ya forman parte del equipo:</label>
+							<ul>
+							{%for u in Sprint.equipo.all %}
+								<li> {{u}} </li>
+							{%endfor%}
+							</ul>
+							<label class="required" for="id_usuarios">Desea agregar a alguien mas?</label>
+	                        
+	                        <select multiple = "multiple" id="id_usuarios" name="equipo" required>
+	                        	{%for u in equipo_sel%}
+	                        		<option value="{{u.id}}" selected="selected">{{u}}</option>
+	                        	{%endfor%}
+	                            {%for u in equipo %}
+	                            	{%if u not in Sprint.equipo.all%}
+	                            		<option value="{{u.id}}">{{u}}</option>
+	                            	{%endif%}
+								{%endfor%}
+							</select>
+	
+	                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+	
+	                </div>
+	        
+	        </div>
+	    
+	    <div class="form-row field-Flujos">
+	
+	                <div>
+	
+	                        	<label class="required" for="id_usuarios">Flujos que ya pertenecen al Sprint:</label>
+								<ul>
+								{%for f in Sprint.flujo.all %}
+									<li> {{f}} </li>
+								{%endfor%}
+								</ul>
+								<label class="required" for="id_usuarios">Desea utilizar otros mas?</label>
+	                            <select multiple = "multiple" id="id_usuarios" name="flujo">
+	                            	{%for u in flujos_sel%}
+	                        			<option value="{{u.id}}" selected="selected">{{u}}</option>
+	                        		{%endfor%}
+	                            	{%for flujo in flujos %}
+	                            		{%if flujo not in Sprint.flujo.all%}
+											<option value="{{flujo.id}}"> {{flujo}}</option>
+										{%endif%}
+									{%endfor%}
+								</select>
+								<a href="/crearFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}">Agregar nuevo</a>
+	                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+	                        <br/>
+	                        <button id="assign" name="boton" onclick="agregar()" value="Calcular">Estimar duracion</button>
+	                    
+	                </div>
+	            
+	        </div>
+	    </td>
+	    </tr>
+	    <tr>
+	    	<td colspan=2 align="right"><input type="submit" name="Submit" value="Guardar" tabindex="2" /></td>
+	    </tr>
+	    </table>
+	</FORM> 
+	            
+</div>
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

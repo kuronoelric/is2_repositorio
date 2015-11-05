@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/asignarHUFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/">Asignacion de HU a usuario {{rol.nombre_rol_id}}</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/asignarHUFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    
+
+    
+        
+    
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Asignar rol</h1>
+        <div id="content-main">
+
+
+  <ul class="object-tools">
+    <!-- 
+    <li>
+        
+        <a href="/admin/gestor/proyecto/2/history/" class="historylink">Historial</a>
+    </li>
+     -->
+    
+  </ul>
+
+
+<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+{% csrf_token %}
+
+    <div class="form-row field-permisos">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_usuarios">Usuarios:</label>
+                        
+                            <select id="id_usuarios" name="usuario">
+                            {%for usuario in usuarios %}
+                            	{%if usuario.id == usuario_asignado.id%}
+                            		<option selected="selected" value="{{usuario.id}}">{{usuario.username}}</option>
+                            	{%else%}
+									<option value="{{usuario.id}}">{{usuario.username}}</option>
+								{%endif%}
+							{%endfor%}
+</select>
+                        
+                    
+                    
+                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+                    
+                </div>
+            
+        </div>
+
+
+<div class="submit-row">
+<input type="submit" value="Guardar" class="modificarProyecto" name="_save" />
+<!-- 
+    
+    <p class="deletelink-box"><a href="/admin/gestor/proyecto/2/delete/" class="deletelink">Eliminar</a></p>
+
+
+<input type="submit" value="Guardar y agregar otro" name="_addanother" />
+<input type="submit" value="Guardar y continuar editando" name="_continue" />
+</div>
+ -->
+
+
+
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

@@ -553,7 +553,7 @@ def visualizarProyectoView(request,usuario_id, proyecto_id_rec):
                                   context_instance=RequestContext(request))
 
 
-    
+############################################    
 def crearActividadView(request,usuario_id,proyectoid):
     """
     Vista que se obtiene del regex al presionar el boton Crear Actividad dentro del formulario
