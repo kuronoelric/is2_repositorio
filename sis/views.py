@@ -1708,7 +1708,7 @@ def visualizarSprintBacklog(request, usuario_id, proyectoid, rolid):
         
         for fecha_x in lista_fecha:
             cont2=0
-            for h in hu.Horas_Trabajadas.all():
+            for h in hu.hu_descripcion.all():
                 x=str((h.fecha+timedelta(days=-1)).strftime('%Y-%m-%d'))
                 if str(fecha_x) == x[:10]:
                     cont2=cont2+h.horas_trabajadas
