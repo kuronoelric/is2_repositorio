@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Change proyecto | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        {%if sprint.estado == 'ACT'%}
+			<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Asignacion de HU a usuario</a></h1>
+		{%elif sprint.estado == 'CON'%}
+			<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Control de HU a usuario</a></h1>
+        {%else%}
+        	<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Release de {{sprint}}</a></h1>
+        {%endif%}
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="#">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    
+
+    
+        
+    
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Flujos y Hu's del sprint:</h1>
+        <div id="content-main">
+
+
+  <ul class="object-tools">
+    <!-- 
+    <li>
+        
+        <a href="/admin/gestor/proyecto/2/history/" class="historylink">Historial</a>
+    </li>
+     -->
+    
+  </ul>
+
+
+<form enctype="multipart/form-data" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+{% csrf_token %}
+
+    <div class="form-row field-permisos">
+            
+            
+                <div>
+                    {%for f in flujos%}
+                    <br/><br/>
+                    	<p>
+                    		<font size="2"><b>{{f.nombre}} </b></font>
+                    		{%if flujos_aprobados|length > 0%}
+                    			{%for fa in flujos_aprobados%}
+                    				{%if fa == f%}
+                    					&nbsp; &nbsp; &nbsp; &nbsp; <font color='#0B3B0B'><b>Aprobada por Scrum</b></font>
+                    				{%else%}
+                    					{%if sprint.estado == 'ACT'%}
+                    						<a href="/delegarHUFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/{{f.id}}/"> &nbsp; &nbsp; &nbsp; &nbsp;Asignar hu a flujo</a></td>
+                    					{%endif%}
+                    				{%endif%}
+                    			{%endfor%}
+                    		{%else%}
+                    			{%if sprint.estado == 'FIN'%}
+                    				&nbsp;
+                    			{%else%}
+                    				<a href="/delegarHUFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/{{f.id}}/"> &nbsp; &nbsp; &nbsp; &nbsp;Asignar hu a flujo</a></td>
+                    			{%endif%}
+                    		{%endif%}
+                    	</p>
+                    	{%for flujo,hus in hu_en_flujo.items%}
+                    		{%if f == flujo%}
+                    			{%for hu_no in HU_no_asignada%}
+                    				{%for h in hus%}
+                    					{%if h == hu_no%}
+                    						<ul>
+                    						<p>
+                    						<li>{{h}}
+                    							<a href="/delegarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{h.id}}/0/"> &nbsp; &nbsp; &nbsp; &nbsp;Asignar a Usuario</a>
+                    						</p>
+                    						</ul>
+                    					{%endif%}
+                    				{%endfor%}
+                    			{%endfor%}
+                    			{%for hu,u in HU_asignada.items%}
+                    				{%for h in hus%}
+                    					{%if h == hu%}
+                    						<ul>
+                    						<p>
+                    						<li>{{h}} ya asignada a <b>{{u}}</b> con prioridad <b>{{hu.prioridad}}</b> con <b>{{hu.acumulador_horas}}</b> horas realizadas de <b>{{hu.duracion}}</b>
+                    						{%if h.estado_en_actividad != 'FIN' and h.estado_en_actividad != 'APR' %}
+                    							{%if sprint.estado != 'FIN'%}
+                    								<a href="/delegarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{h.id}}/1/"> &nbsp; &nbsp; &nbsp; &nbsp; Reasignar a Usuario</a>
+                    							{%else%}
+                    								&nbsp; &nbsp; &nbsp; &nbsp; <font color='red'><b>No Finalizada. Planificacion incorrecta</b></font>
+                    							{%endif%}
+                    						{%elif h.estado_en_actividad == 'FIN' %}
+                    							&nbsp; &nbsp; &nbsp; &nbsp; <font color='green'><b>Finalizada</b></font>
+                    						{%else %}
+                    							&nbsp; &nbsp; &nbsp; &nbsp; <font color='#0B3B0B'><b>Aprobada por Scrum</b></font>
+                    						{%endif%}
+                    						</p>
+                    						</ul>
+                    					{%endif%}
+                    				{%endfor%}
+                    			{%endfor%}
+                    		{%endif%}	
+                    	{%endfor%}
+                    {%endfor%}
+
+                </div>
+            
+        </div>
+
+
+<div class="submit-row">
+<input type="submit" value="Volver a Pagina Principal" class="modificarProyecto" name="_save" />
+<!-- 
+    
+    <p class="deletelink-box"><a href="/admin/gestor/proyecto/2/delete/" class="deletelink">Eliminar</a></p>
+
+
+<input type="submit" value="Guardar y agregar otro" name="_addanother" />
+<input type="submit" value="Guardar y continuar editando" name="_continue" />
+</div>
+ -->
+
+
+
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+
