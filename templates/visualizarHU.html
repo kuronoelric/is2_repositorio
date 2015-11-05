@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Sistema para Consultora de Desarrollo</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" dashboard">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+			{%if kanban == "0"%}        
+				<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Visualizar {{HU.descripcion}}</a></h1>
+			{%else%}
+				<h1 id="site-name"><a href="/verKanban/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/">Visualizar {{HU.descripcion}}</a></h1>
+			{%endif%}
+        </div>      
+        
+    </div>
+    <!-- END Header -->
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <form id="formulario" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="GET">
+        {% csrf_token %}
+        {%if is_Scrum == "1" or is_Scrum == "0"%}
+        	<table width="1000px">
+        	<tr><td><b>Descripcion: </b> {{HU.descripcion}}</td><td> <b>Estado de la HU: </b> {{HU.estado}}<br/><br/></td>
+        	<td><b>Valor de negocio: </b> {{HU.valor_negocio}}</td><td><b>Valido: </b> {{HU.valido}}<br/><br/></td>
+        	<td><b>Valor Tecnico: </b> {{HU.valor_tecnico}}</td></tr>
+        	<tr><td><b>Usuario asignado: </b> {{usuario_asignado}}<br/><br/></td>
+        	<td><b>Prioridad: </b> {{HU.prioridad}}</td><td><b>Sprint al que pertenece: </b> {{sprint}}<br/><br/></td>
+        	<td><b>Duracion en horas: </b> {{HU.duracion}}</td><td><b>Flujo al que pertenece: </b> {{flujo}}<br/><br/></td></tr>
+        	<tr><td><b>Horas realizadas: </b> {{HU.acumulador_horas}}</td><br/><br/></tr>
+			</table>
+        {%endif%}
+        	<br/>
+        	<div style="width:900px; height:250px; border:#000 2px solid; overflow:auto">
+        		<b>Descripcion de las horas realizadas </b> <br/>
+        		<table>
+        		<th>Horas Cargadas</th><td></td><td></td><th>Descripcion</th><td></td><td></td><th>Actividades</th><td></td><td></td><th>Estado</th><td></td><td></td>
+        		<tr class="model-proyecto">
+        		{% for des in HU.hu_descripcion.all %}
+        			<td>{{des.horas_trabajadas}}</td><td></td><td></td>
+        			<td>{{des.descripcion_horas_trabajadas}}</td><td></td><td></td>
+        			<td>{{des.actividad}}</td><td></td><td></td>
+        			<td>{{des.estado}}</td><td></td><td></td>
+        		
+        			</tr>
+        		{% endfor %}
+                </table> 
+        	</div>
+   		<br/><p><b><font size="3" color="#8904B1">Archivos adjuntos</font></b></p>
+         <div style="width:900px; height:150px; border:#000 2px solid; overflow:auto">
+        	<table width="900" bordercolor = #8904B1 border="8" align="center">
+                           	<tr>
+                           	<td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Nombre de archivo</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Tipo</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Tamanho</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Descargar?</b></font></td>
+                            </tr>
+                            {%for adjunto in adjuntos %}
+                            	<tr>
+                            		<td align="center">{{adjunto.nombre}}</td>
+                            		<td align="center">{{adjunto.content}}</td>
+                            		<td align="center">{{adjunto.tamanho}}</td>
+                            		<td align="center"><a a href="/descargar/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/{{adjunto.id}}/">Descargar</a></td>
+                            	</tr>
+							{%endfor%}
+			</table>	
+		</div>
+        </form>
+        
+     <div class="footer">
+     <!-- end.footer --></div>
+
+</body>
+</html>

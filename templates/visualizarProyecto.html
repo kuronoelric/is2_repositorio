@@ -23,7 +23,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/hola/">Visualizar Proyecto {{proyecto.nombre}}</a></h1>
+<h1 id="site-name"><a href="/hola/">Visualizar Proyecto {{proyecto.nombre_corto}}</a></h1>
 
         </div>      
         
@@ -36,10 +36,12 @@
         <form id="formulario" action="/hola/">{% csrf_token %}
         	<b>Nombre del proyecto: </b> {{proyecto.nombre}}<br/><br/>
         	<b>Descripcion: </b> {{proyecto.descripcion}}<br/><br/>
-        	<b>Fecha de inicio: </b> {{proyecto.fecha_inicio}}<br/><br/>
-        	<b>Fecha estimada de finalizacion: </b> {{proyecto.fecha_fin}}<br/><br/>
+        	<b>Fecha de inicio: </b> {{proyecto.get_fecha_inicio}}<br/><br/>
+        	<b>Fecha estimada de finalizacion: </b> {{proyecto.get_fecha_fin}}<br/><br/>
+        	<b>Duracion: </b> {{proyecto.duracion}}<br/><br/>
         	<b>Estado del proyecto: </b> {{proyecto.estado}}<br/><br/>
         	<input type="submit" value="Volver" />
+        	<td><a href="/hola" >Volver</a></td>
         </form>
      </div>
      <div class="footer">

@@ -32,7 +32,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/hola/">Modificación de Proyecto</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Seleccion de flujos</a></h1>
 
         </div>
         
@@ -49,7 +49,7 @@
     <!-- END Header -->
     
 <div class="breadcrumbs">
-<a href="/hola/">Pagina Principal</a>
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
 <!-- 
 &rsaquo; <a href="/admin/gestor/">Gestor</a>
 &rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
@@ -57,36 +57,88 @@
  -->
 </div>
 
+    
+
+    
+        
+    
+
     <!-- Content -->
     <div id="content" class="colM">
         
-        <h1>Modificar Proyecto</h1>
+        <h1>Elegir Flujos</h1>
         <div id="content-main">
 
 
   <ul class="object-tools">
+    <!-- 
+    <li>
+        
+        <a href="/admin/gestor/proyecto/2/history/" class="historylink">Historial</a>
+    </li>
+     -->
     
   </ul>
 
 
-<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+<p>Flujos incluidos con HUs pendientes: </p>
+	{%if flujo_pen %}
+		{%for f in flujo_pen%}
+			{%if f%}
+				<p>{{f}}</p>
+			{%endif%}
+		{%endfor%}
+	{%else%}
+			<p>Ninguno</p>
+	{%endif%}
+		
+	</br>
+<form  enctype="multipart/form-data" action="/guardarFlujoSprint/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
 {% csrf_token %}
 
-<div>
-
-{{form.as_p}}
-{%if proyecto.estado == 'PEN'%}
-	<label class="required" for="id_descripcion">Fecha de inicio:</label>
- 	 <input class="vTextField" id="id_descripcion" maxlength="500" name="fecha_inicio" type="text" required="required" autofocus="autofocus" value="{{fecha_inicio}}"/>
-{%else%}
-	<br/>Fecha de inicio: {{fecha_inicio}}
-{%endif%}
+    <div class="form-row field-permisos">
             
-</div>
+            
+                <div>
+                    	
+                    <input type="text" name="sprint" value="{{sprint.id}}" hidden>
+                        <label class="required" for="id_usuarios">Flujos nuevos:</label>
+                        
+                            <select multiple="multiple" id="id_usuarios" name="Flujos" size="15">
+                           {%for fj in flujos%}
+                            		<option value="{{fj.id}}">{{fj}}</option>
+                           {%endfor%}
+                           
+                          <!-- {%for fj in flujo_pen%}
+                            		<option selected="selected" value="{{fp.id}}" style="visibility:hidden;" hidden>{{fp}}</option>
+                           {%endfor%}-->
+							</select>
+							
+                        
+                    
+                    
+                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+                    
+                </div>
+            
+        </div>
 
 
 <div class="submit-row">
 <input type="submit" value="Guardar" class="modificarProyecto" name="_save" />
+<!-- 
+    
+    <p class="deletelink-box"><a href="/admin/gestor/proyecto/2/delete/" class="deletelink">Eliminar</a></p>
+
+
+<input type="submit" value="Guardar y agregar otro" name="_addanother" />
+<input type="submit" value="Guardar y continuar editando" name="_continue" />
+</div>
+ -->
+
+
+
+
 
 <script type="text/javascript">
 (function($) {

@@ -11,7 +11,17 @@
 
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
-
+<style type="text/css">
+hr{ 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+</style>
 
 <body class=" dashboard">
 
@@ -35,6 +45,8 @@
 
                 <a href="/password_change/">Cambiar contrasenha</a> /
                 
+             <!--    <a href="/modificarCuenta/{{usuario.id}}/">Modificar Cuenta</a> / -->
+                
                 <a href="/logout/">Salir</a>
 
         </div>
@@ -45,35 +57,94 @@
     
     <!-- Content -->
   		
-  		<div id="content" class="colMS">
+  		<div>
     
-        <div class="app-gestor module">
-        <table>
-
-            <caption>Sis</caption>
-			<th>Proyectos</th>
-        
+        <div style="background: url(/static/images.jpeg);background-repeat:no-repeat;background-size:100% 177%;width:1295px;height:590px">
+        <p ALIGN=center style="text-shadow: 5px 5px 5px #aaa;BACKGROUND-COLOR: #E0E6F8;"><font size=5 color=#0B0B3B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </br><b>Proyectos a los que perteneces:</b></font><br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</P> 
+        <table width=1200px ALIGN=center>
+			{% csrf_token %}
+			
             <tr class="model-proyecto">
-            	{% csrf_token %}
-				{% for proyecto,rol in proyectos.items %}
-  				
-	  				{%ifequal rol.nombre_rol 'ScrumMaster' %}
-	  					 <th scope="row"><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/" >Perteneces a {{proyecto}} {{proyecto.descripcion}} con el rol {{rol}}</a></td>
-	  					<td><a href="/modificarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="changelink">Modificar</a></td>
-	  					<td><a href="/equipoProyecto/{{proyecto.id}}/{{usuario.id}}" class="addlink">Equipo</a></td>
-	  				{% else %}
-	  					<td>Perteneces a {{proyecto}} {{proyecto.descripcion}} con el rol {{rol}}</td>
-	  				{% endifequal %}
-	            
-	                <td><a href="/visualizarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="addlink">Visualizar</a></td>
-	            
-	              </tr>
-            	{% endfor %}
-           
-        
+            	{%for p in proyectos_completo%}
+            		{%if p.estado == 'ANU'%}
+						<th/><tr><td colspan="6" BGCOLOR="#E0E6F8"><font size=2 color=red><b>Nombre: </b> {{p}} <b> Descripcion: </b>{{p.descripcion}} - <b>ANULADO el {{p.get_fecha_fin}}</b></font></tr>
+            		{%elif p.estado == 'ACT'%}
+            			<th/><tr><td colspan="6" BGCOLOR="#E0E6F8"><font size=2><b>Nombre: </b> {{p}} <b> Descripcion: </b>{{p.descripcion}}:- <b>INICIADO - Etapa de desarrollo</b></font> 
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			<font align=right size=3 color=green><b>Dia: </font><font size=3>{{p.cantidad_dias_transcurridos}}  
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			<font size=3 color=green>Estimacion: </font> {{p.duracion}} dias</font></b></td></tr>
+            		{%elif p.estado == 'FIN'%}
+            			<th/><tr><td colspan="6" BGCOLOR="#E0E6F8"><font size=2 color=green><b>Nombre: </b> {{p}} <b> Descripcion: </b>{{p.descripcion}} - <b>FINALIZADO el {{p.get_fecha_fin}}</b></font></tr>
+            		{%else%}
+            			<th/><tr><td colspan="6" BGCOLOR="#E0E6F8"><font size=2><b>Nombre: </b> {{p}} <b> Descripcion: </b>{{p.descripcion}} - <b>PENDIENTE - Etapa de definicion</b></font>
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			<font size=3><b>Dia: </font><font size=3>{{p.cantidad_dias_transcurridos}}  
+            			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            			<font size=3>Estimacion: </font> {{p.duracion}} dias</font></b></td></tr>
+            		{%endif%}
+					{% for proyecto,roles in proyectos_enlace.items %}
+						{%if p == proyecto%}
+  							{%for rol in roles%}
+  							<tr>
+  								{%if p.estado == 'ANU'%}
+	  					 			<td><b><font color=red size=2>{{rol}}</font></b></td>
+	  					 		{%elif p.estado == 'FIN'%}
+	  					 			<td><b><font color=green size=2>{{rol}}</font></b></td>
+	  					 		{%else%}
+	  					 			<th><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/{{rol.id}}" >{{rol}}</a>
+	  							{%endif%}
+	  							<td><a href="/equipoProyecto/{{proyecto.id}}/{{usuario.id}}" class="addlink">Visualizar Equipo</a></td>
+	                			<td><a href="/visualizarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="addlink">Visualizar</a></td>
+	                			{%if proyecto.estado == 'ANU'%}
+	                				<td><a href="/reactivar/{{usuario.id}}/{{proyecto.id}}/{{rol.id}}/5/{{proyecto.id}}/" class="changelink">Reactivar</a></td>
+	                			{%elif proyecto.estado == 'FIN'%}
+	                				<td></td>
+	                			{%else%}
+	                				<td><a href="/anularProyecto/{{usuario.id}}/{{proyecto.id}}/" class="deletelink">Anular</a></td>
+	                				<td><a href="/modificarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="changelink">Modificar</a></td>
+	                			{%endif%}
+	              			</tr>
+	              			{%endfor%}
+	              		{%endif%}
+            		{% endfor %}
+            	
+            		{% for proyecto,roles in proyectos_sin_enlace.items %}
+            	  		{%if p == proyecto%}
+            	  			{%for rol in roles%}
+            	  				<tr>
+            	  					{%if p.estado == 'ANU'%}
+            							<td><b><font color=red size=2>{{rol}}</font></b></td>
+            						{%elif p.estado == 'FIN'%}
+            							<td><b><font color=green size=2>{{rol}}</font></b></td>
+            						{%else%}
+            							<th><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/{{rol.id}}" >{{rol}}</a></th>
+            						{%endif%}
+            						<td><a href="/visualizarProyecto/{{usuario.id}}/{{proyecto.id}}/" class="addlink">Visualizar</a></td>
+            						{%if proyecto_cliente|length > 0%}
+            							{%for c in proyecto_cliente%}
+            								{%if c == proyecto.id%}
+            									<td><a href="/equipoProyecto/{{proyecto.id}}/{{usuario.id}}" class="addlink">Visualizar Equipo</a></td>
+            									{%if p.estado == 'FIN'%}
+            										<td><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/{{rol.id}}" class="addlink">Ver Reporte final</a></td>
+            									{%endif%}
+            									{%if p.estado == 'ANU'%}
+            										<td><a href="/scrum/{{usuario.id}}/{{proyecto.id}}/{{rol.id}}" class="addlink">Ver ultimo Reporte</a></td>
+            									{%endif%}
+            								{%endif%}
+            							{%endfor%}
+            						{%endif%}
+            					</tr>
+            	  			{%endfor%}
+            	   		{%endif%}
+           			{% endfor %}
+        		{%endfor%}
         </table>
         </div>
-    
 
 </div>
   		

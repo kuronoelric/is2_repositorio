@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title>Modificar Actividad</title>
+<title>Change proyecto | Django site admin</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -49,7 +49,7 @@
     <!-- END Header -->
     
 <div class="breadcrumbs">
-<a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Roles y Flujos</a>
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Pagina Principal</a>
 <!-- 
 &rsaquo; <a href="/admin/gestor/">Gestor</a>
 &rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
@@ -57,11 +57,6 @@
  -->
 </div>
 
-    
-
-    
-        
-    
 
     <!-- Content -->
     <div id="content" class="colM">
@@ -81,7 +76,8 @@
   </ul>
 
 
-<form enctype="multipart/form-data" method="post" id="actividad_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+<form enctype="multipart/form-data" method="post" id="actividad_form" novalidate>
+<input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
 {% csrf_token %}
 
 <div>
@@ -102,10 +98,6 @@
 <input type="submit" value="Guardar y continuar editando" name="_continue" />
 </div>
  -->
-
-
-
-
 
 <script type="text/javascript">
 (function($) {

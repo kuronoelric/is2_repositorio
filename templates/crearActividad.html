@@ -33,7 +33,6 @@ function validarForm(formulario) {
 	  }
   return true;
 }
-
 </script>
 </head>
 
@@ -64,7 +63,7 @@ function validarForm(formulario) {
     </div>
     <!-- END Header -->
     
-<form enctype="multipart/form-data" method="post">
+<form enctype="multipart/form-data" method="post" onsubmit="return validarForm(this);">
 
 {% csrf_token %}
 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Administracion de archivos adjuntos</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/modificarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/2/">Administracion de archivos adjuntos</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a><!-- No redirige no tengo suficiente contexto para volver al srumview -->
+</div>
+
+    
+
+    
+        
+    
+
+    <!-- Content -->
+<div id="content" class="colM">
+        
+        <h1>Administracion de archivos adjuntos</h1>
+        <div id="content-main">
+
+
+
+   <div class="form-row field-permisos">
+            
+            
+                <div>
+                    
+                    <!--Voy a listar nomas aca los archivos y despues tiene un formulario para subiruno mas
+                    todavia no tiene opcion de borrar-->
+                       	<table width="1000" bordercolor = #8904B1 border="8" align="center">
+                           	<tr>
+                           	<td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Nombre de archivo</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Tipo</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Tamanho</b></font></td>
+                            <td align="center" bgcolor="#E0F8F1"><font size="2" color="black"><b>Accion</b></font></td>
+                            </tr>
+                            {%for adjunto in adjuntos %}
+                            	<tr>
+                            		<td align="center">{{adjunto.nombre}}</td>
+                            		<td align="center">{{adjunto.content}}</td>
+                            		<td align="center">{{adjunto.tamanho}}</td>
+                            		<td align="center"><a a href="/descargar/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/{{adjunto.id}}/">Descargar</a>
+                            		&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+                            		<a a href="/eliminar/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/{{adjunto.id}}/" class="deletelink"> Eliminar</a>
+                            		&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
+                            		</td>
+                            	</tr>
+							{%endfor%}
+						</table>
+					<form enctype="multipart/form-data" method="post" id="adjunto_form">
+					{% csrf_token %}
+						<input type="file" name="archivo" >
+						<input type="submit" name="Subir" value="Subir" >
+						
+					</form>
+                        
+                    
+                    
+         
+                    
+                </div>
+            
+        </div>
+
+
+<div class="submit-row">
+</div>
+</div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title> Pagina Principal | Sistema para Consultora de Desarrollo</title>
+<title> Visualizar Backlog</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -23,13 +23,13 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/hola/">Pagina Principal</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Visualizar Product Backlog</a></h1>
 
         </div>
         
         <div id="user-tools">
             
-                Bienvenido 
+                Bienvenido,
                 <strong>{{usuario}}</strong>.
             
 
@@ -45,19 +45,40 @@
     
     <!-- Content -->
   		
-  		<div id="content">
-        	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-        	<p><b>Usuarios que conforman el equipo de proyecto:</b></p>
-        	{% csrf_token %}
-        		<ul>
-        		{%for u,r in lista_asigna.items%}
-        			<li><p><strong>{{u.username}}</strong> con Rol {{r.nombre_rol}}</p></li>
-        		{% endfor %}
-				</ul>
-			<td><a href="/hola" >Volver</a></td>
-		</div>
-</div>
+  		<div id="content" class="colMS">
+    
+        <div class="app-gestor module">
+        <table>
 
+            <caption>Gestor</caption>
+			<th>Historias de usuario del Backlog</th>
+        	
+            <tr class="model-proyecto">
+            	{% csrf_token %}
+            	<tr>
+						<td><b>Descripcion</b></td>
+						<td><b>Prioridad</b></td>
+					</tr>
+				{%for hu in HUs_pendientes%}
+					<tr>
+						<td><font color="red"><b>{{hu}} - Pendiente</b></font></td>
+						<td>{{hu.prioridad}}</td>
+					</tr>
+				{%endfor%}
+				{%for hu in huss%}
+					<tr>
+						<td>{{hu}}</td>
+						<td>{{hu.prioridad}}</td>
+					</tr>
+				{%endfor%}
+        	</tr>
+        </table>
+        </div>
+    
+	<!-- <td><a href="#">Volver</a></td> -->
+</div>
+  		
+<!-- END Container -->
 
 </body>
 </html>

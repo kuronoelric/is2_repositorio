@@ -32,7 +32,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Asignacion de rol {{rol.nombre_rol}}</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Asignacion de rol {{rol.nombre_rol_id}}</a></h1>
 
         </div>
         
@@ -49,7 +49,7 @@
     <!-- END Header -->
     
 <div class="breadcrumbs">
-<a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Roles y Flujos</a>
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
 <!-- 
 &rsaquo; <a href="/admin/gestor/">Gestor</a>
 &rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
@@ -92,10 +92,17 @@
                     
                         <label class="required" for="id_usuarios">Usuarios:</label>
                         
-                            <select multiple="multiple" id="id_usuarios" name="usuarios">
-                            {%for usuario in usuarios %}
-								<option value="{{usuario.id}}">{{usuario.username}}</option>
-							{%endfor%}
+                            <select multiple="multiple" id="id_usuarios" name="usuarios" size="15">
+                            {%if usuarios_ya_asignados|length > 0%}
+                            	{%for u_asig in usuarios_ya_asignados %}
+                            		<option selected="selected" value="{{u_asig.id}}">{{u_asig.username}}</option>
+                            	{%endfor%}
+                            {%endif%}
+                            {%if usuarios_sin_asignar|length > 0%}
+                            	{%for u_sin_a in usuarios_sin_asignar%}
+                            		<option value="{{u_sin_a.id}}">{{u_sin_a.username}}</option>
+                            	{%endfor%}
+							{%endif%}
 </select>
                         
                     

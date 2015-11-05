@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title>Modificar Flujo</title>
+<title>Change proyecto | Django site admin</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -32,7 +32,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Modificación de Flujo</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Modificación de Flujo</a></h1>
 
         </div>
         
@@ -49,20 +49,13 @@
     <!-- END Header -->
     
 <div class="breadcrumbs">
-<a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Roles y Flujos</a>
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}/">Pagina Principal</a>
 <!-- 
 &rsaquo; <a href="/admin/gestor/">Gestor</a>
 &rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
 &rsaquo; p2
  -->
 </div>
-
-    
-
-    
-        
-    
-
     <!-- Content -->
     <div id="content" class="colM">
         
@@ -83,17 +76,75 @@
 
 <form enctype="multipart/form-data" method="post" id="flujo_form" novalidate>
 {% csrf_token %}
-
 <div>
 
-{{form}}
-            
-</div>
+  <fieldset class="module aligned ">
+ 
+        <div class="form-row field-nombre_rol_id">
 
+                <div>
+                        <label class="required" for="id_nombre">Nombre:</label>
+                        
+                            <input class="vTextField" id="id_nombre" maxlength="200" name="nombre" type="text" value="{{flujo.nombre}}" required="required" autofocus="autofocus"/>
+                </div>
+            
+        </div>
+        
+        <div>
+        
+     
+           {%for e in estados %}
+          		{%if e == flujo.estado%}
+          			<option value="{{e}}" selected="selected">{{e}}</option>
+          		{%else%}
+					<option value="{{e}}">{{e}}</option>
+				{%endif%}
+			{%endfor%}
+		</select>
+    </div>
+    
+            <div class="form-row field-permisos">
+
+                <div>
+
+                        <label class="required" for="id_permisos">Actividades:</label>
+                        
+								<select multiple="multiple" id="can_be_selected" name="actividades_disponibles">
+                            		{%for actividad in actividades %}
+										<option value="{{actividad.id}}">{{actividad.nombre}}</option>
+									{%endfor%}
+								</select>
+								
+							<button id="assign" name="boton" onclick="agregar()" value="Agregar">Agregar</button>
+							<button id="assign" name="boton" onclick="agregar()" value="Eliminar">Eliminar</button>
+
+							<select multiple="multiple" id="are_selected" name="actividades_asignadas">
+                            {%for actividad in actividades_asignadas %}
+								<option selected value="{{actividad.id}}">{{actividad.nombre}}</option>
+							{%endfor%}
+							</select>
+					
+                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+                    	
+                    	{# This is the only of the three selects send to django #}
+                            {# It's not visible to the frontend user #}
+                                <div class="hidden">
+                                    <select name="actividades" id="form_list" multiple>
+                                    {%for actividad in actividades_asignadas %}
+                                        <option value="{{ actividad.id}}" selected>{{ actividad.description }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                </div>
+            
+        </div>
+
+</fieldset>
 <p><a href="/crearActividad/{{usuarioid}}/{{proyectoid}}/">Crear Actividad</a></p>
 <p><a href="/modificarActividad/{{usuarioid}}/{{proyectoid}}/">Modificar Actividad</a></p>
 <div class="submit-row">
 <input type="submit" value="Guardar" class="modificarFlujo" name="_save" />
+<input type="submit" value="Guardar nuevo" class="modificarFlujo" name="_save" />
 <!-- 
     
     <p class="deletelink-box"><a href="/admin/gestor/proyecto/2/delete/" class="deletelink">Eliminar</a></p>
@@ -103,10 +154,6 @@
 <input type="submit" value="Guardar y continuar editando" name="_continue" />
 </div>
  -->
-
-
-
-
 
 <script type="text/javascript">
 (function($) {

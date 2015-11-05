@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title>Modificar Actividad</title>
+<title>Change proyecto | Django site admin</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -31,8 +31,11 @@
     <!-- Header -->
     <div id="header">
         <div id="branding">
-        
-<h1 id="site-name"><a href="/admin/gestor/flujo/add/">Modificación de Actividad</a></h1>
+        	{%if kanban == "0"%}        
+				<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Reasignacion de hu a un nuevo flujo</a></h1>
+			{%else%}
+				<h1 id="site-name"><a href="/verKanban/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprint.id}}/">Reasignacion de hu a un nuevo flujo</a></h1>
+			{%endif%}
 
         </div>
         
@@ -49,7 +52,7 @@
     <!-- END Header -->
     
 <div class="breadcrumbs">
-<a href="/admin/gestor/flujo/add/">Pagina Principal</a>
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
 <!-- 
 &rsaquo; <a href="/admin/gestor/">Gestor</a>
 &rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
@@ -66,7 +69,7 @@
     <!-- Content -->
     <div id="content" class="colM">
         
-        <h1>Modificar Actividad</h1>
+        <h1>Reasignar HU no terminada o otro Flujo</h1>
         <div id="content-main">
 
 
@@ -81,18 +84,36 @@
   </ul>
 
 
-<form enctype="multipart/form-data" method="post" id="actividad_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
 {% csrf_token %}
 
-<div>
-
-{{form.as_p}}
+    <div class="form-row field-permisos">
             
-</div>
+            
+                <div>
+                    
+                    	<font size="2" color="#81BEF7"><b>Esta HU pertenece actualmente al flujo: {{flujo_actual}}</b></font>
+                    	<br/><br/>
+                        <label class="required" for="id_usuarios">Flujo:</label>
+                        
+                            <select id="id_flujos" name="flujos">
+                            {%for flujo in flujos %}
+									<option value="{{flujo.id}}">{{flujo}}</option>
+							{%endfor%}
+						</select>
+                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+                    
+                    
+                  <div></div>  <label class="required" for="id_duracion">Aumento de duracion:</label>
+                        
+                            <input class="vTextField" id="id_duracion" maxlength="500" name="duracionmas" type="text" value="0.0"/></div>
+                </div>
+            
+        </div>
 
 
 <div class="submit-row">
-<input type="submit" value="Guardar" class="modificarActividad" name="_save" />
+<input type="submit" value="Guardar" class="modificarProyecto" name="_save" />
 <!-- 
     
     <p class="deletelink-box"><a href="/admin/gestor/proyecto/2/delete/" class="deletelink">Eliminar</a></p>

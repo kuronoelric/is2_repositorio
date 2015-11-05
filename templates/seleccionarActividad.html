@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title>Modificar Actividad</title>
+<title>Change proyecto | Django site admin</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -47,9 +47,6 @@
         
     </div>
     <!-- END Header -->
-    
-
-
 
 <form enctype="multipart/form-data" method="post">
 <head>
@@ -73,14 +70,14 @@ alert(posicion);
 {% csrf_token %}
 Seleccione la actividad a modificar: <br><br>
 <body>
-<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
-{% csrf_token %}
+	<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
+	{% csrf_token %}
 
 <div>
 
-{%for actividad in actividades%}
-<p><b><a href="/modificarActividad/{{usuarioid}}/{{proyectoid}}/{{actividad.id}}/">{{ actividad.id }} {{ actividad.nombre }} </a></b></td></p>
-{%endfor%}
+	{%for actividad in actividades%}
+		<p><b><a href="/modificarActividad/{{usuarioid}}/{{proyectoid}}/{{actividad.id}}/">{{ actividad.id }} {{ actividad.nombre }} </a></b></td></p>
+	{%endfor%}
             
 </div>
 

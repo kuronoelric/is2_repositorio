@@ -23,7 +23,7 @@
     <div id="header">
         <div id="branding">
   {% csrf_token %}      
-<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/">Rol de Proyecto</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Rol de Proyecto</a></h1>
 
         </div>      
         
@@ -31,12 +31,12 @@
     <!-- END Header -->
     
     <!-- Content -->
-    <div class="content">
+    <div class="content" style="width:1500x; height:590px; border:#000 2px solid; overflow:auto">
         
-        <form id="formulario" action="/scrum/{{usuarioid}}/{{proyectoid}}/">
+        <form id="formulario" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">
         	<b>Nombre del rol: </b> {{rol.nombre_rol}}<br/><br/>
         	<b>Descripcion: </b> {{rol.descripcion}}<br/><br/>
-        	<b>Permisos contenidos: </b> <br/><br/>{% for permiso in rol.permisos.all %}{{ permiso.name }}<br/><br/>{% endfor %}
+        	<b>Permisos contenidos: </b> <br/><br/>{% for permiso in rol.permisos.all %}{{ permiso.codename }}<br/><br/>{% endfor %}
         	<input type="submit" value="Volver" />
         </form>
      </div>

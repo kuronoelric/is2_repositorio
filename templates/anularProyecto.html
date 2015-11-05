@@ -32,7 +32,8 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name">Seleccionar actividad</h1>
+<h1 id="site-name"><a href="/hola/">Esta seguro de anular el proyecto?</a></h1>
+
         </div>
         
          <div id="user-tools">    
@@ -46,43 +47,53 @@
         
     </div>
     <!-- END Header -->
-    
+
+<form style="display:inline;" action="/anularProyecto/{{usuarioid}}/{{proyectoid}}/" method="post">      
+        {% csrf_token %}
+			<div>
+				<br/><b><font color=red size=3>Advertencia!</font></b><br/><br/>
+				<p>- Todas estos objetos creados seran descartados:<br/>
+				<ul>
+					<li>HU's
+					<li>Sprint's
+					<li>Asignaciones
+				</ul>
+				<p>- El equipo ya no podra seguir agregando horas ni vera la interfaz del proyecto.<br/>
+				<p>- El cliente ya no tendra disponible la interfaz de reporte del proyecto.<br/>
+				<br/><br/>
+				<b><font size=3>Aun asi desea anular el proyecto?</font></b><br/>
+				<p>Escriba un motivo para la anulacion:</p>
+        		<textarea name="descripcion" rows="5" cols="150"></textarea>
+			</div>
+<div class="submit-row">
+<input type="submit" value="SI"  class="boton" name="_save" />
+</form> 
+<form style="display:inline;" action="/hola/" method="get">
+<input type="submit" value="NO"  class="boton"/> 
+</form>
 
 
+<script type="text/javascript">
+(function($) {
+    var field;
 
-<form enctype="multipart/form-data" method="post">
-<head>
-<style type="text/css">
-.hidden{
-	display:none;
-}
-</style>
-<script>
-function ver(id){//muestra el select de flujo
-	document.getElementById(id).style.display='block';
 
-}
-function f(){//obtiene el valor del select
-var posicion=document.getElementById('contenedorForm').options.selectedIndex; //posicion
-//alert(document.getElementById('contenedorForm').options[posicion].text); //valor
-alert(posicion);
-}
+})(django.jQuery);
 </script>
-</head>
-{% csrf_token %}
-Seleccione la actividad a modificar: <br><br>
-<body>
-<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
-{% csrf_token %}
 
-<div>
 
-{%for actividad in actividades%}
-<p><b><a href="/modificarActividad/{{actividad.id}}/">{{ actividad.id }} {{ actividad.nombre }} </a></b></td></p>
-{%endfor%}
-            
 </div>
+</form></div>
 
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
 
-<br><br>
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
 

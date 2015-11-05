@@ -23,7 +23,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Flujo disponible de Proyecto</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Visualizar Sprint {{Sprint.descripcion}}</a></h1>
 
         </div>      
         
@@ -31,20 +31,17 @@
     <!-- END Header -->
     
     <!-- Content -->
-    <div class="content">
+    <div style="width:1500x; height:590px; border:#000 2px solid; overflow:auto">
         
         <form id="formulario" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">{% csrf_token %}
-        	<br/><br/><b>Nombre del flujo: </b> {{flujo.nombre}}<br/><br/>
-
-        	<br/><b>Actividades ordenadas: </b> <br/><br/>
-        	{%for o in orden%}
-        		{% for actividad in flujo.actividades.all %}
-        			{%if o == actividad.id%}
-        				{{ actividad.nombre }}<br/><br/>
-        			{%endif%}
-        		{% endfor %}
-        	{% endfor %}
-        	<br/><br/><input type="submit" value="Volver" />
+        	<b>Descripcion: </b> {{Sprint.descripcion}}<br/><br/>
+        	<b>Fecha de inicio: </b> {{Sprint.get_fecha_inicio}}<br/><br/>
+        	<b>Duracion en dias: </b> {{Sprint.duracion}}<br/><br/>
+        	<b>Estado del Sprint: </b> {{Sprint.estado}}<br/><br/>
+        	<b>Lista de HU's pertenecientes al Sprint: </b><br/><br/>{% for h in Sprint.hu.all %}{{ h.descripcion }}<br/><br/>{% endfor %}
+        	<b>Lista de Flujos a utilizarse en el Sprint: </b><br/><br/>{% for f in Sprint.flujo.all %}{{ f }}<br/><br/>{% endfor %}
+        	<b>Equipo de desarrollo del Sprint: </b><br/><br/>{% for u in Sprint.equipo.all %}{{ u }}<br/><br/>{% endfor %}
+        	<input type="submit" value="Volver" />
         </form>
      </div>
      <div class="footer">

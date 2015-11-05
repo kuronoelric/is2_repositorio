@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us" >
 <head>
-<title>Change proyecto | Django site admin</title>
+<title>Finalizar proyecto | Django site admin</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
 <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
@@ -32,7 +32,7 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/hola/">Modificación de Proyecto</a></h1>
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Esta seguro de querer finalizar el proyecto?</a></h1>
 
         </div>
         
@@ -47,46 +47,32 @@
         
     </div>
     <!-- END Header -->
-    
-<div class="breadcrumbs">
-<a href="/hola/">Pagina Principal</a>
-<!-- 
-&rsaquo; <a href="/admin/gestor/">Gestor</a>
-&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
-&rsaquo; p2
- -->
-</div>
 
-    <!-- Content -->
-    <div id="content" class="colM">
-        
-        <h1>Modificar Proyecto</h1>
-        <div id="content-main">
-
-
-  <ul class="object-tools">
-    
-  </ul>
-
-
-<form enctype="multipart/form-data" method="post" id="proyecto_form" novalidate><input type='hidden' name='csrfmiddlewaretoken' value='lIrpccfDE0jXqIrun25AwLRBdIxGUDco' />
-{% csrf_token %}
-
-<div>
-
-{{form.as_p}}
-{%if proyecto.estado == 'PEN'%}
-	<label class="required" for="id_descripcion">Fecha de inicio:</label>
- 	 <input class="vTextField" id="id_descripcion" maxlength="500" name="fecha_inicio" type="text" required="required" autofocus="autofocus" value="{{fecha_inicio}}"/>
-{%else%}
-	<br/>Fecha de inicio: {{fecha_inicio}}
-{%endif%}
-            
-</div>
-
-
+<form style="display:inline;" action="/finalizarProyecto/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="post">      
+        {% csrf_token %}
+			<div>
+				<br/><b><font color=green size=3>Importante!</font></b><br/><br/>
+				<p>- El proyecto sera de SOLO LECTURA, no podra realizar modificaciones:<br/>
+				<p>- Ya no podra continuar realizando cambios en los siguientes objetos:<br/>
+				<ul>
+					<li>HU's
+					<li>Sprint's
+					<li>Asignaciones
+				</ul>
+				<p>- El equipo ya tendra un enlace al proyecto para modificacion, solo se le informara de la finalizacion<br/>
+				<p>- El cliente tendra una interfaz del proyecto finalizado con los utimos cambios realizados.<br/>
+				<br/><br/>
+				<b><font size=3>Atendiendo los puntos mencionados, desea finalizar el proyecto?</font></b><br/>
+				<p>Escriba una descripcion del estado de finalizacion del proyecto:</p>
+        		<textarea name="descripcion" rows="5" cols="150"></textarea>
+			</div>
 <div class="submit-row">
-<input type="submit" value="Guardar" class="modificarProyecto" name="_save" />
+<input type="submit" value="SI"  class="boton" name="_save" />
+</form> 
+<form style="display:inline;" action="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="get">
+<input type="submit" value="NO"  class="boton"/> 
+</form>
+
 
 <script type="text/javascript">
 (function($) {

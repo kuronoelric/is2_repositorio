@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Agregar Sprint | Sitio de administracion</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+<script type="text/javascript">
+function validarForm(formulario) {
+  if(formulario.descripcion.value.length==0) { //comprueba que no esté vacío
+    formulario.descripcion.focus();   
+    alert('No has completado el campo Descripcion'); 
+    return false; //devolvemos el foco
+  }
+
+  return true;
+}
+</script>
+</head>
+
+
+<body class=" app-gestor model-rol change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a></h1>
+
+        </div>
+        
+        <div id="user-tools">
+            
+                Welcome,
+                <strong>{{usuario}}</strong>.
+                
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+            
+        </div>
+
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/scrum/{{usuarioid}}/{{proyectoid}}/{{rolid}}/">Pagina Principal</a>
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Agregar Sprint</h1>
+        <div id="content-main">
+
+
+
+<form enctype="multipart/form-data" action="/guardarSprint/{{usuarioid}}/{{proyectoid}}/{{rolid}}/" method="post" id="rol_form" novalidate onsubmit="return validarForm(this);">
+<input type='hidden' name='csrfmiddlewaretoken' value='JyS6xzJ9lDG2WgfiSPv0L0PvCmALwE52' />
+{% csrf_token %}
+<div style="width:1500x; height:530px; border:#000 2px solid; overflow:auto">
+
+  <fieldset class="module aligned ">
+
+        <div class="form-row field-descripcion">
+
+                <div>
+
+                        <label class="required" for="id_descripcion">Descripcion:</label>
+                        
+                            <input class="vTextField" id="id_descripcion" maxlength="500" name="descripcion" type="text" required="required" autofocus="autofocus" value="{{nombre}}"/>
+
+                </div>
+            
+        </div>
+        
+        <div class="form-row field-fecha-inicio">
+
+                <div>
+
+                        <label class="required" for="id_fecha_inicio">Fecha de inicio:</label>
+                        
+                            <input class="vTextField" id="id_descripcion" maxlength="500" name="fecha_inicio" type="text" required="required" autofocus="autofocus" value="{{fecha_ahora}}"/>
+
+                </div>
+            
+        </div>
+        
+        <div class="form-row field-HUs">
+
+                <div>
+
+                        <label class="required" for="id_usuarios">HUs:</label>
+                        
+                            <select multiple = "multiple" id="id_usuarios" name="HUs" size=10 required>
+                            {%for h in HUs_pendientes%}
+                            	<option value="{{h.id}}" selected>{{h.descripcion}} - PEN</option>
+                            {%endfor%}
+                            {%for h in HUs_pendientes_no_seleccionadas%}
+                            	<option value="{{h.id}}" >{{h.descripcion}} - PEN</option>
+                            {%endfor%}
+                            {%for HU in HUs %}
+                            	{%for h in HUs_seleccionadas%}
+                            		{%if HU == h%}
+                            			<option value="{{HU.id}}" selected>{{HU.descripcion}}</option>
+                            		{%endif%}
+                            	{%endfor%}
+                            	{%for h in HUs_no_seleccionadas%}
+                            		{%if HU == h%}
+                            			<option value="{{HU.id}}">{{HU.descripcion}}</option>
+                            		{%endif%}
+                            	{%endfor%}
+							{%endfor%}
+							</select>
+				</div>
+     
+        
+        <div class="form-row field-Flujos">
+
+                <div>
+					</br><label class="required" for="id_usuarios">Usuarios para el equipo de desarrollo:</label>
+                        
+                        <select multiple = "multiple" id="id_usuarios" name="usuarios" required>
+                            {%for u in equipo_pen %}
+								<option value="{{u.id}}" selected> {{u}}</option>
+							{%endfor%}
+                            {%for u in equipo %}
+								<option value="{{u.id}}"> {{u}}</option>
+							{%endfor%}
+						</select>
+
+                      
+
+                </div>
+        
+      
+        
+        <div class="form-row field-duracion">
+
+                <div>
+
+                        <label class="required" for="id_duracion">Duracion en dias:</label>
+                        
+                            <input class="vTextField" id="id_duracion" maxlength="500" name="duracion" value="{{duracion}}" type="text" pattern="[0-9]" required="required" autofocus="autofocus"/>
+
+                </div>
+
+        </div>
+
+        
+        
+        <div class="form-row field-Flujos" hidden>
+
+                <div>
+
+                        <label class="required" for="id_usuarios">Flujos:</label>
+                        
+                            <select multiple = "multiple" id="id_usuarios" name="Flujos" required>
+                            {%for flujo in flujos_pen %}
+								<option value="{{flujo.id}}" selected="selected"> {{flujo}}</option>
+							{%endfor%}
+                            {%for flujo in flujos %}
+								<option value="{{flujo.id}}"> {{flujo}}</option>
+							{%endfor%}
+							</select>
+
+                        <p class="help"> Presiona "Control" para seleccionar mas de una opcion.</p>
+                        <p><a href="/crearFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}">Agregar nuevo</a></p>
+                    
+                </div>
+            
+        </div> 
+
+</fieldset>
+
+<div class="submit-row">
+<input type="submit" value="Guardar" name="_save" />
+
+</div>
+
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                $('form#rol_form :input:visible:enabled:first').focus()
+            });
+        })(django.jQuery);
+    </script>
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Aprobar Finalizacion | SDC</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "0";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class=" app-gestor model-proyecto change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/verKanban/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprintid}}/">Aprobar finalizacion</a></h1>
+
+        </div>
+        
+         <div id="user-tools">    
+
+                <a href="/password_change/">Cambiar contrasenha</a> /
+                
+                <a href="/logout/">Salir</a>
+
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/verKanban/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprintid}}/">Pagina Principal</a>
+<!-- 
+&rsaquo; <a href="/admin/gestor/">Gestor</a>
+&rsaquo; <a href="/admin/gestor/proyecto/">Proyectos</a>
+&rsaquo; p2
+ -->
+</div>
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <div id="content-main">
+<form style="display:inline;" action="/aprobarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprintid}}/{{HU.id}}/" method="post">      
+        {% csrf_token %}
+		<div>
+			<font size="5" color="#3B0B24"><b>HU aun no ha finalizado correctamente</b></font>
+			<br/><br/><font size="3" color="#3B0B24"><b> -> Retroceder actividad en flujo:</b></font>
+			<br/><br/><b>Usuario asignado: </b> {{usuario_asignado}}
+			<a href="/delegarHU/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{HU.id}}/1/"> &nbsp; &nbsp; &nbsp; &nbsp; Reasignar a Usuario</a>
+			<br/>
+			<br/>
+			<b>Actividad:</b>
+			<select name="actividad">
+				{%for a in actividades%}
+					{%if a == HU.actividad%}
+    					<option selected="selected" value="{{a.id}}">{{HU.actividad}}</option>
+    				{%else%}
+    					<option value="{{a.id}}">{{a}}</option>
+    				{%endif%}
+    			{%endfor%}
+			</select>
+			<br/>
+			<br/>
+			<b>Estado en actividad:</b>
+			<select name="estado">
+				{%for e in estados%}
+					{%if e == HU.estado_en_actividad%}
+    					<option selected="selected" value="{{e}}">{{e}}</option>
+    				{%else%}
+    					<option value="{{e}}">{{e}}</option>
+    				{%endif%}
+    			{%endfor%}
+			</select>
+			<br/>
+			<br/>
+			<b>Duracion:</b>
+			<input type="text" size="15" maxlength="30" value="{{HU.duracion}}" name="duracion"><br/>
+			<br/>
+			<b>Descripcion del motivo de retroceso:</b>
+			<textarea name="descripcion" rows="10" cols="40">HU NO FINALIZADA CORRECTAMENTE, retroceso hecho por el Scrum!
+			- Usuario fue cambiado?
+			- Duracion?
+			- Actividad?
+			- Estado de actividad?
+			- Motivo: </textarea>
+			<br/>
+			<button id="assign" name="boton" value="HU_no_finalizada">Aceptar</button>
+			<br/><br/>
+			<br/><font size="3" color="#3B0B24"><b> -> Cambiar de flujo: </b></font>
+			<a href="/reasignarhuFlujo/{{usuarioid}}/{{proyectoid}}/{{rolid}}/{{sprintid}}/{{HU.id}}/1/" class="changelink" >Resasignar a flujo</a>
+			<br/>
+			<br/>
+			<font size="5" color="#3B0B24"><b>HU Finalizada correctamente</b></font>
+			<br/><br/>
+			<input type="submit" value="Aprobar"  class="boton" name="_save" />
+</form> 
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+

@@ -3,7 +3,7 @@
 <head>
 <title>Pagina Principal | Sistema para Consultora de Desarrollo</title>
 <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
 
 <script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
@@ -12,7 +12,8 @@
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
 
-<body class="">
+
+<body class=" dashboard">
 
 <!-- Container -->
 <div id="container">
@@ -22,27 +23,24 @@
     <div id="header">
         <div id="branding">
         
-<h1 id="site-name"><a href="/logout/">Sistema de Gestion de Proyectos</a></h1>
+<h1 id="site-name"><a href="/login/">Olvide mi contrasenha</a></h1>
 
-        </div>
+        </div>      
+        
     </div>
-</div>
     <!-- END Header -->
-    <!-- <div class="breadcrumbs"><a href="/logout/">CERRAR</a></div>  -->
-            
-<form style="text-align: left;" method="get" action="/loggedout">
+    
+    <!-- Content -->
+    <div class="content">
+        
+        <h1>Enviar URL de configuracion de password a mi correo</h1>
+        <form id="formulario" method="post">{% csrf_token %}
+        	{{ formulario.as_p }}
+        	<input type="submit" value="Enviar" />
+        </form>
+     </div>
+     <div class="footer">
+     <!-- end.footer --></div>
 
-<div style="border : solid 2px #A4A4A4;
-            background : #FFFFFF;
-            color : #000000;
-            padding : 4px;
-            width : 140px;
-            height : 25px;
-            overflow : auto; ">
-Sin Proyecto Asignado
-</div>
-
-<input type="submit" value="Cerrar sesion" />
-<input type="hidden" name="next" value="/loggedout" />
-
-</form>
+</body>
+</html>
