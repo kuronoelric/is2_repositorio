@@ -100,14 +100,25 @@ DATABASES = {
 
 LANGUAGE_CODE = 'es-py'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Asuncion'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
+
+# email
+EMAIL_HOST = 'smtp.gmail.com'
+ 
+EMAIL_PORT = 587 
+
+EMAIL_HOST_USER = 'notificaciones.gestorproyectos@gmail.com'
+ 
+EMAIL_HOST_PASSWORD = 'gestor12345'
+ 
+EMAIL_USE_TLS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/

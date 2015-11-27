@@ -11,7 +11,8 @@ from django.template.context import RequestContext
 from django.utils import timezone
 from io import BytesIO
 import math, json
-
+from django.core.mail.message import EmailMessage
+from django.core.mail import send_mail
 
 
 def loggedout(request):
@@ -21,6 +22,11 @@ def loggedout(request):
 def contactomail(request):
     return render(request,'registration/contactoMail.html')
 
+
+def send_email(to, subj, body):
+    # this will be executed in a separate thread
+    mail = EmailMessage(subj, body, to=[to])
+    mail.send()
 
 @login_required
 def holaView(request):
@@ -329,6 +335,14 @@ def guardarFlujoView(request, usuario_id, proyectoid, rolid):
             flujo_a_crear.actividades.add(Actividades.objects.get(id=p))
         flujo_a_crear.orden_actividades=json.dumps(orden)
         flujo_a_crear.save()
+        
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", se ha creado un nuevo flujo de nombre: '"+request.POST['nombre']+"' con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
+            
+            
         return HttpResponse('El flujo se ha creado')
     else:
         if request.POST['boton'] == 'Agregar':
@@ -434,9 +448,22 @@ def modificarFlujo(request, usuario_id, proyectoid, rolid, flujo_id_rec):
                 flujo_a_crear.orden_actividades=json.dumps(orden)
                 flujo_a_crear.save()
 
+                usuarioe = MyUser.objects.get(id=usuario_id).username
+                proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                evento_e="Estimado usuario "+ usuarioe+ ", El flujo '"+request.POST['nombre']+" ha sido creado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                email_e=str(MyUser.objects.get(id=usuario_id).email)
+                send_email(str(email_e), 'Notificacion', evento_e)
+
+
                 return HttpResponse('El flujo nuevo se ha creado')  
             except ObjectDoesNotExist:
                 print "No se ha podido crear el nuevo flujo"
+
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", El flujo '"+request.POST['nombre']+"' ha sido creado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
 
             return HttpResponse('El flujo ha sido creado exitosamente')
         elif guardar == 2:
@@ -452,6 +479,13 @@ def modificarFlujo(request, usuario_id, proyectoid, rolid, flujo_id_rec):
                 f.actividades.add(Actividades.objects.get(id=p))
             f.orden_actividades=json.dumps(orden)
             f.save() #Guardamos el modelo de manera Editada
+            
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", El flujo '"+request.POST['nombre']+" ha sido modificado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
+            
             return HttpResponse('El flujo ha sido modificado exitosamente')
     else:
         actividades_asignadas=[]
@@ -575,6 +609,13 @@ def crearActividadView(request,usuario_id,proyectoid):
             form.nombre=nombre
             form.descripcion=descripcion
             form.save()
+            
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", La Actividad '"+form.cleaned_data['nombre']+"' con descripcion '"+form.cleaned_data['descripcion']+"' se ha creado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
+            
             return HttpResponse('Ha sido guardado exitosamente') 
     
     
@@ -681,6 +722,13 @@ def modificarActividad(request,usuario_id,proyectoid,actividad_id_rec):
             p.nombre=nombre
             p.descripcion=descripcion
             p.save() #Guardamos el modelo de manera Editada
+            
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", La actividad '"+form.cleaned_data['nombre']+"' con descripcion '"+form.cleaned_data['descripcion']+"' ha sido modificado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
+            
             return HttpResponse('Se ha guardado exitosamente')
     else:
         
@@ -806,6 +854,13 @@ def guardarSprintView(request, usuario_id, proyectoid, rolid):
             for u in request.POST.getlist('usuarios'):
                 Sprint_a_crear.equipo.add(MyUser.objects.get(id=u))
             Sprint_a_crear.save()
+            
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", se ha creado un nuevo Sprint de nombre: '"+request.POST['descripcion']+"' con una fecha de inicio '"+str(request.POST['fecha_inicio'])+"' ,duracion '"+str(request.POST['duracion'])+ "' dias, en la fecha y hora:"+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
+            
 
             flujos=Flujo.objects.all()
             flujos_pen=[]
@@ -906,6 +961,13 @@ def guardarHUView(request,usuario_id, proyectoid, rolid):
         proyectox = Proyecto.objects.get(id=proyectoid)
         HU_a_crear = HU.objects.create(descripcion=request.POST['descripcion'],estado="ACT",valor_negocio=request.POST['valor_negocio'], valor_tecnico=0, prioridad=0, duracion=0, acumulador_horas=0, estado_en_actividad='PEN',proyecto=proyectox,valido=False)
         HU_a_crear.save()
+        
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", se ha creado un nuevo HU de nombre: '"+request.POST['descripcion']+"' con valor de negocio '"+request.POST['valor_negocio']+"' con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
+        
 
         return HttpResponse('La HU se ha creado y relacionado con el proyecto')  
     except ObjectDoesNotExist:
@@ -946,7 +1008,12 @@ def guardarHUProdOwnerView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_S
             h.descripcion=descripcion
             h.estado=estado
             h.save() #Guardamos el modelo de manera Editada
-                        
+            
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", se ha modificado '"+request.POST['descripcion']+"' con valor de negocio '"+request.POST['valor_negocio']+"' y estado '"+request.POST['estado']+" con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)       
             
             return HttpResponse('La descripcion y valor de negocio de la HU a sido modificado exitosamente')
         else:
@@ -983,7 +1050,13 @@ def guardarHUProdOwnerView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_S
                                 if s.estado == 'ACT' and acumulador_horas >0:
                                     s.estado='CON'
                                     s.save()
-                                                  
+                                    
+                            usuarioe = MyUser.objects.get(id=usuario_id).username
+                            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                            evento_e="Estimado usuario "+ usuarioe+ ", se ha agregado '"+str(request.POST['horas_agregar'])+"' horas a la '"+str(h.descripcion)+"' con una descripcion '"+request.POST['descripcion_horas']+"' estando en la actividad '"+ str(h.actividad)+ "' con el estado '"+str(h.estado_en_actividad)+"' con fecha y hora "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                            email_e=str(MyUser.objects.get(id=usuario_id).email)
+                            send_email(str(email_e), 'Notificacion', evento_e)  
+                  
                             hd=Horas_Trabajadas.objects.create(horas_trabajadas=horas_a_agregar,descripcion_horas_trabajadas=descripcion_horas,fecha=datetime.now(), actividad=str(h.actividad), estado=str(h.estado_en_actividad))
                             h.hu_descripcion.add(Horas_Trabajadas.objects.get(id=hd.id))
                             hd.save()
@@ -1024,7 +1097,13 @@ def guardarHUProdOwnerView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_S
                             hd=Horas_Trabajadas.objects.create(horas_trabajadas=horas_a_agregar,descripcion_horas_trabajadas=descripcion_horas, fecha=fecha, actividad=str(h.actividad), estado=str(h.estado_en_actividad))
                             h.hu_descripcion.add(Horas_Trabajadas.objects.get(id=hd.id))
                             hd.save()
-                                             
+                                   
+                            usuarioe = MyUser.objects.get(id=usuario_id).username
+                            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                            evento_e="Estimado usuario "+ usuarioe+ ", Se ha agregado '"+request.POST['horas_agregar']+"' horas a la '"+h.descripcion+"' con una descripcion '"+request.POST['descripcion_horas']+"' quedando asi finalizadas las actividades con fecha y hora"+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                            email_e=str(MyUser.objects.get(id=usuario_id).email)
+                            send_email(str(email_e), 'Notificacion', evento_e)       
+                                                 
                             return HttpResponse("Todas las actividades de HU finalizadas")
                         elif x < len(orden) and h.acumulador_horas == h.duracion:
                             h.estado_en_actividad='PEN'
@@ -1033,6 +1112,12 @@ def guardarHUProdOwnerView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_S
                             hd=Horas_Trabajadas.objects.create(horas_trabajadas=horas_a_agregar,descripcion_horas_trabajadas=descripcion_horas, fecha=fecha, actividad=str(h.actividad), estado=estadoP)
                             h.hu_descripcion.add(Horas_Trabajadas.objects.get(id=hd.id))
                             hd.save()
+                            
+                            usuarioe = MyUser.objects.get(id=usuario_id).username
+                            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                            evento_e="Estimado usuario "+ usuarioe+ ", Se ha agregado '"+request.POST['horas_agregar']+"' horas a la '"+h.descripcion+"' con una descripcion '"+request.POST['descripcion_horas']+"' ,completando la duracion sin terminar todas las actividades con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                            email_e=str(MyUser.objects.get(id=usuario_id).email)
+                            send_email(str(email_e), 'Notificacion', evento_e) 
                             
                             return HttpResponse("Duracion de HU finalizada sin terminar todas las actividades. Contactar con el Scrum")
                         else:
@@ -1043,6 +1128,12 @@ def guardarHUProdOwnerView(request,usuario_id, proyectoid, rolid, HU_id_rec,is_S
                             hd=Horas_Trabajadas.objects.create(horas_trabajadas=horas_a_agregar,descripcion_horas_trabajadas=descripcion_horas, fecha=fecha, actividad=str(h.actividad), estado=estadoP)
                             h.hu_descripcion.add(Horas_Trabajadas.objects.get(id=hd.id))
                             hd.save()
+                            
+                            usuarioe = MyUser.objects.get(id=usuario_id).username
+                            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                            evento_e="Estimado usuario "+ usuarioe+ ", Se ha agregado '"+str(request.POST['horas_agregar'])+"' horas a la '"+str(h.descripcion)+"' con una descripcion '"+str(request.POST['descripcion_horas'])+"' estando en la actividad '"+ str(h.actividad)+ "' con el estado '"+str(h.estado_en_actividad)+"' con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                            email_e=str(MyUser.objects.get(id=usuario_id).email)
+                            send_email(str(email_e), 'Notificacion', evento_e)
                             
                             return render(request,'modificarHU.html', {'HU':h, 'proyectoid':proyectoid,'usuarioid':usuario_id, 'rolid':rolid,'is_Scrum':2})
                     return('Las horas se han cargado exitosamente')
@@ -1124,6 +1215,13 @@ def modificarSprint(request, usuario_id, proyectoid, rolid, Sprint_id_rec):
             for h in usuarios:
                 s.equipo.add(MyUser.objects.get(id=h))
             s.save() #Guardamos el modelo de manera Editada
+
+            usuarioe = MyUser.objects.get(id=usuario_id).username
+            proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+            evento_e="Estimado usuario "+ usuarioe+ ", El Sprint '"+descripcion+"' con estado '"+estado+"' con una fecha de inicio '"+str(fecha_inicio)+"' ,duracion '"+duracion+"' ,hu '"+str([t.descripcion for t in s.hu.all()])+"' y flujo '"+str([t.nombre for t in s.flujo.all()])+"' ha sido modificado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+            email_e=str(MyUser.objects.get(id=usuario_id).email)
+            send_email(str(email_e), 'Notificacion', evento_e)
+
 
             return HttpResponse('El Sprint ha sido modificado exitosamente')
 
@@ -1405,6 +1503,10 @@ def delegarHU(request,usuario_id,proyectoid,rolid,hu_id,reasignar):
                 delegacionx= AsignaHU_Usuario.objects.create(usuario=MyUser.objects.get(id=request.POST['usuario']),hu=hu)
                 delegacionx.save()
 
+                proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                evento_e="Estimado usuario,Se ha asignado una HU '"+hu.descripcion+"' al usuario '"+str(delegacionx.usuario)+"' en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                email_e=str(MyUser.objects.get(id=usuario_id).email)
+                send_email(str(email_e), 'Notificacion', evento_e)
 
                 return HttpResponse('La asignacion se realizo correctamente')
             except ObjectDoesNotExist:
@@ -1414,6 +1516,11 @@ def delegarHU(request,usuario_id,proyectoid,rolid,hu_id,reasignar):
                 if d.hu == hu:
                     d.usuario=MyUser.objects.get(id=request.POST['usuario'])
                     d.save()
+
+                    proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+                    evento_e="Estimado usuario,Se ha asignado una HU '"+hu.descripcion+"' al usuario '"+str(d.usuario)+"' en la fecha y hora:"+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+                    email_e=str(MyUser.objects.get(id=usuario_id).email)
+                    send_email(str(email_e), 'Notificacion', evento_e)
 
                     return HttpResponse('Se ha reasignado la HU exitosamente')
     else:
