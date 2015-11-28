@@ -1,4 +1,4 @@
-from django.shortcuts import render, render_to_response
+    from django.shortcuts import render, render_to_response
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 from datetime import datetime, timedelta
@@ -1595,31 +1595,46 @@ def reactivar(request, usuario_id, proyectoid, rolid, tipo, id_tipo):
         f=Flujo.objects.get(id=id_tipo)
         f.estado='ACT'
         f.save()
-
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", El flujo '"+f.nombre+"' se ha reactivado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
             
     if tipo == '2': #se trata de una HU
         h=HU.objects.get(id=id_tipo)
         h.estado='ACT'
         h.save()
-
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", La HU '"+h.descripcion+"' se ha reactivado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
 
     if tipo == '3': #se trata de un sprint
         s=Sprint.objects.get(id=id_tipo)
         s.estado='ACT'
         s.save()
-
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", El sprint '"+s.descripcion+"' se ha reactivado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))+" en el proyecto "+proyectoe
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
 
     if tipo == '4': #se trata de un rol
         s=Rol.objects.get(id=id_tipo)
         s.estado='ACT'
         s.save()
-
     
     if tipo == '5': #se trata de un proyecto
         s=Proyecto.objects.get(id=id_tipo)
         s.estado='ACT'
         s.save()
-
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        proyectoe = Proyecto.objects.get(id=proyectoid).nombre
+        evento_e="Estimado usuario "+ usuarioe+ ", El proyecto '"+proyectoe+"' se ha reactivado exitosamente en la fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
         return HttpResponseRedirect('/hola/')
     return HttpResponseRedirect('/scrum/'+usuario_id+'/'+proyectoid+'/'+rolid+'/')
 
@@ -2099,6 +2114,11 @@ def anularProyecto(request,usuario_id,proyectoid):
         return render(request,'anularProyecto.html',{'usuarioid':usuario_id,'proyectoid':proyectoid})
     else:
         proyectox=Proyecto.objects.get(id=proyectoid)
+        descripcion=request.POST['descripcion']
+        usuarioe = MyUser.objects.get(id=usuario_id).username
+        evento_e="Estimado usuario "+ usuarioe+ ", Se ha anulado el proyecto: '"+proyectox.nombre+"' por el siguiente motivo: '"+descripcion+"' con fecha y hora: "+str(timezone.now().strftime("%Y/%m/%d %H:%M:%S"))
+        email_e=str(MyUser.objects.get(id=usuario_id).email)
+        send_email(str(email_e), 'Notificacion', evento_e)
 
         proyectox.fecha_fin=timezone.now()
         proyectox.estado='ANU'
