@@ -109,7 +109,7 @@ USE_L10N = True
 USE_TZ = False
 
 
-# email
+#email
 EMAIL_HOST = 'smtp.gmail.com'
  
 EMAIL_PORT = 587 
