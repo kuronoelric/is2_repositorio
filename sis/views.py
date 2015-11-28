@@ -2144,7 +2144,9 @@ def iniciarProyecto(request,usuario_id,proyectoid,rol_id,sprintid ):
     s.save()
     return HttpResponseRedirect('/scrum/'+usuario_id+'/'+proyectoid+'/'+rol_id+'/')
 
-
+'''def iniciarProyecto(request,usuario_id,proyectoid,rol_id,sprintid ):
+    s=Sprint.objects.get(id=sprintid)'''
+   
 
 
     
